@@ -42,4 +42,28 @@ public class AppSystem {
     public UserAuthLevel getUserAuthLevel(){
         return this.authLevel;
     }
+
+    public boolean loginClient(String username, String password){
+        return false;
+    }
+
+    public boolean loginInstructor(String username, String password){
+        return false;
+    }
+
+    public boolean loginAdmin(String username, String password){
+        return false;
+    }
+
+    public boolean registerUser(String name, String phoneNumber, String age){
+        return false;
+    }
+
+    public boolean registerInstructor(String name, String phoneNumber, String age){
+        return false;
+    }
+
+    public String publicOfferingsToString(){
+        return "";
+    }
 }

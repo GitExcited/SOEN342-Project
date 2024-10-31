@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         AppSystem appSystem = new AppSystem();
         Scanner in = new Scanner(System.in);
-
+        
         String userInput = "";
         boolean running = true;
         while(running){
@@ -21,7 +21,7 @@ public class Main {
                         6) View public offerings
                         """);
                 userInput = in.nextLine();
-                processUserInput(userInput, appSystem.getUserAuthLevel());
+                processUserInput(userInput, UserAuthLevel.NotAuthorized, in, appSystem);
                 userInput = "";
             }else{
                 switch (appSystem.getUserAuthLevel()) {
@@ -33,7 +33,7 @@ public class Main {
                         3) View Bookings
                         """);
                     userInput = in.nextLine();
-                    processUserInput(userInput, UserAuthLevel.Client);
+                    processUserInput(userInput, UserAuthLevel.Client, in, appSystem);
                     userInput = "";
                         break;
                     case Instructor:
@@ -43,7 +43,7 @@ public class Main {
                         2) View taken Offerings
                         """);
                         userInput = in.nextLine();
-                        processUserInput(userInput, UserAuthLevel.Instructor);
+                        processUserInput(userInput, UserAuthLevel.Instructor, in, appSystem);
                         userInput = "";
                         break;
                     case Admin:
@@ -55,7 +55,7 @@ public class Main {
                         4) Delete Client Account
                         """);
                         userInput = in.nextLine();
-                        processUserInput(userInput, UserAuthLevel.Admin);
+                        processUserInput(userInput, UserAuthLevel.Admin, in, appSystem);
                         userInput = "";
                         break;
                     default:
@@ -66,16 +66,142 @@ public class Main {
         in.close();
     }
 
-    private static void processUserInput(String userInput, UserAuthLevel authLevel) {
+    private static void processUserInput(String userInput, UserAuthLevel authLevel, Scanner in, AppSystem appSystem) {
         switch (authLevel) {
-            case Client:
-                
+            case NotAuthorized:
+                String username;
+                String password;
+                boolean loginSuccessful;
+                boolean registerSuccessful;
+                String name; 
+                String age;
+                String phoneNumber;
+                switch (userInput) {
+                    case "1": //Login Client
+                        System.out.println("Client Login: ");
+                        System.out.println("Enter your username. >> ");
+                        username = in.nextLine();
+                        System.out.println("Enter your password. >> ");
+                        password = in.nextLine();
+                        loginSuccessful = appSystem.loginClient(username, password);
+                        if (loginSuccessful){
+                            System.out.println("Login successful.");
+                        }else{
+                            System.out.println("Login failed. Please try again.");
+                        }
+                        break;
+                    case "2": //Login Instructor
+                        System.out.println("Instructor Login: ");
+                        System.out.println("Enter your username. >> ");
+                        username = in.nextLine();
+                        System.out.println("Enter your password. >> ");
+                        password = in.nextLine();
+                        loginSuccessful = appSystem.loginInstructor(username, password);
+                        if (loginSuccessful){
+                            System.out.println("Login Successful.");
+                        }else{
+                            System.out.println("Login failed. Please try again.");
+                        }
+                        break;
+                    case "3": //Login Admin
+                        System.out.println("Admin Login: ");
+                        System.out.println("Enter your username. >> ");
+                        username = in.nextLine();
+                        System.out.println("Enter your password. >> ");
+                        password = in.nextLine();
+                        loginSuccessful = appSystem.loginAdmin(username, password);
+                        if (loginSuccessful){
+                            System.out.println("Login Successful.");
+                        }else{
+                            System.out.println("Login failed. Please try again.");
+                        }
+                        break;
+                    case "4": //Register Client
+                        System.out.println("Register Client: ");
+                        System.out.println("Enter your name. >>");
+                        name = in.nextLine();
+                        System.out.println("Enter your phone number. >>");
+                        phoneNumber = in.nextLine();
+                        System.out.println("Enter your age. >>");
+                        age = in.nextLine();
+                        registerSuccessful = appSystem.registerUser(name, phoneNumber, age);
+                        if (registerSuccessful){
+                            System.out.println("Registering Successful. Please login now.");
+                        }else{
+                            System.out.println("Registering failed. Please try again.");
+                        }
+
+                        break; 
+                    case "5": //Register Instructor
+                        System.out.println("Register Instructor: ");
+                        System.out.println("Enter your name. >>");
+                        name = in.nextLine();
+                        System.out.println("Enter your phone number. >>");
+                        phoneNumber = in.nextLine();
+                        System.out.println("Enter your name. >>");
+                        age = in.nextLine();
+                        registerSuccessful = appSystem.registerInstructor(name, phoneNumber, age);
+                        if (registerSuccessful){
+                            System.out.println("Registering Successful. Please login now.");
+                        }else{
+                            System.out.println("Registering failed. Please try again.");
+                        }
+
+                        break;
+                    case "6": //View public Offerings
+                        System.out.println(appSystem.publicOfferingsToString());
+                        break;
+                    default:
+                        System.out.println("Invalid choice, try again.");
+                        break;
+                }
                 break;
-            case Instructor:
+            case Client:
+            switch (userInput) {
+                case "1":
                 
+                    break;
+                case "2":
+                
+                    break;
+                case "3":
+                
+                    break;
+                default:
+                    System.out.println("Invalid choice, try again.");
+                    break;
+            }
+            case Instructor:
+            switch (userInput) {
+                case "1":
+                
+                    break;
+                case "2":
+                
+                    break;
+                default:
+                    System.out.println("Invalid choice, try again.");
+                    break;
+            }
                 break;
             case Admin:
+            switch (userInput) {
+                case "1":
                 
+                    break;
+                case "2":
+                
+                    break;
+                case "3":
+                
+                    break;
+                case "4":
+                
+                    break;
+                default:
+                    System.out.println("Invalid choice, try again.");
+                    break;
+            }
                 break;
             default:
                 break;
