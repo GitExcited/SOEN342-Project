@@ -5,11 +5,13 @@ public class Lesson {
     private String title;
     private String description;
     private int duration; // Duration in minutes. For testing purposes all lessons are 60 MIN
+    private Location location;
     // Constructor
-    public Lesson(String title, String description, int duration) {
+    public Lesson(String title, String description, int duration, Location loc) {
         this.title = title;
         this.description = description;
         this.duration = duration;
+        this.location = loc;
     }
 
     // Getters and Setters
@@ -37,16 +39,19 @@ public class Lesson {
         this.duration = duration;
     }
 
+    public Location getLocation(){
+        return location;
+    }
+    public void setLocation(Location loc){
+        this.location = loc;
+    }
+
     // Method to display lesson details
     public void displayLessonDetails() {
         System.out.println("Title: " + title);
         System.out.println("Description: " + description);
         System.out.println("Duration: " + duration + " minutes");
+        System.out.println("At Location"+location);
     }
 
-    // Main method for testing
-    public static void main(String[] args) {
-        Lesson lesson = new Lesson("Java Basics", "Introduction to Java programming", 60);
-        lesson.displayLessonDetails();
-    }
 }

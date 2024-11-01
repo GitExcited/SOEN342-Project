@@ -25,6 +25,7 @@ class Offerings{
             throw new ScheduleConflictException("A conflict was found for the given time slot.");
         }
         Offering newOffering = new Offering(lesson, event);
+        newOffering.getLesson().setLocation(location); //Must update the location the lesosn will be at
         offeringsCollection.add(newOffering);
         return newOffering;
 
@@ -34,6 +35,32 @@ class Offerings{
         for (Offering o : offeringsCollection) {
             System.out.println("OFFERING NUMBER "+id);
             System.out.println(o.toString());
+            id++;
         }
+    }
+
+    /**
+     * Retrieves an offering by its ID (index in the list).
+     * 
+     * @param id The ID (index) of the offering to retrieve.
+     * @return The offering with the specified ID.
+     * @throws IllegalArgumentException If the ID is invalid or the offering does not exist.
+     */
+    public Offering getOfferingById(int id) throws IllegalArgumentException{
+        if (id < 0 || id >= offeringsCollection.size()) {
+            throw new IllegalArgumentException("ID is out of bounds.");
+        }
+        Offering offering = offeringsCollection.get(id);
+        if (offering == null) {
+            throw new IllegalArgumentException("Offering with ID " + id + " is null.");
+        }
+        return offering;
+    }
+
+    public Offering removeOffering(int offeringId){
+        return offeringsCollection.remove(offeringId);
+    }
+    public void addOffering(Offering offering){
+        offeringsCollection.add(offering);
     }
 }

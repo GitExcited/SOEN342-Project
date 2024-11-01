@@ -39,6 +39,14 @@ public class AppSystem {
     }
 
     //? PART OF USE CASE 1: Process Offerings
+
+    /**
+     * Creates Offering and adds it to the collection Offerings
+     * @param lesson The type of lesson ( swiming, boxing, etc)
+     * @param location The location you want to make the lesson
+     * @param startTime Start time of lesson
+     * @param endTime end time of lesson
+     */
     public void creatOffering(Lesson lesson, Location location,LocalDateTime startTime, LocalDateTime endTime ) {
         Event temptativeTime = new Event(startTime, endTime);
         Offering off = null;
@@ -51,9 +59,32 @@ public class AppSystem {
         System.out.println("AppSystem says: Offering Created"+ off.toString());  
     }
 
+    /**
+     * Prints to screen all available offerings with their Ids
+     */
     public void viewOfferings(){
         offerings.getAvailableOfferings();
     }
+    /**
+     * Gets offering by Id, checks if there is a time collision 
+     * @param instructor
+     * @param offeringId
+     */
+    public void selectOffering(Instructor instructor, int offeringId){
+        Offering selectedOffering = offerings.getOfferingById(offeringId);
+        boolean collision = publicOfferings.checkTimeCollision(selectedOffering);
+        if ( collision){ 
+            System.out.println("AppSystem says: SCHEDULE CONFLICT. Offering Couldn't be added to Public Offerings");
+        }
+        else {
+            //Removes and adds offering from Offerings to PublicOfferings
+            PublicOffering newPO = new PublicOffering(offerings.removeOffering(offeringId), instructor);
+            publicOfferings.addOffering(newPO);
+        } 
+
+    }
+    //? ^^^ USE CASE 1 ABOVE
+
 
     public boolean isUserAuthenticated(){
         return this.userAuthenticated;

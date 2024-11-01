@@ -21,4 +21,10 @@ Sequence diagram takeOnOfferings ( soon to be called ViewOfferings)
 
 Offerings doesn't actually have ANY way to view what the publicOfferings are with our current Implementation.
 Thus the UML for TakeOnOfferings makes no sense. Instead, we simply assume that all offerings are the NONPUBLIC offerings
-i.e. offerings not taken by any instructor. This simplifies a lot
+i.e. offerings not taken by any instructor. This simplifies a lot. Also this changes selectOffering quite a lot too :/
+
+
+
+It really makes much more sense for publicOffering to be a subclass of Offering.So that has to be changed in the UML
+
+To make things simpler, also added the fact that Lesson has a location. we must update that in UML too

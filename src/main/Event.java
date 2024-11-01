@@ -35,4 +35,15 @@ public class Event {
                 ", end=" + end +
                 '}';
     }
+
+       /**
+     * Checks if this event collides with another event.
+     * 
+     * @param other The other event to check for collision.
+     * @return true if the events collide, false otherwise.
+     */
+    public boolean collides(Event other) {
+        return !this.end.isBefore(other.start) && !this.start.isAfter(other.end);
+    }
+    
 }

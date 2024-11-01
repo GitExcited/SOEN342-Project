@@ -3,7 +3,7 @@ package main;
 public class Offering {
     private Lesson lesson;
     private Event lessonTime;
-
+    
     // Default constructor
     public Offering() {
     }
@@ -30,6 +30,7 @@ public class Offering {
     public void setLessonTime(Event event) {
         this.lessonTime = event;
     }
+    
 
     // toString method
     @Override
