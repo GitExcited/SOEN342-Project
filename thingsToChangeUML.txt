@@ -1,0 +1,5 @@
+createOffering() in the system sequence diagram should have signature
+(lesson, LOCATION, start time, endtime) instead of SCHEDULE. This is because
+location HAS a schedule, so the organization is esentially asking to have a lesson
+at a given location and then we check if that locatin's schedule works or not. 
+^^^ There are other places this needs to be changed such as the sequence diagram for createOffering

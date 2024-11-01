@@ -1,6 +1,8 @@
 package main;
 import java.util.ArrayList;
 
+import main.exceptions.ScheduleConflictException;
+
 class Offerings{
     ArrayList<Offering> offs = new ArrayList<Offering>();//Collection of offerings
     /**
@@ -11,18 +13,16 @@ class Offerings{
      * and returns the newly created offering.
      * 
      * @param lesson The lesson for which the offering is being created.
-     * @param schedule The schedule to which the offering will be added.
+     * @param location The location to which the offering will be added.
      * @param event The event representing the time slot for the offering.
      * @return The newly created offering.
      * @throws Exception If there is a conflict in the schedule for the given event.
      */
-    public Offering createOffering(Lesson lesson, Schedule schedule,Event event){
-        if (schedule.hasConflict(event)) {
-            try {
-                throw new Exception("Schedule conflict detected for the given event.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public Offering createOffering(Lesson lesson, Location location,Event event)throws ScheduleConflictException{
+        Schedule schedule = location.getSchedule();
+        boolean conflict = schedule.hasConflict(event);
+        if (conflict) {
+            throw new ScheduleConflictException("A conflict was found for the given time slot.");
         }
         Offering newOffering = new Offering(lesson, event);
         offs.add(newOffering);

@@ -1,4 +1,7 @@
 package main;
+import java.time.LocalDateTime; //Used for start and end time of CreateOffering
+
+import main.exceptions.ScheduleConflictException;
 
 enum UserAuthLevel {
     Client,
@@ -33,6 +36,19 @@ public class AppSystem {
 
         this.userAuthenticated = false;
         this.authLevel = UserAuthLevel.NotAuthorized;
+    }
+
+    //? PART OF USE CASE 1: Process Offerings
+    public void creatOffering(Lesson lesson, Location location,LocalDateTime startTime, LocalDateTime endTime ) {
+        Event temptativeTime = new Event(startTime, endTime);
+        Offering off = null;
+        try{
+         off =offerings.createOffering(lesson, location, temptativeTime);
+        } catch (ScheduleConflictException e) {
+            // TODO: handle exception. For now simply printit
+            System.out.println("AppSystem says: SCHEDULE CONFLICT. Lesson Couldn't be added");
+        }
+        System.out.println("AppSystem says: Offering Created"+ off.toString());  
     }
 
     public boolean isUserAuthenticated(){
