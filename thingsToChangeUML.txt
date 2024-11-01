@@ -3,3 +3,22 @@ createOffering() in the system sequence diagram should have signature
 location HAS a schedule, so the organization is esentially asking to have a lesson
 at a given location and then we check if that locatin's schedule works or not. 
 ^^^ There are other places this needs to be changed such as the sequence diagram for createOffering
+
+
+The method ' takeOnOfferings()' has a real weird name for what it is supposed to do: 
+It simply allows Instructor to VIEW the offerings published. so i renamed it to viewOfferings
+
+In UML sequenceDiagram selectOffering, it makes no sense for Instructor to pass (Instructor, Offering). instead it should
+pass (instructor, offeringID) where ID is some offering integer. This is because the Instructor doesnt have a way to 
+'own' an offering, so can't pass it. at best he can select an id from those available after doing ViewOfferings()
+
+"Once registered, an instructor can subsequently take on possibly several offerings that
+the organization makes available. All offerings are made available to potential
+instructors, but only those that have been taken by instructors are made available to the
+public in order to attract clients.
+" Implies that all offerings can be viewed by Instructor, not just public ones. So we need to rework UML
+Sequence diagram takeOnOfferings ( soon to be called ViewOfferings)
+
+Offerings doesn't actually have ANY way to view what the publicOfferings are with our current Implementation.
+Thus the UML for TakeOnOfferings makes no sense. Instead, we simply assume that all offerings are the NONPUBLIC offerings
+i.e. offerings not taken by any instructor. This simplifies a lot

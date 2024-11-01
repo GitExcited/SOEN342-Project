@@ -51,6 +51,10 @@ public class AppSystem {
         System.out.println("AppSystem says: Offering Created"+ off.toString());  
     }
 
+    public void viewOfferings(){
+        offerings.getAvailableOfferings();
+    }
+
     public boolean isUserAuthenticated(){
         return this.userAuthenticated;
     }
@@ -95,9 +99,7 @@ public class AppSystem {
 
     }
 
-    public void takeNewOfferings(){
 
-    }
 
     public boolean deleteOffering(String Id){
         return false;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import main.exceptions.ScheduleConflictException;
 
 class Offerings{
-    ArrayList<Offering> offs = new ArrayList<Offering>();//Collection of offerings
+    ArrayList<Offering> offeringsCollection = new ArrayList<Offering>();//Collection of offerings
     /**
      * Creates a new offering for a given lesson and schedule.
      * 
@@ -25,8 +25,15 @@ class Offerings{
             throw new ScheduleConflictException("A conflict was found for the given time slot.");
         }
         Offering newOffering = new Offering(lesson, event);
-        offs.add(newOffering);
+        offeringsCollection.add(newOffering);
         return newOffering;
 
+    }
+    public void getAvailableOfferings(){
+        int id = 0 ;
+        for (Offering o : offeringsCollection) {
+            System.out.println("OFFERING NUMBER "+id);
+            System.out.println(o.toString());
+        }
     }
 }

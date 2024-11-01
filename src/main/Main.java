@@ -176,8 +176,8 @@ public class Main {
             }
             case Instructor:
             switch (userInput) {
-                case "1": //Take Offering
-                    appSystem.takeNewOfferings();
+                case "1": //Take Offering RENAMED to viewOfferings
+                    appSystem.viewOfferings();
                     break;
                 case "2": //View taken offering
                     System.out.println("Your active selected Offerings: ");
