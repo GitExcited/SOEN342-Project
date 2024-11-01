@@ -66,4 +66,32 @@ public class AppSystem {
     public String publicOfferingsToString(){
         return "";
     }
+
+    public String getCurrentUserBookings(){
+        return "";
+    }
+
+    public String getCurrentUserSelectedOfferings(){
+        return "";
+    }
+
+    public void processNewBookings(){
+
+    }
+
+    public void takeNewOfferings(){
+
+    }
+
+    public boolean deleteOffering(String Id){
+        return false;
+    }
+
+    public boolean deleteInstructor(String Id){
+        return false;
+    }
+
+    public boolean deleteClient(String Id){
+        return false;
+    }
 }

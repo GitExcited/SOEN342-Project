@@ -149,6 +149,7 @@ public class Main {
 
                         break;
                     case "6": //View public Offerings
+                        System.out.println("Available public offerings: ");
                         System.out.println(appSystem.publicOfferingsToString());
                         break;
                     default:
@@ -158,14 +159,16 @@ public class Main {
                 break;
             case Client:
             switch (userInput) {
-                case "1":
-                
+                case "1": //View public offerings 
+                    System.out.println("Available public offerings: ");
+                    System.out.println(appSystem.publicOfferingsToString());
                     break;
-                case "2":
-                
+                case "2": //Process Booking
+                    appSystem.processNewBookings();
                     break;
-                case "3":
-                
+                case "3": //View Bookings
+                    System.out.println("Your active Bookings: ");
+                    System.out.println(appSystem.getCurrentUserBookings());
                     break;
                 default:
                     System.out.println("Invalid choice, try again.");
@@ -173,11 +176,12 @@ public class Main {
             }
             case Instructor:
             switch (userInput) {
-                case "1":
-                
+                case "1": //Take Offering
+                    appSystem.takeNewOfferings();
                     break;
-                case "2":
-                
+                case "2": //View taken offering
+                    System.out.println("Your active selected Offerings: ");
+                    System.out.println(appSystem.getCurrentUserSelectedOfferings());
                     break;
                 default:
                     System.out.println("Invalid choice, try again.");
@@ -185,18 +189,41 @@ public class Main {
             }
                 break;
             case Admin:
+            String Id;
+            boolean result;
             switch (userInput) {
-                case "1":
-                
+                case "1": //Create Offering
+
+                    break; 
+                case "2": //Delete Offering
+                    System.out.println(" Enter ID of Offering to delete. >>");
+                    Id = in.nextLine();
+                    result = appSystem.deleteOffering(Id);
+                    if (result){
+                        System.out.println("Delete Successful.");
+                    }else{
+                        System.out.println("Delete Failed.");
+                    }
                     break;
-                case "2":
-                
+                case "3": //Delete Instructor
+                    System.out.println(" Enter ID of Instructor account to delete. >>");
+                    Id = in.nextLine();
+                    result = appSystem.deleteInstructor(Id);
+                    if (result){
+                        System.out.println("Delete Successful.");
+                    }else{
+                        System.out.println("Delete Failed.");
+                    }
                     break;
-                case "3":
-                
-                    break;
-                case "4":
-                
+                case "4": //Delete Client
+                    System.out.println(" Enter ID of Client account to delete. >>");
+                    Id = in.nextLine();
+                    result = appSystem.deleteClient(Id);
+                    if (result){
+                        System.out.println("Delete Successful.");
+                    }else{
+                        System.out.println("Delete Failed.");
+                    }
                     break;
                 default:
                     System.out.println("Invalid choice, try again.");
