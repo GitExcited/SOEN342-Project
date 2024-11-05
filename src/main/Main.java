@@ -15,7 +15,7 @@ public class Main {
                         Welcome to the lesson booking system please select an action:
                         1) Login client
                         2) Login instructor
-                        3) Login admin
+                        3) Login admin 
                         4) Register client
                         5) Register Instructor
                         6) View public offerings
@@ -125,7 +125,9 @@ public class Main {
                         phoneNumber = in.nextLine();
                         System.out.println("Enter your age. >>");
                         age = in.nextLine();
-                        registerSuccessful = appSystem.registerUser(name, phoneNumber, Integer.parseInt(age));
+                        System.out.println("Enter your password. >> ");
+                        password = in.nextLine();
+                        registerSuccessful = appSystem.registerUser(name, phoneNumber, Integer.parseInt(age), password);
                         if (registerSuccessful){
                             System.out.println("Registering Successful. Please login now.");
                         }else{
@@ -144,7 +146,9 @@ public class Main {
                             phoneNumber = in.nextLine();
                             System.out.println("Enter your name. >>");
                             age = in.nextLine();
-                            registerSuccessful = appSystem.registerInstructor(name, phoneNumber, Integer.parseInt(age));
+                            System.out.println("Enter your password. >> ");
+                            password = in.nextLine();
+                            registerSuccessful = appSystem.registerInstructor(name, phoneNumber, Integer.parseInt(age), password);
                             if (registerSuccessful){
                                 System.out.println("Registering Successful. Please login now.");
                             }else{

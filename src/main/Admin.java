@@ -27,4 +27,12 @@ public class Admin {
         Event event = new Event(start, end);
         //system.createOffering(lesson, schedule, event);
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

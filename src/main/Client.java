@@ -4,12 +4,14 @@ public class Client {
     private String name;
     private String phoneNumber;
     private int age;
+    private String password;
 
     // Constructor
-    public Client(String name, String phoneNumber, int age) {
+    public Client(String name, String phoneNumber, int age, String password) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.age = age;
+        this.password = password;
     }
 
     //TODO: Implement Booking and Public Offerings classes
@@ -53,5 +55,13 @@ public class Client {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

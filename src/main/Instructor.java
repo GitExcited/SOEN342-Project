@@ -4,12 +4,14 @@ public class Instructor {
     private String name;
     private String phoneNumber;
     private int age;
+    private String password;
 
     // Constructor
-    public Instructor(String name, String phoneNumber, int age) {
+    public Instructor(String name, String phoneNumber, int age, String password) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.age = age;
+        this.password = password;
     }
 
     public String getName() {
@@ -34,5 +36,13 @@ public class Instructor {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

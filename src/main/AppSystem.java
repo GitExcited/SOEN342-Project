@@ -14,6 +14,8 @@ public class AppSystem {
 
 
     private Admin admin;
+    private Client currentClient;
+    private Instructor currentInstructor;
     private Organization organization;
     private Clients clients;
     private Instructors instructors;
@@ -25,6 +27,7 @@ public class AppSystem {
     private UserAuthLevel authLevel;
 
 
+
     public AppSystem(){
         this.admin = new Admin();
         this.organization = new Organization();
@@ -33,6 +36,8 @@ public class AppSystem {
         this.bookings = new Bookings();
         this.offerings = new Offerings();
         this.publicOfferings = new PublicOfferings();
+        this.currentClient = null;
+        this.currentInstructor = null;
 
         this.userAuthenticated = false;
         this.authLevel = UserAuthLevel.NotAuthorized;
@@ -64,18 +69,47 @@ public class AppSystem {
     }
 
     public boolean loginClient(String username, String password){
-        return false;
+        //find client with that username then do a password comparison
+        Client client = clients.getClientbyUsername(username);
+        if (client == null) {
+            return false;
+        }
+        if( client.getPassword().equals(password)){
+            userAuthenticated = true;
+            authLevel = UserAuthLevel.Client;
+            currentClient = client;
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public boolean loginInstructor(String username, String password){
-        return false;
+        Instructor instructor = instructors.getInstructorbyUsername(username);
+        if (instructor == null){
+            return false;
+        }
+        if(instructor.getPassword().equals(password)){
+            userAuthenticated = true;
+            authLevel = UserAuthLevel.Instructor;
+            currentInstructor = instructor;
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public boolean loginAdmin(String username, String password){
-        return false;
+        if(admin.getPassword().equals(password)){
+            userAuthenticated = true;
+            authLevel = UserAuthLevel.Admin;
+            return true;
+        }else{
+            return false;
+        }
     }
 
-    public boolean registerUser(String name, String phoneNumber, Integer age){
+    public boolean registerUser(String name, String phoneNumber, Integer age , String password){
         //verify user does not already exist 
         Client client = clients.getClientbyUsername(name);
         if (client != null) {
@@ -86,11 +120,11 @@ public class AppSystem {
             return false;
         }
         //create and add user to user collection
-        clients.addClient(new Client(name, phoneNumber, age));
+        clients.addClient(new Client(name, phoneNumber, age, password));
         return true;
     }
 
-    public boolean registerInstructor(String name, String phoneNumber, Integer age){
+    public boolean registerInstructor(String name, String phoneNumber, Integer age, String password){
                 //verify user does not already exist 
         Instructor instructor = instructors.getInstructorbyUsername(name);
         if (instructor != null) {
@@ -101,7 +135,7 @@ public class AppSystem {
             return false;
         }
         //create and add user to user collection
-        instructors.addInstructor(new Instructor(name, phoneNumber, age));
+        instructors.addInstructor(new Instructor(name, phoneNumber, age, password));
         return true;
     }
 
