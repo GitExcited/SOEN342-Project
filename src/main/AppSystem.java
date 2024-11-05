@@ -90,8 +90,19 @@ public class AppSystem {
         return true;
     }
 
-    public boolean registerInstructor(String name, String phoneNumber, String age){
-        return false;
+    public boolean registerInstructor(String name, String phoneNumber, Integer age){
+                //verify user does not already exist 
+        Instructor instructor = instructors.getInstructorbyUsername(name);
+        if (instructor != null) {
+            return false;
+        }
+        instructor = instructors.getInstructorbyPhoneNumber(phoneNumber);
+        if (instructor != null) {
+            return false;
+        }
+        //create and add user to user collection
+        instructors.addInstructor(new Instructor(name, phoneNumber, age));
+        return true;
     }
 
     public String publicOfferingsToString(){

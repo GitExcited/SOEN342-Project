@@ -136,20 +136,23 @@ public class Main {
                     }
                         break; 
                     case "5": //Register Instructor
-                        System.out.println("Register Instructor: ");
-                        System.out.println("Enter your name. >>");
-                        name = in.nextLine();
-                        System.out.println("Enter your phone number. >>");
-                        phoneNumber = in.nextLine();
-                        System.out.println("Enter your name. >>");
-                        age = in.nextLine();
-                        registerSuccessful = appSystem.registerInstructor(name, phoneNumber, age);
-                        if (registerSuccessful){
-                            System.out.println("Registering Successful. Please login now.");
-                        }else{
-                            System.out.println("Registering failed. Please try again.");
+                        try {
+                            System.out.println("Register Instructor: ");
+                            System.out.println("Enter your name. >>");
+                            name = in.nextLine();
+                            System.out.println("Enter your phone number. >>");
+                            phoneNumber = in.nextLine();
+                            System.out.println("Enter your name. >>");
+                            age = in.nextLine();
+                            registerSuccessful = appSystem.registerInstructor(name, phoneNumber, Integer.parseInt(age));
+                            if (registerSuccessful){
+                                System.out.println("Registering Successful. Please login now.");
+                            }else{
+                                System.out.println("Registering failed. Please try again.");
+                            }
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
                         }
-
                         break;
                     case "6": //View public Offerings
                         System.out.println("Available public offerings: ");
