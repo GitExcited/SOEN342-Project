@@ -4,13 +4,13 @@ public class PublicOffering extends Offering {
     private Instructor instructor;
 
     // Constructor
-    public PublicOffering(Lesson lesson, Event event, Instructor instructor, Location location) {
+    public PublicOffering(Lesson lesson, TimeSlot event, Instructor instructor, Location location) {
         super(lesson, event,location);
         this.instructor = instructor;
     }
     //Constructor if Offering is being transformed to PublicOffering
     public PublicOffering(Offering offering, Instructor instructor){
-        super(offering.getLesson(),offering.getLessonTime(),offering.getLocation());
+        super(offering.getLesson(),offering.getTimeSlot(),offering.getLocation());
         this.instructor= instructor;
     }
 
@@ -28,7 +28,7 @@ public class PublicOffering extends Offering {
     public String toString() {
         return "PublicOffering{" +
                 "lesson=" + getLesson() +
-                ", event=" + getLessonTime() +
+                ", event=" + getTimeSlot() +
                 ", instructor=" + instructor +
                 '}';
     }

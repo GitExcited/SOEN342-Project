@@ -3,16 +3,16 @@ package main;
 public class Offering {
     private Lesson lesson;
     private Location location;
-    private Event lessonTime;
+    private TimeSlot timeSlot;
     
     // Default constructor
     public Offering() {
     }
 
     // Parameterized constructor
-    public Offering(Lesson lesson, Event lessonTime, Location location) {
+    public Offering(Lesson lesson, TimeSlot timeSlot, Location location) {
         this.lesson = lesson;
-        this.lessonTime = lessonTime;
+        this.timeSlot = timeSlot;
         this.location=location;
     }
 
@@ -25,12 +25,12 @@ public class Offering {
         this.lesson = lesson;
     }
 
-    public Event getLessonTime() {
-        return lessonTime;
+    public TimeSlot getTimeSlot() {
+        return timeSlot;
     }
 
-    public void setLessonTime(Event event) {
-        this.lessonTime = event;
+    public void setTimeSlot(TimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
     }
     
     public void setLocation(Location location) {
@@ -40,13 +40,13 @@ public class Offering {
     public Location getLocation() {
         return location;
     }
-    
+
     // toString method
     @Override
     public String toString() {
         return "Offering{" +
                 "lesson=" + lesson +
-                ", at time=" + lessonTime +
+                ", at time=" + timeSlot +
                 '}';
     }
 }

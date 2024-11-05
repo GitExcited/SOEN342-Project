@@ -18,7 +18,7 @@ public class PublicOfferings {
      * @param event The event for the offering.
      * @return The newly created public offering.
      */
-    public Offering createPublicOffering(Lesson lesson, Event event, Instructor instructor, Location location) {
+    public Offering createPublicOffering(Lesson lesson, TimeSlot event, Instructor instructor, Location location) {
         PublicOffering newPublicOffering = new PublicOffering(lesson, event, instructor, location);
         publicOfferingsCollection.add(newPublicOffering);
         return newPublicOffering;
@@ -27,33 +27,34 @@ public class PublicOfferings {
     /**
      * Displays the available public offerings.
      */
-    public void getAvailablePublicOfferings() {
+    public String getAvailablePublicOfferings() {
+        StringBuilder sb = new StringBuilder();
         int id = 0;
         for (Offering o : publicOfferingsCollection) {
-            System.out.println("PUBLIC OFFERING NUMBER " + id);
-            System.out.println(o.toString());
+            sb.append("PUBLIC OFFERING NUMBER ").append(id).append("\n");
+            sb.append(o.toString()).append("\n");
             id++; // Increment the id for each offering
         }
+        return sb.toString();
     }
 
-    //? Dont know if we will need this
-    // /**
-    //  * Retrieves a public offering by its ID (index in the list).
-    //  * 
-    //  * @param id The ID (index) of the public offering to retrieve.
-    //  * @return The public offering with the specified ID.
-    //  * @throws IllegalArgumentException If the ID is invalid or the public offering does not exist.
-    //  */
-    // public Offering getPublicOfferingById(int id) {
-    //     if (id < 0 || id >= publicOfferingsCollection.size()) {
-    //         throw new IllegalArgumentException("ID is out of bounds.");
-    //     }
-    //     Offering offering = publicOfferingsCollection.get(id);
-    //     if (offering == null) {
-    //         throw new IllegalArgumentException("Public offering with ID " + id + " is null.");
-    //     }
-    //     return offering;
-    // }
+    /**
+     * Retrieves a public offering by its ID (index in the list).
+     * 
+     * @param id The ID (index) of the public offering to retrieve.
+     * @return The public offering with the specified ID.
+     * @throws IllegalArgumentException If the ID is invalid or the public offering does not exist.
+     */
+    public PublicOffering getPublicOfferingById(int id) {
+        if (id < 0 || id >= publicOfferingsCollection.size()) {
+            throw new IllegalArgumentException("ID is out of bounds.");
+        }
+        PublicOffering offering = publicOfferingsCollection.get(id);
+        if (offering == null) {
+            throw new IllegalArgumentException("Public offering with ID " + id + " is null.");
+        }
+        return offering;
+    }
 
     /**
      * Checks if the given offering collides with any existing public offerings for the same LOCATION and TIME
@@ -65,19 +66,17 @@ public class PublicOfferings {
         for (Offering o: publicOfferingsCollection){
             if( o.getLesson().getLocation().equals(offering.getLesson().getLocation()) 
                 &&
-                o.getLessonTime().collides(offering.getLessonTime())){
+                o.getTimeSlot().collides(offering.getTimeSlot())){
                 return true;
             }
         }
         return false;
     }
 
-    public Offering removeOffering(int pofferingId){
+    public PublicOffering deleteOffering(int pofferingId){
         return publicOfferingsCollection.remove(pofferingId);
     }
     public void addOffering(PublicOffering poffering){
         publicOfferingsCollection.add(poffering);
     }
-
-
 }

@@ -150,7 +150,7 @@ public class Main {
                         break;
                     case "6": //View public Offerings
                         System.out.println("Available public offerings: ");
-                        System.out.println(appSystem.publicOfferingsToString());
+                        System.out.println(appSystem.browsePublicOfferings());
                         break;
                     default:
                         System.out.println("Invalid choice, try again.");
@@ -161,7 +161,7 @@ public class Main {
             switch (userInput) {
                 case "1": //View public offerings 
                     System.out.println("Available public offerings: ");
-                    System.out.println(appSystem.publicOfferingsToString());
+                    System.out.println(appSystem.browsePublicOfferings());
                     break;
                 case "2": //Process Booking
                     appSystem.processNewBookings();

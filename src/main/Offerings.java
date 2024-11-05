@@ -18,7 +18,7 @@ class Offerings{
      * @return The newly created offering.
      * @throws Exception If there is a conflict in the schedule for the given event.
      */
-    public Offering createOffering(Lesson lesson, Location location,Event event)throws ScheduleConflictException{
+    public Offering createOffering(Lesson lesson, Location location,TimeSlot event)throws ScheduleConflictException{
         Schedule schedule = location.getSchedule();
         boolean conflict = schedule.hasConflict(event);
         if (conflict) {
