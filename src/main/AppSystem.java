@@ -75,8 +75,19 @@ public class AppSystem {
         return false;
     }
 
-    public boolean registerUser(String name, String phoneNumber, String age){
-        return false;
+    public boolean registerUser(String name, String phoneNumber, Integer age){
+        //verify user does not already exist 
+        Client client = clients.getClientbyUsername(name);
+        if (client != null) {
+            return false;
+        }
+        client = clients.getClientbyPhoneNumber(phoneNumber);
+        if (client != null) {
+            return false;
+        }
+        //create and add user to user collection
+        clients.addClient(new Client(name, phoneNumber, age));
+        return true;
     }
 
     public boolean registerInstructor(String name, String phoneNumber, String age){

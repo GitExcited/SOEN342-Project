@@ -38,4 +38,22 @@ public class Clients {
     public List<Client> getClients() {
         return clients;
     }
+
+    public Client getClientbyUsername(String username){
+        for (Client client : clients) {
+            if (client.getName() == username){
+                return client;
+            }
+        }
+        return null;
+    }
+
+    public Client getClientbyPhoneNumber(String phoneNumber){
+        for (Client client : clients) {
+            if (client.getPhoneNumber() == phoneNumber){
+                return client;
+            }
+        }
+        return null;
+    }
 }

@@ -2,12 +2,14 @@ package main;
 
 public class Client {
     private String name;
-    private String email;
+    private String phoneNumber;
+    private int age;
 
     // Constructor
-    public Client(String name, String email) {
+    public Client(String name, String phoneNumber, int age) {
         this.name = name;
-        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.age = age;
     }
 
     //TODO: Implement Booking and Public Offerings classes
@@ -37,11 +39,19 @@ public class Client {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }

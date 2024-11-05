@@ -4,8 +4,8 @@ public class UnderAgeClient extends Client {
     private Client guardian;
 
     // Constructor
-    public UnderAgeClient(String name, String email, Client guardian) {
-        super(name, email);
+    public UnderAgeClient(String name, String email,int age, Client guardian) {
+        super(name, email,age);
         this.guardian = guardian;
     }
 
