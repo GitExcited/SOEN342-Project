@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import main.exceptions.ScheduleConflictException;
 
 class Offerings{
-    ArrayList<Offering> offeringsCollection = new ArrayList<Offering>();//Collection of offerings
+    private ArrayList<Offering> offeringsCollection = new ArrayList<Offering>();//Collection of offerings
     /**
      * Creates a new offering for a given lesson and schedule.
      * 
@@ -28,12 +28,44 @@ class Offerings{
         offeringsCollection.add(newOffering);
         return newOffering;
     }
-    
+
+    public void addOffering(Offering offering) {
+        offeringsCollection.add(offering);
+    }
+
+    public void removeOffering(Offering offering) {
+        offeringsCollection.remove(offering);
+    }
+
     public void getAvailableOfferings(){
         int id = 0 ;
         for (Offering o : offeringsCollection) {
             System.out.println("OFFERING NUMBER "+id);
             System.out.println(o.toString());
+        }
+    }
+
+    public String getAllOfferingDescriptions(){
+        StringBuilder description = new StringBuilder("");
+        for (Offering offering : offeringsCollection) {
+            description.append(offering.toString()+ " \n");
+        }
+        return description.toString();
+    }
+
+    public boolean deleteOffering(String id) {
+        Offering offeringToRemove = null;
+        for (Offering offering : offeringsCollection) {
+            if(offering.getID() == id){
+                offeringToRemove = offering;
+                break;
+            }
+        }
+        if (offeringToRemove == null){
+            return false;
+        }else{
+            removeOffering(offeringToRemove);
+            return true;
         }
     }
 }

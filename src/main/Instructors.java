@@ -55,4 +55,28 @@ public class Instructors {
         }
         return null;
     }
+
+    public String getAllInstructorsDescriptions(){
+        StringBuilder description = new StringBuilder("");
+        for (Instructor instructor : instructors) {
+            description.append(instructor.toString()+ " \n");
+        }
+        return description.toString();
+    }
+
+    public boolean deleteInstructor(String id) {
+        Instructor instructorToRemove = null;
+        for (Instructor instructor : instructors) {
+            if(instructor.getID() == id){
+                instructorToRemove = instructor;
+                break;
+            }
+        }
+        if (instructorToRemove == null){
+            return false;
+        }else{
+            removeInstructor(instructorToRemove);
+            return true;
+        }
+    }
 }

@@ -156,20 +156,32 @@ public class AppSystem {
     }
 
     public void deleteBooking(){
-        
+
+    }
+
+    public String getAllOfferingsToString(){
+        return offerings.getAllOfferingDescriptions() +" \n" + publicOfferings.getAllPublicOfferingDescriptions();
     }
 
 
 
     public boolean deleteOffering(String Id){
-        return false;
+        return offerings.deleteOffering(Id);
     }
 
     public boolean deleteInstructor(String Id){
-        return false;
+        return instructors.deleteInstructor(Id);
     }
 
     public boolean deleteClient(String Id){
-        return false;
+        return clients.deleteClient(Id);
+    }
+
+    public String getAllInstructorsToString() {
+        return instructors.getAllInstructorsDescriptions();
+    }
+
+    public String getAllClientsToString() {
+        return clients.getAllClientsDescriptions();
     }
 }

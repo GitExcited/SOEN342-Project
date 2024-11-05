@@ -23,7 +23,7 @@ public class Admin {
      * @param end The end time of the event.
      * @throws Exception If there is a conflict in the schedule for the given event.
      */
-    public void createOffering(Lesson lesson, Schedule schedule, LocalDateTime start, LocalDateTime end) throws Exception {
+    public void createOffering(Lesson lesson, Location location, LocalDateTime start, LocalDateTime end) throws Exception {
         Event event = new Event(start, end);
         //system.createOffering(lesson, schedule, event);
     }

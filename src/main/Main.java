@@ -207,9 +207,12 @@ public class Main {
             boolean result;
             switch (userInput) {
                 case "1": //Create Offering
-
+                    //list all lesson and their lesson id 
+                    //need to specify a lesson probably through id 
+                    //specify start and end time 
                     break; 
                 case "2": //Delete Offering
+                    System.out.println(appSystem.getAllOfferingsToString());
                     System.out.println(" Enter ID of Offering to delete. >>");
                     Id = in.nextLine();
                     result = appSystem.deleteOffering(Id);
@@ -220,6 +223,7 @@ public class Main {
                     }
                     break;
                 case "3": //Delete Instructor
+                    System.out.println(appSystem.getAllInstructorsToString());
                     System.out.println(" Enter ID of Instructor account to delete. >>");
                     Id = in.nextLine();
                     result = appSystem.deleteInstructor(Id);
@@ -230,6 +234,7 @@ public class Main {
                     }
                     break;
                 case "4": //Delete Client
+                    System.out.println(appSystem.getAllClientsToString());
                     System.out.println(" Enter ID of Client account to delete. >>");
                     Id = in.nextLine();
                     result = appSystem.deleteClient(Id);
