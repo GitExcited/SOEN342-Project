@@ -65,4 +65,6 @@ public class Location {
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
+    
+
 }

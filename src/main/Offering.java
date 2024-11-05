@@ -2,6 +2,7 @@ package main;
 
 public class Offering {
     private Lesson lesson;
+    private Location location;
     private Event lessonTime;
     
     // Default constructor
@@ -9,9 +10,10 @@ public class Offering {
     }
 
     // Parameterized constructor
-    public Offering(Lesson lesson, Event lessonTime) {
+    public Offering(Lesson lesson, Event lessonTime, Location location) {
         this.lesson = lesson;
         this.lessonTime = lessonTime;
+        this.location=location;
     }
 
     // Getters and setters
@@ -31,7 +33,14 @@ public class Offering {
         this.lessonTime = event;
     }
     
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
+    public Location getLocation() {
+        return location;
+    }
+    
     // toString method
     @Override
     public String toString() {

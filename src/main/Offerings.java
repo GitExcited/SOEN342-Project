@@ -24,8 +24,7 @@ class Offerings{
         if (conflict) {
             throw new ScheduleConflictException("A conflict was found for the given time slot.");
         }
-        Offering newOffering = new Offering(lesson, event);
-        newOffering.getLesson().setLocation(location); //Must update the location the lesosn will be at
+        Offering newOffering = new Offering(lesson, event,location);
         offeringsCollection.add(newOffering);
         return newOffering;
 
@@ -57,7 +56,7 @@ class Offerings{
         return offering;
     }
 
-    public Offering removeOffering(int offeringId){
+    public Offering deleteOffering(int offeringId){
         return offeringsCollection.remove(offeringId);
     }
     public void addOffering(Offering offering){

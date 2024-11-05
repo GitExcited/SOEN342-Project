@@ -4,13 +4,13 @@ public class PublicOffering extends Offering {
     private Instructor instructor;
 
     // Constructor
-    public PublicOffering(Lesson lesson, Event event, Instructor instructor) {
-        super(lesson, event);
+    public PublicOffering(Lesson lesson, Event event, Instructor instructor, Location location) {
+        super(lesson, event,location);
         this.instructor = instructor;
     }
     //Constructor if Offering is being transformed to PublicOffering
     public PublicOffering(Offering offering, Instructor instructor){
-        super(offering.getLesson(),offering.getLessonTime());
+        super(offering.getLesson(),offering.getLessonTime(),offering.getLocation());
         this.instructor= instructor;
     }
 

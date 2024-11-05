@@ -4,11 +4,11 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Clients {
+public class ClientsRegistry {
     private List<Client> clients;
 
     // Constructor
-    public Clients() {
+    public ClientsRegistry() {
         this.clients = new ArrayList<>();
     }
 

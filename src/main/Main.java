@@ -198,7 +198,7 @@ public class Main {
                 case "2": //Delete Offering
                     System.out.println(" Enter ID of Offering to delete. >>");
                     Id = in.nextLine();
-                    result = appSystem.deleteOffering(Id);
+                    result = appSystem.deleteOffering(Integer.parseInt(Id));//DeleteOffering takes int 
                     if (result){
                         System.out.println("Delete Successful.");
                     }else{

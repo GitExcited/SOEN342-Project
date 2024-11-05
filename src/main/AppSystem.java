@@ -15,9 +15,9 @@ public class AppSystem {
 
     private Admin admin;
     private Organization organization;
-    private Clients clients;
-    private Instructors instructors;
-    private Bookings bookings;
+    private ClientsRegistry clients;
+    private InstructorsRegistry instructors;
+    private BookingsRegistry bookings;
     private Offerings offerings;
     private PublicOfferings publicOfferings;
 
@@ -28,9 +28,9 @@ public class AppSystem {
     public AppSystem(){
         this.admin = new Admin();
         this.organization = new Organization();
-        this.clients = new Clients();
-        this.instructors = new Instructors();
-        this.bookings = new Bookings();
+        this.clients = new ClientsRegistry();
+        this.instructors = new InstructorsRegistry();
+        this.bookings = new BookingsRegistry();
         this.offerings = new Offerings();
         this.publicOfferings = new PublicOfferings();
 
@@ -78,11 +78,12 @@ public class AppSystem {
         }
         else {
             //Removes and adds offering from Offerings to PublicOfferings
-            PublicOffering newPO = new PublicOffering(offerings.removeOffering(offeringId), instructor);
+            PublicOffering newPO = new PublicOffering(offerings.deleteOffering(offeringId), instructor);
             publicOfferings.addOffering(newPO);
         } 
 
     }
+
     //? ^^^ USE CASE 1 ABOVE
 
 
@@ -132,11 +133,13 @@ public class AppSystem {
 
 
 
-    public boolean deleteOffering(String Id){
+    public boolean deleteOffering(int Id){
+        offerings.deleteOffering(Id);
         return false;
     }
 
     public boolean deleteInstructor(String Id){
+            
         return false;
     }
 

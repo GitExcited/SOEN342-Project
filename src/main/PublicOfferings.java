@@ -18,8 +18,8 @@ public class PublicOfferings {
      * @param event The event for the offering.
      * @return The newly created public offering.
      */
-    public Offering createPublicOffering(Lesson lesson, Event event, Instructor instructor) {
-        PublicOffering newPublicOffering = new PublicOffering(lesson, event, instructor);
+    public Offering createPublicOffering(Lesson lesson, Event event, Instructor instructor, Location location) {
+        PublicOffering newPublicOffering = new PublicOffering(lesson, event, instructor, location);
         publicOfferingsCollection.add(newPublicOffering);
         return newPublicOffering;
     }
