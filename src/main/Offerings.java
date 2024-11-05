@@ -27,8 +27,8 @@ class Offerings{
         Offering newOffering = new Offering(lesson, event);
         offeringsCollection.add(newOffering);
         return newOffering;
-
     }
+    
     public void getAvailableOfferings(){
         int id = 0 ;
         for (Offering o : offeringsCollection) {

@@ -140,7 +140,7 @@ public class AppSystem {
     }
 
     public String publicOfferingsToString(){
-        return "";
+        return publicOfferings.getAllPublicOfferingDescriptions();
     }
 
     public String getCurrentUserBookings(){
@@ -153,6 +153,10 @@ public class AppSystem {
 
     public void processNewBookings(){
 
+    }
+
+    public void deleteBooking(){
+        
     }
 
 

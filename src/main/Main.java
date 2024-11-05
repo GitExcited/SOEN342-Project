@@ -29,8 +29,9 @@ public class Main {
                     System.out.println("""
                         Logged in as Client, please choose an action:
                         1) View public offerings
-                        2) Process Bookings
-                        3) View Bookings
+                        2) Process new Bookings
+                        3) View your Bookings
+                        4) Cancel Booking
                         """);
                     userInput = in.nextLine();
                     processUserInput(userInput, UserAuthLevel.Client, in, appSystem);
@@ -179,6 +180,9 @@ public class Main {
                 case "3": //View Bookings
                     System.out.println("Your active Bookings: ");
                     System.out.println(appSystem.getCurrentUserBookings());
+                    break;
+                case "4": //Cancel Booking
+                    appSystem.deleteBooking();
                     break;
                 default:
                     System.out.println("Invalid choice, try again.");
