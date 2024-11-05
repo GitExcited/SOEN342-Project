@@ -4,8 +4,7 @@ public class Lesson {
     // Class attributes
     private String title;
     private String description;
-    private int duration; // Duration in minutes
-
+    private int duration; // Duration in minutes. For testing purposes all lessons are 60 MIN
     // Constructor
     public Lesson(String title, String description, int duration) {
         this.title = title;

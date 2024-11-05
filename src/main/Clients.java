@@ -38,4 +38,46 @@ public class Clients {
     public List<Client> getClients() {
         return clients;
     }
+
+    public Client getClientbyUsername(String username){
+        for (Client client : clients) {
+            if (client.getName() == username){
+                return client;
+            }
+        }
+        return null;
+    }
+
+    public Client getClientbyPhoneNumber(String phoneNumber){
+        for (Client client : clients) {
+            if (client.getPhoneNumber() == phoneNumber){
+                return client;
+            }
+        }
+        return null;
+    }
+
+    public String getAllClientsDescriptions(){
+        StringBuilder description = new StringBuilder("");
+        for (Client client : clients) {
+            description.append(client.toString()+ " \n");
+        }
+        return description.toString();
+    }
+
+    public boolean deleteClient(String id) {
+        Client clientToRemove = null;
+        for (Client client : clients) {
+            if(client.getID() == id){
+                clientToRemove = client;
+                break;
+            }
+        }
+        if (clientToRemove == null){
+            return false;
+        }else{
+            removeClient(clientToRemove);
+            return true;
+        }
+    }
 }

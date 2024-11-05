@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+// ? Each location has a schedule which is an array of Events where the location is available
 public class Schedule {
     private List<Event> schedule;
 
@@ -30,14 +31,15 @@ public class Schedule {
         }
     }
 
-    // Method to check for time conflicts
-    public boolean hasConflict(Event newEvent) {
-        for (Event existingEvent : schedule) {
-            if (newEvent.getStart().isBefore(existingEvent.getEnd()) && newEvent.getEnd().isAfter(existingEvent.getStart())) {
-                return true;
-            }
+// Method to check for time conflicts. 
+public boolean hasConflict(Event newEvent) {
+    for (Event existingEvent : schedule) {
+        //Returns true if conflict is found
+        if (!newEvent.getEnd().isBefore(existingEvent.getStart()) && !newEvent.getStart().isAfter(existingEvent.getEnd())) {
+            return true;
         }
-        return false;
     }
+    return false;
+}
     
 }
