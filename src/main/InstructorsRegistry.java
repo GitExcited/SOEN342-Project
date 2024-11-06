@@ -30,6 +30,11 @@ public class InstructorsRegistry {
         return instructors.remove(instructorId);
     }
 
+    public Instructor deleteInstructor(Instructor instructor) {
+        instructors.remove(instructor);
+        return instructor;
+    }
+
     /**
      * Updates an existing instructor in the registry.
      * 
@@ -53,6 +58,48 @@ public class InstructorsRegistry {
      */
     public List<Instructor> getInstructors() {
         return instructors;
+    }
+
+    public Instructor getInstructorbyUsername(String username){
+        for (Instructor instructor : instructors) {
+            if (instructor.getName() == username){
+                return instructor;
+            }
+        }
+        return null;
+    }
+
+    public Instructor getInstructorbyPhoneNumber(String phoneNumber){
+        for (Instructor instructor : instructors) {
+            if (instructor.getPhoneNumber() == phoneNumber){
+                return instructor;
+            }
+        }
+        return null;
+    }
+
+    public String getAllInstructorsDescriptions(){
+        StringBuilder description = new StringBuilder("");
+        for (Instructor instructor : instructors) {
+            description.append(instructor.toString()+ " \n");
+        }
+        return description.toString();
+    }
+
+    public boolean deleteInstructor(String id) {
+        Instructor instructorToRemove = null;
+        for (Instructor instructor : instructors) {
+            if(instructor.getID() == id){
+                instructorToRemove = instructor;
+                break;
+            }
+        }
+        if (instructorToRemove == null){
+            return false;
+        }else{
+            deleteInstructor(id);
+            return true;
+        }
     }
 
     /**

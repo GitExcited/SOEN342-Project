@@ -67,9 +67,6 @@ class Offerings{
     public Offering deleteOffering(int offeringId){
         return offeringsCollection.remove(offeringId);
     }
-    public void addOffering(Offering offering){
-        offeringsCollection.add(offering);
-    }
 
     public String getAllOfferingDescriptions(){
         StringBuilder description = new StringBuilder("");

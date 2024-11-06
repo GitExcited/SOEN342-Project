@@ -210,7 +210,7 @@ public class AppSystem {
     }
 
     public String getAllOfferingsToString(){
-        return offerings.getAllOfferingDescriptions() +" \n" + publicOfferings.getAllPublicOfferingDescriptions();
+        return offerings.getAllOfferingDescriptions() +" \n" + publicOfferings.getAvailablePublicOfferings();
     }
 
 

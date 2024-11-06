@@ -215,7 +215,7 @@ public class Main {
                     System.out.println(appSystem.getAllOfferingsToString());
                     System.out.println(" Enter ID of Offering to delete. >>");
                     Id = in.nextLine();
-                    result = appSystem.deleteOffering(Integer.parseInt(Id));//DeleteOffering takes int 
+                    result = appSystem.deleteOffering(Id);//DeleteOffering takes int 
                     if (result){
                         System.out.println("Delete Successful.");
                     }else{
