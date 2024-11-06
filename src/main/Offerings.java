@@ -18,13 +18,13 @@ class Offerings{
      * @return The newly created offering.
      * @throws Exception If there is a conflict in the schedule for the given event.
      */
-    public Offering createOffering(Lesson lesson, Location location,Event event)throws ScheduleConflictException{
+    public Offering createOffering(Lesson lesson, Location location,TimeSlot event)throws ScheduleConflictException{
         Schedule schedule = location.getSchedule();
         boolean conflict = schedule.hasConflict(event);
         if (conflict) {
             throw new ScheduleConflictException("A conflict was found for the given time slot.");
         }
-        Offering newOffering = new Offering(lesson, event);
+        Offering newOffering = new Offering(lesson, event,location);
         offeringsCollection.add(newOffering);
         return newOffering;
     }
@@ -42,7 +42,33 @@ class Offerings{
         for (Offering o : offeringsCollection) {
             System.out.println("OFFERING NUMBER "+id);
             System.out.println(o.toString());
+            id++;
         }
+    }
+
+    /**
+     * Retrieves an offering by its ID (index in the list).
+     * 
+     * @param id The ID (index) of the offering to retrieve.
+     * @return The offering with the specified ID.
+     * @throws IllegalArgumentException If the ID is invalid or the offering does not exist.
+     */
+    public Offering getOfferingById(int id) throws IllegalArgumentException{
+        if (id < 0 || id >= offeringsCollection.size()) {
+            throw new IllegalArgumentException("ID is out of bounds.");
+        }
+        Offering offering = offeringsCollection.get(id);
+        if (offering == null) {
+            throw new IllegalArgumentException("Offering with ID " + id + " is null.");
+        }
+        return offering;
+    }
+
+    public Offering deleteOffering(int offeringId){
+        return offeringsCollection.remove(offeringId);
+    }
+    public void addOffering(Offering offering){
+        offeringsCollection.add(offering);
     }
 
     public String getAllOfferingDescriptions(){

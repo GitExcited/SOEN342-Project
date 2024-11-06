@@ -17,9 +17,9 @@ public class AppSystem {
     private Client currentClient;
     private Instructor currentInstructor;
     private Organization organization;
-    private Clients clients;
-    private Instructors instructors;
-    private Bookings bookings;
+    private ClientsRegistry clients;
+    private InstructorsRegistry instructors;
+    private BookingsRegistry bookings;
     private Offerings offerings;
     private PublicOfferings publicOfferings;
 
@@ -31,9 +31,9 @@ public class AppSystem {
     public AppSystem(){
         this.admin = new Admin();
         this.organization = new Organization();
-        this.clients = new Clients();
-        this.instructors = new Instructors();
-        this.bookings = new Bookings();
+        this.clients = new ClientsRegistry();
+        this.instructors = new InstructorsRegistry();
+        this.bookings = new BookingsRegistry();
         this.offerings = new Offerings();
         this.publicOfferings = new PublicOfferings();
         this.currentClient = null;
@@ -44,8 +44,16 @@ public class AppSystem {
     }
 
     //? PART OF USE CASE 1: Process Offerings
+
+    /**
+     * Creates Offering and adds it to the collection Offerings
+     * @param lesson The type of lesson ( swiming, boxing, etc)
+     * @param location The location you want to make the lesson
+     * @param startTime Start time of lesson
+     * @param endTime end time of lesson
+     */
     public void creatOffering(Lesson lesson, Location location,LocalDateTime startTime, LocalDateTime endTime ) {
-        Event temptativeTime = new Event(startTime, endTime);
+        TimeSlot temptativeTime = new TimeSlot(startTime, endTime);
         Offering off = null;
         try{
          off =offerings.createOffering(lesson, location, temptativeTime);
@@ -56,9 +64,51 @@ public class AppSystem {
         System.out.println("AppSystem says: Offering Created"+ off.toString());  
     }
 
+    /**
+     * Prints to screen all available offerings with their Ids
+     */
     public void viewOfferings(){
         offerings.getAvailableOfferings();
     }
+    /**
+     * Gets offering by Id, checks if there is a time collision 
+     * @param instructor
+     * @param offeringId
+     */
+    public void selectOffering(Instructor instructor, int offeringId){
+        Offering selectedOffering = offerings.getOfferingById(offeringId);
+        boolean collision = publicOfferings.checkTimeCollision(selectedOffering);
+        if ( collision){ 
+            System.out.println("AppSystem says: SCHEDULE CONFLICT. Offering Couldn't be added to Public Offerings");
+        }
+        else {
+            //Removes and adds offering from Offerings to PublicOfferings
+            PublicOffering newPO = new PublicOffering(offerings.deleteOffering(offeringId), instructor);
+            publicOfferings.addOffering(newPO);
+        } 
+
+    }
+
+    //? ^^^ USE CASE 1 ABOVE
+
+
+
+
+    //? USE CASE 2
+
+    public  void createBooking(Client client ,int publicOfferingId){
+        PublicOffering selectPublicOffering= publicOfferings.getPublicOfferingById(publicOfferingId);
+        boolean collision = bookings.checkTimeCollision(selectPublicOffering);
+        if ( collision){ 
+            System.out.println("AppSystem says: SCHEDULE CONFLICT. PublicOffering Couldn't be transformed into Booking");
+        }
+        else {
+            //Removes and adds publicOffering from PublicOfferings to Bookings
+            Booking newBooking = new Booking(publicOfferings.deleteOffering(publicOfferingId), client);
+            bookings.addBooking(newBooking);
+        } 
+    }
+
 
     public boolean isUserAuthenticated(){
         return this.userAuthenticated;
@@ -139,8 +189,8 @@ public class AppSystem {
         return true;
     }
 
-    public String publicOfferingsToString(){
-        return publicOfferings.getAllPublicOfferingDescriptions();
+    public String browsePublicOfferings(){
+        return publicOfferings.getAvailablePublicOfferings();
     }
 
     public String getCurrentUserBookings(){
