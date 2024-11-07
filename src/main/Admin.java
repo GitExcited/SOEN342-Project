@@ -24,7 +24,7 @@ public class Admin {
      * @throws Exception If there is a conflict in the schedule for the given event.
      */
     public void createOffering(Lesson lesson, Location location, LocalDateTime start, LocalDateTime end) throws Exception {
-        Event event = new Event(start, end);
+        TimeSlot event = new TimeSlot(start, end);
         //system.createOffering(lesson, schedule, event);
     }
 

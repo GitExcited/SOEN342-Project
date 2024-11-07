@@ -211,7 +211,7 @@ public class Main {
                     //need to specify a lesson probably through id 
                     //specify start and end time 
                     break; 
-                case "2": //Delete Offering
+                case "2": //Delete Offering DONE
                     System.out.println(appSystem.getAllOfferingsToString());
                     System.out.println(" Enter ID of Offering to delete. >>");
                     Id = in.nextLine();
@@ -222,7 +222,7 @@ public class Main {
                         System.out.println("Delete Failed.");
                     }
                     break;
-                case "3": //Delete Instructor
+                case "3": //Delete Instructor DONE
                     System.out.println(appSystem.getAllInstructorsToString());
                     System.out.println(" Enter ID of Instructor account to delete. >>");
                     Id = in.nextLine();
@@ -233,7 +233,7 @@ public class Main {
                         System.out.println("Delete Failed.");
                     }
                     break;
-                case "4": //Delete Client
+                case "4": //Delete Client DONE
                     System.out.println(appSystem.getAllClientsToString());
                     System.out.println(" Enter ID of Client account to delete. >>");
                     Id = in.nextLine();

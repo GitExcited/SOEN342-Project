@@ -16,3 +16,16 @@ It simply allows Instructor to VIEW the offerings published. so i renamed it to 
 
 
 To make things simpler, also added the fact that Lesson has a location. we must update that in UML too
+
+
+
+- createOffering (need to hardcode some lesson in organization)
+- Logout
+
+- viewOfferings for Instructor
+- SelectOffering
+- CancelOfferingSelection
+
+- Process new Bookings
+- View your Bookings
+- Cancel Booking
