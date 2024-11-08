@@ -18,7 +18,7 @@ class Offerings{
      * @return The newly created offering.
      * @throws Exception If there is a conflict in the schedule for the given event.
      */
-    public Offering createOffering(Lesson lesson, Location location,TimeSlot event)throws ScheduleConflictException{
+    public Offering createOffering(Lesson lesson, Location location, TimeSlot event)throws ScheduleConflictException{
         Schedule schedule = location.getSchedule();
         boolean conflict = schedule.hasConflict(event);
         if (conflict) {
@@ -38,11 +38,11 @@ class Offerings{
     }
 
     public void getAvailableOfferings(){
-        int id = 0 ;
+        //int id = 0 ;
         for (Offering o : offeringsCollection) {
-            System.out.println("OFFERING NUMBER "+id);
+            System.out.println("OFFERING NUMBER "+ o.getID());
             System.out.println(o.toString());
-            id++;
+            //id++;
         }
     }
 

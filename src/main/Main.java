@@ -203,7 +203,7 @@ public class Main {
                 case "1": //Take Offering RENAMED to viewOfferings
                     appSystem.viewOfferings();
                     break;
-                case "2": //View taken offering
+                case "2": //View taken offering DONE
                     System.out.println("Your active selected Offerings: ");
                     System.out.println(appSystem.getCurrentUserSelectedOfferings());
                     break;

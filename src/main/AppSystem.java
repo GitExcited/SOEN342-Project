@@ -225,7 +225,7 @@ public class AppSystem {
     }
 
     public String getCurrentUserSelectedOfferings(){
-        return "";
+        return publicOfferings.getPublicOfferingsforInstructor(currentInstructor.getID());
     }
 
     public void processNewBookings(){

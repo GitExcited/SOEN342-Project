@@ -79,4 +79,16 @@ public class PublicOfferings {
     public void addOffering(PublicOffering poffering){
         publicOfferingsCollection.add(poffering);
     }
+
+    public String getPublicOfferingsforInstructor(String id) {
+        StringBuilder sb = new StringBuilder();
+        for (PublicOffering p : publicOfferingsCollection) {
+            if(p.getInstructor().getID() == id){
+                sb.append("PUBLIC OFFERING NUMBER ").append(p.getID()).append("\n");
+                sb.append(p.toString()).append("\n");
+                break;
+            }
+        }
+        return sb.toString();
+    }
 }
