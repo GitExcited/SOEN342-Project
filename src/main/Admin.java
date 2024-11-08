@@ -6,12 +6,15 @@ import java.time.LocalDateTime;
 public class Admin {
     private String username;
     private String password;
-    private Organization organization;
+    public Organization organization;
     private System system;
     //Constructor
     public Admin() {
         this.username = "testAdmin";
         this.password = "testAdminPassword";
+        this.organization = new Organization();
+        organization.initializeLessons();
+        organization.initializeLocations();
     }
 
     /**
@@ -23,10 +26,10 @@ public class Admin {
      * @param end The end time of the event.
      * @throws Exception If there is a conflict in the schedule for the given event.
      */
-    public void createOffering(Lesson lesson, Location location, LocalDateTime start, LocalDateTime end) throws Exception {
-        TimeSlot event = new TimeSlot(start, end);
-        //system.createOffering(lesson, schedule, event);
-    }
+    // public void createOffering(Lesson lesson, Location location, LocalDateTime start, LocalDateTime end) throws Exception {
+    //     TimeSlot event = new TimeSlot(start, end);
+    //     //system.createOffering(lesson, schedule, event);
+    // }
 
     public String getPassword() {
         return password;

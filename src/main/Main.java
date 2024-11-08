@@ -32,6 +32,7 @@ public class Main {
                         2) Process new Bookings
                         3) View your Bookings
                         4) Cancel Booking
+                        5) Logout
                         """);
                     userInput = in.nextLine();
                     processUserInput(userInput, UserAuthLevel.Client, in, appSystem);
@@ -42,6 +43,8 @@ public class Main {
                         Logged in as Instructor, please choose an action:
                         1) Take Offerings
                         2) View taken Offerings
+                        3) Cancel Offering Selection
+                        4) Logout
                         """);
                         userInput = in.nextLine();
                         processUserInput(userInput, UserAuthLevel.Instructor, in, appSystem);
@@ -54,6 +57,7 @@ public class Main {
                         2) Delete Offering
                         3) Delete Instructor Account
                         4) Delete Client Account
+                        5) Logout
                         """);
                         userInput = in.nextLine();
                         processUserInput(userInput, UserAuthLevel.Admin, in, appSystem);
@@ -77,6 +81,9 @@ public class Main {
                 String name; 
                 String age;
                 String phoneNumber;
+                String LessonId;
+                String LocationId;
+                String time;
                 switch (userInput) {
                     case "1": //Login Client
                         System.out.println("Client Login: ");
@@ -184,6 +191,9 @@ public class Main {
                 case "4": //Cancel Booking
                     appSystem.deleteBooking();
                     break;
+                case "5": //Logout
+                    appSystem.Logout();
+                    break;
                 default:
                     System.out.println("Invalid choice, try again.");
                     break;
@@ -197,6 +207,11 @@ public class Main {
                     System.out.println("Your active selected Offerings: ");
                     System.out.println(appSystem.getCurrentUserSelectedOfferings());
                     break;
+                case "3": //Cancel offering selection
+                    break;
+                case "4": //Logout
+                    appSystem.Logout();
+                    break;
                 default:
                     System.out.println("Invalid choice, try again.");
                     break;
@@ -206,10 +221,21 @@ public class Main {
             String Id;
             boolean result;
             switch (userInput) {
-                case "1": //Create Offering
-                    //list all lesson and their lesson id 
-                    //need to specify a lesson probably through id 
-                    //specify start and end time 
+                case "1": //Create Offering DONE
+                    System.out.println(appSystem.getAllOfferingsToString());
+                    System.out.println(" Enter a lesson ID. >>");
+                    LessonId = in.nextLine();
+                    System.out.println(appSystem.getAllOfferingsToString());
+                    System.out.println(" Enter a location ID. >>");
+                    LocationId = in.nextLine();
+                    System.out.println(" Enter a day of the week, a start time and a finish time of format \"HH:mm\" >>");
+                    time = in.nextLine();
+                    result = appSystem.createOffering(LessonId, LocationId, time);
+                    if (result){
+                        System.out.println("Offering created successfully.");
+                    }else{
+                        System.out.println("Creating Offering Failed.");
+                    }
                     break; 
                 case "2": //Delete Offering DONE
                     System.out.println(appSystem.getAllOfferingsToString());
@@ -243,6 +269,9 @@ public class Main {
                     }else{
                         System.out.println("Delete Failed.");
                     }
+                    break;
+                case "5": //Logout
+                    appSystem.Logout();
                     break;
                 default:
                     System.out.println("Invalid choice, try again.");

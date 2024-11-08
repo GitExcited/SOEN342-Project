@@ -1,5 +1,7 @@
 package main;
 import java.time.LocalDateTime; //Used for start and end time of CreateOffering
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import main.exceptions.ScheduleConflictException;
 
@@ -52,16 +54,41 @@ public class AppSystem {
      * @param startTime Start time of lesson
      * @param endTime end time of lesson
      */
-    public void creatOffering(Lesson lesson, Location location,LocalDateTime startTime, LocalDateTime endTime ) {
-        TimeSlot temptativeTime = new TimeSlot(startTime, endTime);
-        Offering off = null;
-        try{
-         off =offerings.createOffering(lesson, location, temptativeTime);
-        } catch (ScheduleConflictException e) {
-            // TODO: handle exception. For now simply printit
-            System.out.println("AppSystem says: SCHEDULE CONFLICT. Lesson Couldn't be added");
+    // public void createOffering(Lesson lesson, Location location,LocalDateTime startTime, LocalDateTime endTime ) {
+    //     TimeSlot temptativeTime = new TimeSlot(startTime, endTime);
+    //     Offering off = null;
+    //     try{
+    //      off =offerings.createOffering(lesson, location, temptativeTime);
+    //     } catch (ScheduleConflictException e) {
+    //         // TODO: handle exception. For now simply printit
+    //         System.out.println("AppSystem says: SCHEDULE CONFLICT. Lesson Couldn't be added");
+    //     }
+    //     System.out.println("AppSystem says: Offering Created"+ off.toString());  
+    // }
+
+    public boolean createOffering(String LessonId, String LocationId, String time ) {
+        try {
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            String[] params = time.split(" ");
+            String dayOfWeek = params[0];
+            LocalTime starTime = LocalTime.parse(params[1], timeFormatter);
+            LocalTime endTime = LocalTime.parse(params[2], timeFormatter);
+
+            TimeSlot timeslot = new TimeSlot(dayOfWeek, starTime, endTime);
+            //find lesson
+            Lesson lesson = admin.organization.getLessonById(LessonId);
+            //find Location
+            Location location = admin.organization.getLocationById(LocationId);
+            if (location == null || lesson == null){
+                return false;
+            }
+            //create offering
+            offerings.createOffering(lesson,location, timeslot);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
         }
-        System.out.println("AppSystem says: Offering Created"+ off.toString());  
+        return true;
     }
 
     /**
@@ -233,5 +260,20 @@ public class AppSystem {
 
     public String getAllClientsToString() {
         return clients.getAllClientsDescriptions();
+    }
+
+    public String getAllLessonsToString() {
+        return admin.organization.getAllLessonsDescriptions();
+    }
+
+    public String getAlllocationsToString() {
+        return admin.organization.getAllLocationsDescriptions();
+    }
+
+    public void Logout() {
+        userAuthenticated = false;
+        authLevel = UserAuthLevel.NotAuthorized;
+        currentInstructor = null;
+        currentClient = null;
     }
 }

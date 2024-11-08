@@ -3,8 +3,8 @@ package main;
 public class PublicLesson extends Lesson {
 
     // Constructor
-    public PublicLesson(String title, String description, int duration, Location location) {
-        super(title, description, duration,location);
+    public PublicLesson(String id ,String title, String description) {
+        super(id, title, description);
     }
 
     @Override

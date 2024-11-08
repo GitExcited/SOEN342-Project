@@ -1,6 +1,7 @@
 package main;
 
 public class Location {
+    private String id;
     private String name;
     private String address;
     private String city;
@@ -16,7 +17,8 @@ public class Location {
         this.schedule = schedule;
     }
     //Constructor for an empty schedule
-    public Location(String name, String address, String city, String room){
+    public Location(String id, String name, String address, String city, String room){
+        this.id = id;
         this.name = name;
         this.address = address;
         this.city = city;
@@ -65,6 +67,24 @@ public class Location {
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
-    
 
+    public String getID() {
+        return id;
+    }
+
+    public void setID(String id) {
+        this.id = id;
+    }
+    
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", room='" + room + '\'' +
+                ", schedule=" + (schedule != null ? schedule.toString() : "No Schedule") +
+                '}';
+    }
 }

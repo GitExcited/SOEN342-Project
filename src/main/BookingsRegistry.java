@@ -16,16 +16,16 @@ public class BookingsRegistry {
      * @param offering The offering to check for time collision.
      * @return true if there is a time collision, false otherwise.
      */
-    public boolean checkTimeCollision(Offering offering){
-        for (Booking b: bookings){
-            if( b.getLesson().getLocation().equals(offering.getLesson().getLocation()) 
-                &&
-                b.getTimeSlot().collides(offering.getTimeSlot())){
-                return true;
-            }
-        }
-        return false;
-    }
+    // public boolean checkTimeCollision(Offering offering){
+    //     for (Booking b: bookings){
+    //         if( b.getLesson().getLocation().equals(offering.getLesson().getLocation()) 
+    //             &&
+    //             b.getTimeSlot().collides(offering.getTimeSlot())){
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     /**
      * Adds a new booking to the registry.

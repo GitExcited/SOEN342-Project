@@ -1,30 +1,40 @@
 package main;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 // Event class to encapsulate start and end times
 public class TimeSlot {
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private String dayOfWeek;
+    private LocalTime start;
+    private LocalTime end;
 
-    public TimeSlot(LocalDateTime start, LocalDateTime end) {
+    public TimeSlot(String dayOfWeek, LocalTime start, LocalTime end) {
+        this.dayOfWeek = dayOfWeek;
         this.start = start;
         this.end = end;
     }
 
-    public LocalDateTime getStart() {
+    public String getdayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setdayOfWeek(String day) {
+        this.dayOfWeek = day;
+    }
+
+    public LocalTime getStart() {
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
+    public void setStart(LocalTime start) {
         this.start = start;
     }
 
-    public LocalDateTime getEnd() {
+    public LocalTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDateTime end) {
+    public void setEnd(LocalTime end) {
         this.end = end;
     }
 

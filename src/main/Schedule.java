@@ -15,13 +15,13 @@ public class Schedule {
     }
 
     // Method to add an available time
-    public void addTime(String date, String startTime, String endTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime start = LocalDateTime.parse(date + " " + startTime, formatter);
-        LocalDateTime end = LocalDateTime.parse(date + " " + endTime, formatter);
-        TimeSlot event = new TimeSlot(start, end);
-        schedule.add(event);
-    }
+    // public void addTime(String date, String startTime, String endTime) {
+    //     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    //     LocalDateTime start = LocalDateTime.parse(date + " " + startTime, formatter);
+    //     LocalDateTime end = LocalDateTime.parse(date + " " + endTime, formatter);
+    //     TimeSlot event = new TimeSlot(start, end);
+    //     schedule.add(event);
+    // }
 
     // Method to display the schedule
     public void displaySchedule() {
@@ -35,8 +35,10 @@ public class Schedule {
 public boolean hasConflict(TimeSlot newEvent) {
     for (TimeSlot existingEvent : schedule) {
         //Returns true if conflict is found
-        if (!newEvent.getEnd().isBefore(existingEvent.getStart()) && !newEvent.getStart().isAfter(existingEvent.getEnd())) {
-            return true;
+        if (newEvent.getdayOfWeek() == existingEvent.getdayOfWeek()){
+            if (!newEvent.getEnd().isBefore(existingEvent.getStart()) && !newEvent.getStart().isAfter(existingEvent.getEnd())) {
+                return true;
+            }
         }
     }
     return false;
