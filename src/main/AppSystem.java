@@ -293,4 +293,12 @@ public class AppSystem {
         currentInstructor = null;
         currentClient = null;
     }
+
+    public boolean cancelOfferingSelection(String id) {
+        PublicOffering selectedOffering = publicOfferings.getPublicOfferingById(id);
+
+        offerings.addOffering(selectedOffering);
+        publicOfferings.deleteOffering(selectedOffering);
+        return true;
+    }
 }

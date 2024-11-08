@@ -23,7 +23,7 @@ To make things simpler, also added the fact that Lesson has a location. we must 
 - Logout DONE
 
 - viewOfferings for Instructor DONE
-- SelectOffering 
+- SelectOffering DONE
 - CancelOfferingSelection
 
 - Process new Bookings

@@ -73,9 +73,23 @@ public class PublicOfferings {
         return false;
     }
 
+    public PublicOffering getPublicOfferingById(String id){
+        for (PublicOffering p : publicOfferingsCollection) {
+            if (p.getID() == id){
+                return p;
+            }
+        }
+        return null;
+    }
+
     public PublicOffering deleteOffering(int pofferingId){
         return publicOfferingsCollection.remove(pofferingId);
     }
+
+    public void deleteOffering(Offering offering){
+        publicOfferingsCollection.remove(offering);
+    }
+
     public void addOffering(PublicOffering poffering){
         publicOfferingsCollection.add(poffering);
     }

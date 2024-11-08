@@ -218,6 +218,16 @@ public class Main {
                     System.out.println(appSystem.getCurrentUserSelectedOfferings());
                     break;
                 case "3": //Cancel offering selection
+                    System.out.println("Your active selected Offerings: ");
+                    System.out.println(appSystem.getCurrentUserSelectedOfferings());
+                    System.out.println(" Enter ID of PublicOffering to cancel. >>");
+                    Id = in.nextLine();
+                    result = appSystem.cancelOfferingSelection(Id);//DeleteOffering takes int 
+                    if (result){
+                        System.out.println("Successfully Deleted Public Offering.");
+                    }else{
+                        System.out.println("Failed to Delete Public Offering.");
+                    }
                     break;
                 case "4": //Logout
                     appSystem.Logout();
