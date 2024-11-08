@@ -62,16 +62,16 @@ public class PublicOfferings {
      * @param offering The offering to check for time collision.
      * @return true if there is a time collision, false otherwise.
      */
-    // public boolean checkTimeCollision(Offering offering){
-    //     for (Offering o: publicOfferingsCollection){
-    //         if( o.getLesson().getLocation().equals(offering.getLesson().getLocation()) 
-    //             &&
-    //             o.getTimeSlot().collides(offering.getTimeSlot())){
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
+    public boolean checkTimeCollision(Offering offering){
+        for (Offering o: publicOfferingsCollection){
+            if( o.getLocation().equals(offering.getLocation()) 
+                &&
+                o.getTimeSlot().collides(offering.getTimeSlot())){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public PublicOffering deleteOffering(int pofferingId){
         return publicOfferingsCollection.remove(pofferingId);

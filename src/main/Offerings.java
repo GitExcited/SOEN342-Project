@@ -64,6 +64,17 @@ class Offerings{
         return offering;
     }
 
+    public Offering getOfferingById(String id){
+        for (Offering offering : offeringsCollection) {
+            if (offering.getID() == id){
+                return offering;
+            }
+        }
+        return null;
+    }
+
+
+
     public Offering deleteOffering(int offeringId){
         return offeringsCollection.remove(offeringId);
     }

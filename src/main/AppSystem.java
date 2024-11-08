@@ -116,6 +116,23 @@ public class AppSystem {
 
     }
 
+    //yan refactor
+    public boolean selectOffering(String offeringId){
+        Offering selectedOffering = offerings.getOfferingById(offeringId);
+        boolean collision = publicOfferings.checkTimeCollision(selectedOffering);
+        if ( collision){ 
+            System.out.println("AppSystem says: SCHEDULE CONFLICT. Offering Couldn't be added to Public Offerings");
+            return false;
+        }
+        else {
+            //Removes and adds offering from Offerings to PublicOfferings
+            PublicOffering newPO = new PublicOffering(selectedOffering, currentInstructor);
+            offerings.removeOffering(selectedOffering);
+            publicOfferings.addOffering(newPO);
+            return true;
+        } 
+    }
+
     //? ^^^ USE CASE 1 ABOVE
 
 

@@ -22,8 +22,8 @@ To make things simpler, also added the fact that Lesson has a location. we must 
 - createOffering (need to hardcode some lesson in organization) DONE
 - Logout DONE
 
-- viewOfferings for Instructor
-- SelectOffering
+- viewOfferings for Instructor DONE
+- SelectOffering 
 - CancelOfferingSelection
 
 - Process new Bookings

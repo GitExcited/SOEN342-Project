@@ -84,6 +84,8 @@ public class Main {
                 String LessonId;
                 String LocationId;
                 String time;
+                String Id;
+                boolean result;
                 switch (userInput) {
                     case "1": //Login Client
                         System.out.println("Client Login: ");
@@ -201,7 +203,15 @@ public class Main {
             case Instructor:
             switch (userInput) {
                 case "1": //Take Offering RENAMED to viewOfferings
-                    appSystem.viewOfferings();
+                    System.out.println(appSystem.getAllOfferingsToString());
+                    System.out.println(" Enter ID of Offering to select. >>");
+                    Id = in.nextLine();
+                    result = appSystem.selectOffering(Id);//DeleteOffering takes int 
+                    if (result){
+                        System.out.println("Successfully Selected Offering.");
+                    }else{
+                        System.out.println("Failed to Select Offering.");
+                    }
                     break;
                 case "2": //View taken offering DONE
                     System.out.println("Your active selected Offerings: ");
@@ -218,8 +228,6 @@ public class Main {
             }
                 break;
             case Admin:
-            String Id;
-            boolean result;
             switch (userInput) {
                 case "1": //Create Offering DONE
                     System.out.println(appSystem.getAllOfferingsToString());
