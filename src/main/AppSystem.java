@@ -22,8 +22,9 @@ public class AppSystem {
     private ClientsRegistry clients;
     private InstructorsRegistry instructors;
     private BookingsRegistry bookings;
+    private Lessons lessons;
     private Offerings offerings;
-    private PublicOfferings publicOfferings;
+    //private PublicOfferings publicOfferings;
 
     private boolean userAuthenticated;
     private UserAuthLevel authLevel;
@@ -36,8 +37,10 @@ public class AppSystem {
         this.clients = new ClientsRegistry();
         this.instructors = new InstructorsRegistry();
         this.bookings = new BookingsRegistry();
+        
+        this.lessons = new Lessons();
         this.offerings = new Offerings();
-        this.publicOfferings = new PublicOfferings();
+        //this.publicOfferings = new PublicOfferings();
         this.currentClient = null;
         this.currentInstructor = null;
 
@@ -66,30 +69,30 @@ public class AppSystem {
     //     System.out.println("AppSystem says: Offering Created"+ off.toString());  
     // }
 
-    public boolean createOffering(String LessonId, String LocationId, String time ) {
-        try {
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-            String[] params = time.split(" ");
-            String dayOfWeek = params[0];
-            LocalTime starTime = LocalTime.parse(params[1], timeFormatter);
-            LocalTime endTime = LocalTime.parse(params[2], timeFormatter);
+    // public boolean createOffering(String LessonId, String LocationId, String time ) {
+    //     try {
+    //         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    //         String[] params = time.split(" ");
+    //         String dayOfWeek = params[0];
+    //         LocalTime starTime = LocalTime.parse(params[1], timeFormatter);
+    //         LocalTime endTime = LocalTime.parse(params[2], timeFormatter);
 
-            TimeSlot timeslot = new TimeSlot(dayOfWeek, starTime, endTime);
-            //find lesson
-            Lesson lesson = admin.organization.getLessonById(LessonId);
-            //find Location
-            Location location = admin.organization.getLocationById(LocationId);
-            if (location == null || lesson == null){
-                return false;
-            }
-            //create offering
-            offerings.createOffering(lesson,location, timeslot);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        return true;
-    }
+    //         TimeSlot timeslot = new TimeSlot(dayOfWeek, starTime, endTime);
+    //         //find lesson
+    //         Lesson lesson = admin.organization.getLessonById(LessonId);
+    //         //find Location
+    //         Location location = admin.organization.getLocationById(LocationId);
+    //         if (location == null || lesson == null){
+    //             return false;
+    //         }
+    //         //create offering
+    //         offerings.createOffering(lesson,location, timeslot);
+    //     } catch (Exception e) {
+    //         System.out.println(e.getMessage());
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
     /**
      * Prints to screen all available offerings with their Ids
@@ -102,33 +105,32 @@ public class AppSystem {
      * @param instructor
      * @param offeringId
      */
-    public void selectOffering(Instructor instructor, int offeringId){
-        Offering selectedOffering = offerings.getOfferingById(offeringId);
-        boolean collision = publicOfferings.checkTimeCollision(selectedOffering);
-        if ( collision){ 
-            System.out.println("AppSystem says: SCHEDULE CONFLICT. Offering Couldn't be added to Public Offerings");
-        }
-        else {
-            //Removes and adds offering from Offerings to PublicOfferings
-            PublicOffering newPO = new PublicOffering(offerings.deleteOffering(offeringId), instructor);
-            publicOfferings.addOffering(newPO);
-        } 
+    // public void selectOffering(Instructor instructor, int offeringId){
+    //     Offering selectedOffering = offerings.getOfferingById(offeringId);
+    //     boolean collision = publicOfferings.checkTimeCollision(selectedOffering);
+    //     if ( collision){ 
+    //         System.out.println("AppSystem says: SCHEDULE CONFLICT. Offering Couldn't be added to Public Offerings");
+    //     }
+    //     else {
+    //         //Removes and adds offering from Offerings to PublicOfferings
+    //         PublicOffering newPO = new PublicOffering(offerings.deleteOffering(offeringId), instructor);
+    //         publicOfferings.addOffering(newPO);
+    //     } 
 
-    }
+    // }
 
     //yan refactor
-    public boolean selectOffering(String offeringId){
-        Offering selectedOffering = offerings.getOfferingById(offeringId);
-        boolean collision = publicOfferings.checkTimeCollision(selectedOffering);
-        if ( collision){ 
-            System.out.println("AppSystem says: SCHEDULE CONFLICT. Offering Couldn't be added to Public Offerings");
+    public boolean selectLesson(String lessonId){
+        Lesson lesson = lessons.getLessonById(lessonId);
+        boolean collision = offerings.checkTimeCollision(currentInstructor, lesson);
+        if (collision){ 
+            System.out.println("AppSystem says: SCHEDULE CONFLICT. Lesson couldnt be added to Offerings.");
             return false;
         }
         else {
-            //Removes and adds offering from Offerings to PublicOfferings
-            PublicOffering newPO = new PublicOffering(selectedOffering, currentInstructor);
-            offerings.removeOffering(selectedOffering);
-            publicOfferings.addOffering(newPO);
+            lessons.removeLesson(lesson);
+            Offering offering = new Offering(lesson, currentInstructor);
+            offerings.addOffering(offering);
             return true;
         } 
     }
@@ -140,18 +142,18 @@ public class AppSystem {
 
     //? USE CASE 2
 
-    public  void createBooking(Client client ,int publicOfferingId){
-        PublicOffering selectPublicOffering= publicOfferings.getPublicOfferingById(publicOfferingId);
-        boolean collision = bookings.checkTimeCollision(selectPublicOffering);
-        if ( collision){ 
-            System.out.println("AppSystem says: SCHEDULE CONFLICT. PublicOffering Couldn't be transformed into Booking");
-        }
-        else {
-            //Removes and adds publicOffering from PublicOfferings to Bookings
-            Booking newBooking = new Booking(publicOfferings.deleteOffering(publicOfferingId), client);
-            bookings.addBooking(newBooking);
-        } 
-    }
+    // public  void createBooking(Client client ,int publicOfferingId){
+    //     PublicOffering selectPublicOffering= publicOfferings.getPublicOfferingById(publicOfferingId);
+    //     boolean collision = bookings.checkTimeCollision(selectPublicOffering);
+    //     if ( collision){ 
+    //         System.out.println("AppSystem says: SCHEDULE CONFLICT. PublicOffering Couldn't be transformed into Booking");
+    //     }
+    //     else {
+    //         //Removes and adds publicOffering from PublicOfferings to Bookings
+    //         Booking newBooking = new Booking(publicOfferings.deleteOffering(publicOfferingId), client);
+    //         bookings.addBooking(newBooking);
+    //     } 
+    // }
 
 
     public boolean isUserAuthenticated(){
@@ -233,16 +235,16 @@ public class AppSystem {
         return true;
     }
 
-    public String browsePublicOfferings(){
-        return publicOfferings.getAvailablePublicOfferings();
-    }
+    // public String browsePublicOfferings(){
+    //     return publicOfferings.getAvailablePublicOfferings();
+    // }
 
     public String getCurrentUserBookings(){
         return "";
     }
 
-    public String getCurrentUserSelectedOfferings(){
-        return publicOfferings.getPublicOfferingsforInstructor(currentInstructor.getID());
+    public String getCurrentUserSelectedLessons(){
+        return offerings.getOfferingsforInstructor(currentInstructor);
     }
 
     public void processNewBookings(){
@@ -253,9 +255,9 @@ public class AppSystem {
 
     }
 
-    public String getAllOfferingsToString(){
-        return offerings.getAllOfferingDescriptions() +" \n" + publicOfferings.getAvailablePublicOfferings();
-    }
+    // public String getAllOfferingsToString(){
+    //     return offerings.getAllOfferingDescriptions() +" \n" + publicOfferings.getAvailablePublicOfferings();
+    // }
 
 
 
@@ -280,10 +282,10 @@ public class AppSystem {
     }
 
     public String getAllLessonsToString() {
-        return admin.organization.getAllLessonsDescriptions();
+        return lessons.getAllLessonsDescriptions();
     }
 
-    public String getAlllocationsToString() {
+    public String getAllLocationsToString() {
         return admin.organization.getAllLocationsDescriptions();
     }
 
@@ -294,11 +296,54 @@ public class AppSystem {
         currentClient = null;
     }
 
-    public boolean cancelOfferingSelection(String id) {
-        PublicOffering selectedOffering = publicOfferings.getPublicOfferingById(id);
+    // public boolean cancelOfferingSelection(String id) {
+    //     PublicOffering selectedOffering = publicOfferings.getPublicOfferingById(id);
 
-        offerings.addOffering(selectedOffering);
-        publicOfferings.deleteOffering(selectedOffering);
+    //     offerings.addOffering(selectedOffering);
+    //     publicOfferings.deleteOffering(selectedOffering);
+    //     return true;
+    // }
+
+    public boolean createLesson(String title, String description, String locationId, String time) {
+        try {
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            String[] params = time.split(" ");
+            String dayOfWeek = params[0];
+            LocalTime starTime = LocalTime.parse(params[1], timeFormatter);
+            LocalTime endTime = LocalTime.parse(params[2], timeFormatter);
+
+            TimeSlot timeslot = new TimeSlot(dayOfWeek, starTime, endTime);
+
+            //find Location
+            Location location = admin.organization.getLocationById(locationId);
+            if (location == null){
+                return false;
+            }
+            //create Lesson
+            //offerings.createOffering(lesson,location, timeslot);
+            lessons.createLesson(title, description, location, timeslot);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean deleteLesson(String id) {
+        //get lesson by id 
+        Lesson lessonToRemove = lessons.getLessonById(id);
+        if(lessonToRemove == null){
+            return false;
+        }
+        //tell lessons to remove it
+        lessons.removeLesson(lessonToRemove);
+        return true;
+    }
+
+    public boolean cancelLessonSelection(String id) {
+        Offering offering = offerings.getOfferingById(id);
+        lessons.addLesson(offering.getLesson());
+        offerings.removeOffering(offering);
         return true;
     }
 }

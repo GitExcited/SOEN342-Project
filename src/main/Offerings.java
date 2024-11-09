@@ -18,16 +18,16 @@ class Offerings{
      * @return The newly created offering.
      * @throws Exception If there is a conflict in the schedule for the given event.
      */
-    public Offering createOffering(Lesson lesson, Location location, TimeSlot event)throws ScheduleConflictException{
-        Schedule schedule = location.getSchedule();
-        boolean conflict = schedule.hasConflict(event);
-        if (conflict) {
-            throw new ScheduleConflictException("A conflict was found for the given time slot.");
-        }
-        Offering newOffering = new Offering(lesson, event,location);
-        offeringsCollection.add(newOffering);
-        return newOffering;
-    }
+    // public Offering createOffering(Lesson lesson, Location location, TimeSlot event)throws ScheduleConflictException{
+    //     Schedule schedule = location.getSchedule();
+    //     boolean conflict = schedule.hasConflict(event);
+    //     if (conflict) {
+    //         throw new ScheduleConflictException("A conflict was found for the given time slot.");
+    //     }
+    //     Offering newOffering = new Offering(lesson, event,location);
+    //     offeringsCollection.add(newOffering);
+    //     return newOffering;
+    // }
 
     public void addOffering(Offering offering) {
         offeringsCollection.add(offering);
@@ -101,5 +101,34 @@ class Offerings{
             removeOffering(offeringToRemove);
             return true;
         }
+    }
+
+    public boolean checkTimeCollision(Instructor currentInstructor, Lesson lesson) {
+        ArrayList<Offering> instructorsCollection = new ArrayList<Offering>();;
+        for (Offering o: offeringsCollection){
+            if(o.getInstructor() == currentInstructor){
+                instructorsCollection.add(o);
+            }
+        }
+        for (Offering o: instructorsCollection){
+            if( o.getLesson().getLocation().equals(lesson.getLocation()) 
+                &&
+                o.getLesson().getTimeSlot().collides(lesson.getTimeSlot())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getOfferingsforInstructor(Instructor currentInstructor) {
+        StringBuilder sb = new StringBuilder();
+        for (Offering o: offeringsCollection) {
+            if(o.getInstructor() == currentInstructor){
+                sb.append("OFFERING NUMBER ").append(o.getID()).append("\n");
+                sb.append(o.toString()).append("\n");
+                break;
+            }
+        }
+        return sb.toString();
     }
 }

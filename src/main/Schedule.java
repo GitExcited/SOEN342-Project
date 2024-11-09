@@ -1,6 +1,5 @@
 package main;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +12,6 @@ public class Schedule {
     public Schedule() {
         schedule = new ArrayList<>();
     }
-
-    // Method to add an available time
-    // public void addTime(String date, String startTime, String endTime) {
-    //     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    //     LocalDateTime start = LocalDateTime.parse(date + " " + startTime, formatter);
-    //     LocalDateTime end = LocalDateTime.parse(date + " " + endTime, formatter);
-    //     TimeSlot event = new TimeSlot(start, end);
-    //     schedule.add(event);
-    // }
 
     // Method to display the schedule
     public void displaySchedule() {

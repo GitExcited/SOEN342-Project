@@ -18,7 +18,7 @@ public class Main {
                         3) Login admin 
                         4) Register client
                         5) Register Instructor
-                        6) View public offerings
+                        6) View Offerings
                         """);
                 userInput = in.nextLine();
                 processUserInput(userInput, UserAuthLevel.NotAuthorized, in, appSystem);
@@ -28,7 +28,7 @@ public class Main {
                     case Client:
                     System.out.println("""
                         Logged in as Client, please choose an action:
-                        1) View public offerings
+                        1) View Offerings
                         2) Process new Bookings
                         3) View your Bookings
                         4) Cancel Booking
@@ -41,9 +41,9 @@ public class Main {
                     case Instructor:
                     System.out.println("""
                         Logged in as Instructor, please choose an action:
-                        1) Take Offerings
-                        2) View taken Offerings
-                        3) Cancel Offering Selection
+                        1) Select Lesson
+                        2) View Selected Lessons
+                        3) Cancel Lesson Selection
                         4) Logout
                         """);
                         userInput = in.nextLine();
@@ -53,8 +53,8 @@ public class Main {
                     case Admin:
                     System.out.println("""
                         Logged in as Admin, please choose an action:
-                        1) Create Offering
-                        2) Delete Offering
+                        1) Create Lesson
+                        2) Delete Lesson
                         3) Delete Instructor Account
                         4) Delete Client Account
                         5) Logout
@@ -168,9 +168,9 @@ public class Main {
                             System.out.println(e.getMessage());
                         }
                         break;
-                    case "6": //View public Offerings
+                    case "6": //View Offerings
                         System.out.println("Available public offerings: ");
-                        System.out.println(appSystem.browsePublicOfferings());
+                        //System.out.println(appSystem.browsePublicOfferings());
                         break;
                     default:
                         System.out.println("Invalid choice, try again.");
@@ -179,9 +179,9 @@ public class Main {
                 break;
             case Client:
             switch (userInput) {
-                case "1": //View public offerings 
-                    System.out.println("Available public offerings: ");
-                    System.out.println(appSystem.browsePublicOfferings());
+                case "1": //View Offerings
+                    System.out.println("Available Offerings: ");
+                    //System.out.println(appSystem.browsePublicOfferings());
                     break;
                 case "2": //Process Booking
                     appSystem.processNewBookings();
@@ -202,31 +202,31 @@ public class Main {
             }
             case Instructor:
             switch (userInput) {
-                case "1": //Take Offering RENAMED to viewOfferings
-                    System.out.println(appSystem.getAllOfferingsToString());
-                    System.out.println(" Enter ID of Offering to select. >>");
+                case "1": //Select Lesson
+                    System.out.println(appSystem.getAllLessonsToString());
+                    System.out.println(" Enter ID of the Lesson to select. >>");
                     Id = in.nextLine();
-                    result = appSystem.selectOffering(Id);//DeleteOffering takes int 
+                    result = appSystem.selectLesson(Id);//DeleteOffering takes int 
                     if (result){
-                        System.out.println("Successfully Selected Offering.");
+                        System.out.println("Successfully Selected Lesson.");
                     }else{
-                        System.out.println("Failed to Select Offering.");
+                        System.out.println("Failed to Select Lesson.");
                     }
                     break;
-                case "2": //View taken offering DONE
-                    System.out.println("Your active selected Offerings: ");
-                    System.out.println(appSystem.getCurrentUserSelectedOfferings());
+                case "2": //View Selected Lesson
+                    System.out.println("Your active selected Lessons: ");
+                    System.out.println(appSystem.getCurrentUserSelectedLessons());
                     break;
-                case "3": //Cancel offering selection
-                    System.out.println("Your active selected Offerings: ");
-                    System.out.println(appSystem.getCurrentUserSelectedOfferings());
-                    System.out.println(" Enter ID of PublicOffering to cancel. >>");
+                case "3": //Cancel Lesson selection
+                    System.out.println("Your active selected Lessons: ");
+                    System.out.println(appSystem.getCurrentUserSelectedLessons());
+                    System.out.println(" Enter ID of Lesson to cancel. >>");
                     Id = in.nextLine();
-                    result = appSystem.cancelOfferingSelection(Id);//DeleteOffering takes int 
+                    result = appSystem.cancelLessonSelection(Id);//DeleteOffering takes int 
                     if (result){
-                        System.out.println("Successfully Deleted Public Offering.");
+                        System.out.println("Successfully Deleted Selected Lesson.");
                     }else{
-                        System.out.println("Failed to Delete Public Offering.");
+                        System.out.println("Failed to Delete Selected Lesson.");
                     }
                     break;
                 case "4": //Logout
@@ -238,28 +238,31 @@ public class Main {
             }
                 break;
             case Admin:
+            String title;
+            String description;
             switch (userInput) {
-                case "1": //Create Offering DONE
-                    System.out.println(appSystem.getAllOfferingsToString());
-                    System.out.println(" Enter a lesson ID. >>");
-                    LessonId = in.nextLine();
-                    System.out.println(appSystem.getAllOfferingsToString());
+                case "1": //Create Lesson DONE
+                    System.out.println(" Enter the Lesson's title. >>");
+                    title = in.nextLine();
+                    System.out.println(" Enter the Lesson's description. >>");
+                    description = in.nextLine();
+                    System.out.println(appSystem.getAllLocationsToString());
                     System.out.println(" Enter a location ID. >>");
                     LocationId = in.nextLine();
                     System.out.println(" Enter a day of the week, a start time and a finish time of format \"HH:mm\" >>");
                     time = in.nextLine();
-                    result = appSystem.createOffering(LessonId, LocationId, time);
+                    result = appSystem.createLesson(title, description, LocationId, time);
                     if (result){
                         System.out.println("Offering created successfully.");
                     }else{
                         System.out.println("Creating Offering Failed.");
                     }
                     break; 
-                case "2": //Delete Offering DONE
-                    System.out.println(appSystem.getAllOfferingsToString());
+                case "2": //Delete Lesson DONE
+                    System.out.println(appSystem.getAllLessonsToString());
                     System.out.println(" Enter ID of Offering to delete. >>");
                     Id = in.nextLine();
-                    result = appSystem.deleteOffering(Id);//DeleteOffering takes int 
+                    result = appSystem.deleteLesson(Id);//DeleteOffering takes int 
                     if (result){
                         System.out.println("Delete Successful.");
                     }else{

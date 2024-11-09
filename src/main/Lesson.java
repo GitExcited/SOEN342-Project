@@ -1,19 +1,22 @@
 package main;
 
+import java.util.UUID;
+
 public class Lesson {
     // Class attributes
     private String id;
     private String title;
     private String description;
-    //private int duration; // Duration in minutes. For testing purposes all lessons are 60 MIN
-    //private Location location;
+    private Location location;
+    private TimeSlot timeSlot;
     // Constructor
-    public Lesson(String id, String title, String description) {
-        this.id = id;
+    public Lesson( String title, String description, Location loc, TimeSlot timeSlot) {
+        UUID uuid = UUID.randomUUID();
+        this.id = uuid.toString();
         this.title = title;
         this.description = description;
-        // this.duration = duration;
-        // this.location = loc;
+        this.location = loc;
+        this.timeSlot = timeSlot;
     }
 
     // Getters and Setters
@@ -41,27 +44,25 @@ public class Lesson {
         this.id = id;
     }
 
-    // public int getDuration() {
-    //     return duration;
-    // }
+    public Location getLocation(){
+        return location;
+    }
+    public void setLocation(Location loc){
+        this.location = loc;
+    }
 
-    // public void setDuration(int duration) {
-    //     this.duration = duration;
-    // }
-
-    // public Location getLocation(){
-    //     return location;
-    // }
-    // public void setLocation(Location loc){
-    //     this.location = loc;
-    // }
+    public TimeSlot getTimeSlot(){
+        return timeSlot;
+    }
+    public void setTimeSlot(TimeSlot timeSlot){
+        this.timeSlot = timeSlot;
+    } 
 
     // Method to display lesson details
     public void displayLessonDetails() {
         System.out.println("Title: " + title);
         System.out.println("Description: " + description);
-        //System.out.println("Duration: " + duration + " minutes");
-        //System.out.println("At Location"+location);
+        System.out.println("At Location"+location);
     }
 
     @Override

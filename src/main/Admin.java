@@ -13,7 +13,6 @@ public class Admin {
         this.username = "testAdmin";
         this.password = "testAdminPassword";
         this.organization = new Organization();
-        organization.initializeLessons();
         organization.initializeLocations();
     }
 

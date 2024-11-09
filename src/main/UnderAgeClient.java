@@ -30,10 +30,10 @@ public class UnderAgeClient extends Client {
      * 
      * @return true if the guardian approves, false otherwise.
      */
-    private boolean guardianApprove() {
-        // Simulate guardian approval logic here
-        return true;
-    }
+    // private boolean guardianApprove() {
+    //     // Simulate guardian approval logic here
+    //     return true;
+    // }
 
     // Getter and setter for guardian
     public Client getGuardian() {
