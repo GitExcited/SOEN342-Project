@@ -67,7 +67,7 @@ public class Organization {
     public Location getLocationById(String id){
         Location location = null;
         for (Location location2 : locationCollection) {
-            if(location2.getID() == id){
+            if(location2.getID().trim().equals(id.trim())){
                 location = location2;
                 break;
             }

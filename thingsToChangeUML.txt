@@ -19,8 +19,9 @@ To make things simpler, also added the fact that Lesson has a location. we must 
 s
 
 
-- createOffering (need to hardcode some lesson in organization) DONE
-- Logout DONE
+- createLesson (need to hardcode some lesson in organization) DONE DEBUGGED
+- deleteLesson DONE DEBUGGED
+- Logout DONE DEBUGGED
 
 - viewOfferings for Instructor DONE
 - SelectOffering DONE

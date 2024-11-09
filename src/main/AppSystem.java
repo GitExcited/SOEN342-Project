@@ -323,6 +323,7 @@ public class AppSystem {
             //find Location
             Location location = admin.organization.getLocationById(locationId);
             if (location == null){
+                System.out.println("Debug: Couldnt find location");
                 return false;
             }
             //create Lesson

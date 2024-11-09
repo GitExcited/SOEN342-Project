@@ -60,6 +60,6 @@ public class Instructor {
     }
 
     public String toString(){
-        return "Name: "+ name + " phoneNumber: "+ phoneNumber;
+        return "Id: "+ id+ " Name: "+ name + " phoneNumber: "+ phoneNumber;
     }
 }

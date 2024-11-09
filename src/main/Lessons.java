@@ -18,7 +18,7 @@ public class Lessons {
     public String getAllLessonsDescriptions() {
         StringBuilder sb = new StringBuilder();
         for (Lesson l : lessonsCollection) {
-            sb.append("LESSON NUMBER ").append(l.getID()).append("\n");
+            //sb.append("LESSON NUMBER ").append(l.getID()).append("\n");
             sb.append(l.toString()).append("\n");
         }
         return sb.toString();
@@ -27,7 +27,7 @@ public class Lessons {
     public Lesson getLessonById(String id){
         Lesson lesson = null;
         for (Lesson lesson2 : lessonsCollection) {
-            if(lesson2.getID() == id){
+            if(lesson2.getID().trim().equals(id.trim())){
                 lesson = lesson2;
                 break;
             }

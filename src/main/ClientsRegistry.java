@@ -69,7 +69,7 @@ public class ClientsRegistry {
     public boolean deleteClient(String id) {
         Client clientToRemove = null;
         for (Client client : clients) {
-            if(client.getID() == id){
+            if(client.getID().trim().equals(id.trim())){
                 clientToRemove = client;
                 break;
             }

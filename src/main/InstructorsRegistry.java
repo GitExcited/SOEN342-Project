@@ -89,7 +89,7 @@ public class InstructorsRegistry {
     public boolean deleteInstructor(String id) {
         Instructor instructorToRemove = null;
         for (Instructor instructor : instructors) {
-            if(instructor.getID() == id){
+            if(instructor.getID().trim().equals(id.trim())){
                 instructorToRemove = instructor;
                 break;
             }
@@ -97,7 +97,7 @@ public class InstructorsRegistry {
         if (instructorToRemove == null){
             return false;
         }else{
-            deleteInstructor(id);
+            deleteInstructor(instructorToRemove);
             return true;
         }
     }
