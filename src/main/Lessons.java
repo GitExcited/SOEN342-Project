@@ -11,8 +11,19 @@ public class Lessons {
         this.lessonsCollection = new ArrayList<>();
     }
 
-    public void createLesson(String title, String description, Location location, TimeSlot timeslot) {
-        lessonsCollection.add(new Lesson(title, description, location, timeslot));
+    public void createLesson(Lesson lesson) {
+        lessonsCollection.add(lesson);
+    }
+
+    public boolean checkTimeCollision(Lesson lesson) {
+        for (Lesson l: lessonsCollection){
+            if( l.getLocation().equals(lesson.getLocation()) 
+                &&
+                l.getTimeSlot().collides(lesson.getTimeSlot())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getAllLessonsDescriptions() {

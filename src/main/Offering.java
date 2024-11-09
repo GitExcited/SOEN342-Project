@@ -48,7 +48,8 @@ public class Offering {
     @Override
     public String toString() {
         return "Offering{" +
-                "lesson=" + lesson +
+                "lesson =" + lesson +
+                "instructor =" + instructor +
                 '}';
     }
 }

@@ -39,13 +39,11 @@ public class Booking{
         this.id = id;
     }
 
-    // @Override
-    // public String toString() {
-    //     return "Booking{" +
-    //             "lesson=" + getLesson() +
-    //             ", at time=" + getTimeSlot() +
-    //             ", instructor=" + getInstructor() +
-    //             ", client=" + client +
-    //             '}';
-    // }
+    @Override
+    public String toString() {
+        return "Booking{" +
+                ", offering= " + offering.toString() +
+                ", client= " + client.toString() +
+                '}';
+    }
 }

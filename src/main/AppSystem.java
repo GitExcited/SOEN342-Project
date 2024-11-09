@@ -2,6 +2,8 @@ package main;
 import java.time.LocalDateTime; //Used for start and end time of CreateOffering
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
 
 import main.exceptions.ScheduleConflictException;
 
@@ -207,34 +209,43 @@ public class AppSystem {
         }
     }
 
-    public boolean registerUser(String name, String phoneNumber, Integer age , String password){
+    public String registerUser(String name, String phoneNumber, Integer age , String password){
         //verify user does not already exist 
         Client client = clients.getClientbyName(name);
         if (client != null) {
-            return false;
+            return "Client already registered";
         }
         client = clients.getClientbyPhoneNumber(phoneNumber);
         if (client != null) {
-            return false;
+            return "phone number already in use";
         }
         //create and add user to user collection
-        clients.addClient(new Client(name, phoneNumber, age, password));
-        return true;
+        Client newClient;
+        if(age >= 18) {
+            newClient = new Client(name, phoneNumber, age, password);
+        }else{
+            newClient = new UnderAgeClient(name, phoneNumber, 0, password, null);
+        }
+        clients.addClient(newClient);
+        return "Registering new user was a success, please login now.";
     }
 
-    public boolean registerInstructor(String name, String phoneNumber, Integer age, String password){
-                //verify user does not already exist 
+    public String registerInstructor(String name, String phoneNumber, Integer age, String password){
+        if(age < 18){ //instructor cant be a minor
+            return "Instructor must be an adult";
+        }
+        //verify user does not already exist 
         Instructor instructor = instructors.getInstructorbyName(name);
         if (instructor != null) {
-            return false;
+            return "Instructor already registered";
         }
         instructor = instructors.getInstructorbyPhoneNumber(phoneNumber);
         if (instructor != null) {
-            return false;
+            return "Phone number already in use.";
         }
         //create and add user to user collection
         instructors.addInstructor(new Instructor(name, phoneNumber, age, password));
-        return true;
+        return "Registering instructor was a success, please login now.";
     }
 
     // public String browsePublicOfferings(){
@@ -253,12 +264,12 @@ public class AppSystem {
 
     }
 
-    public boolean deleteBooking(String id){
+    public String deleteBooking(String id){
         Booking booking = bookings.getBookingById(id);
         if(booking == null){
-            return false;
+            return "Failed to find booking specified by id";
         }
-        return true;
+        return "Deleting booking was a success";
     }
 
     // public String getAllOfferingsToString(){
@@ -312,9 +323,21 @@ public class AppSystem {
 
     public boolean createLesson(String title, String description, String locationId, String time) {
         try {
+            Set<String> daysOfWeek = new HashSet<>();
+            daysOfWeek.add("monday");
+            daysOfWeek.add("tuesday");
+            daysOfWeek.add("wednesday");
+            daysOfWeek.add("thursday");
+            daysOfWeek.add("friday");
+            daysOfWeek.add("saturday");
+            daysOfWeek.add("sunday");
+
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             String[] params = time.split(" ");
-            String dayOfWeek = params[0];
+            String dayOfWeek = params[0].toLowerCase();
+            if(!daysOfWeek.contains(dayOfWeek)){
+                return false;
+            }
             LocalTime starTime = LocalTime.parse(params[1], timeFormatter);
             LocalTime endTime = LocalTime.parse(params[2], timeFormatter);
 
@@ -328,7 +351,14 @@ public class AppSystem {
             }
             //create Lesson
             //offerings.createOffering(lesson,location, timeslot);
-            lessons.createLesson(title, description, location, timeslot);
+            Lesson newLesson = new Lesson(title, description, location, timeslot);
+            if(!lessons.checkTimeCollision(newLesson)){
+                lessons.createLesson(newLesson);
+            }else{
+                System.out.println("AppSystem says: SCHEDULE CONFLICT. Lesson couldnt be created.");
+                return false;
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -361,13 +391,13 @@ public class AppSystem {
        return offerings.getAllOfferingDescriptions();
     }
 
-    public boolean selectOffering(String id) {
+    public String selectOffering(String id) {
         Offering offering = offerings.getOfferingById(id);
         if(offering == null){
-            return false;
+            return "Failed to find offering specified by id.";
         }
         bookings.addBooking(new Booking(offering, currentClient));
         offerings.removeOffering(offering);
-        return true;
+        return "Offering selection was a success.";
     }
 }

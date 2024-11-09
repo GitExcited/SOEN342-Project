@@ -139,12 +139,7 @@ public class Main {
                         age = in.nextLine();
                         System.out.println("Enter your password. >> ");
                         password = in.nextLine();
-                        registerSuccessful = appSystem.registerUser(name, phoneNumber, Integer.parseInt(age), password);
-                        if (registerSuccessful){
-                            System.out.println("Registering Successful. Please login now.");
-                        }else{
-                            System.out.println("Registering failed. Username or Phone Number is already in use.");
-                        }
+                        System.out.println(appSystem.registerUser(name, phoneNumber, Integer.parseInt(age), password));
                         System.out.println("\n");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -161,12 +156,7 @@ public class Main {
                             age = in.nextLine();
                             System.out.println("Enter your password. >> ");
                             password = in.nextLine();
-                            registerSuccessful = appSystem.registerInstructor(name, phoneNumber, Integer.parseInt(age), password);
-                            if (registerSuccessful){
-                                System.out.println("Registering Successful. Please login now.");
-                            }else{
-                                System.out.println("Registering failed. Please try again.");
-                            }
+                            System.out.println(appSystem.registerInstructor(name, phoneNumber, Integer.parseInt(age), password));
                             System.out.println("\n");
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
@@ -198,12 +188,7 @@ public class Main {
                     System.out.println(appSystem.getAllOfferingsToString());
                     System.out.println("Enter ID of the Offering to select. >>");
                     Id = in.nextLine();
-                    result = appSystem.selectOffering(Id);//DeleteOffering takes int 
-                    if (result){
-                        System.out.println("Successfully Created Booking.");
-                    }else{
-                        System.out.println("Failed to Create Booking.");
-                    }
+                    System.out.println(appSystem.selectOffering(Id));
                     System.out.println("\n");
                     break;
                 case "3": //View Bookings
@@ -216,12 +201,7 @@ public class Main {
                     System.out.println(appSystem.getCurrentUserBookings());
                     System.out.println("Enter ID of the Booking to delete. >>");
                     Id = in.nextLine();
-                    result = appSystem.deleteBooking(Id);//DeleteOffering takes int 
-                    if (result){
-                        System.out.println("Successfully Deleted Booking.");
-                    }else{
-                        System.out.println("Failed to Delete Booking.");
-                    }
+                    System.out.println(appSystem.deleteBooking(Id));
                     System.out.println("\n");
                     break;
                 case "5": //Logout

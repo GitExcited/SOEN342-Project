@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Lesson {
@@ -68,9 +69,11 @@ public class Lesson {
     @Override
     public String toString() {
         return "Lesson{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
+                "Lessonid= '" + id + '\'' +
+                ", title= '" + title + '\'' +
+                ", description= '" + description + '\'' +
+                ", location= '" + location + '\'' +
+                ", timeslot= '" + timeSlot + '\'' +
                 '}';
     }
 
