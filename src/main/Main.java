@@ -180,12 +180,12 @@ public class Main {
             switch (userInput) {
                 case "1": //View Offerings Done
                     System.out.println("Available Offerings: ");
-                    System.out.println(appSystem.getAllOfferingsToString());
+                    System.out.println(appSystem.getAllnonBookedOfferingsToString());
                     System.out.println("\n");
                     break;
                 case "2": //Process Booking
                     System.out.println("Available Offerings: ");
-                    System.out.println(appSystem.getAllOfferingsToString());
+                    System.out.println(appSystem.getAllnonBookedOfferingsToString());
                     System.out.println("Enter ID of the Offering to select. >>");
                     Id = in.nextLine();
                     System.out.println(appSystem.selectOffering(Id));

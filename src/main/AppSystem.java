@@ -272,6 +272,8 @@ public class AppSystem {
         if(booking == null){
             return "Failed to find booking specified by id";
         }
+        booking.getOffering().setBooked(false);
+        bookings.deleteBooking(booking);
         return "Deleting booking was a success";
     }
 
@@ -394,15 +396,20 @@ public class AppSystem {
        return offerings.getAllOfferingDescriptions();
     }
 
+    public String getAllnonBookedOfferingsToString() {
+        return offerings.getAllnonBookedOfferingDescriptions();
+     }
+
     public String selectOffering(String id) {
         Offering offering = offerings.getOfferingById(id);
         if(offering == null){
             return "Failed to find offering specified by id.";
         }
-        
+
         //needs to be refactored
         bookings.addBooking(new Booking(offering, currentClient));
-        offerings.removeOffering(offering);
+        offering.setBooked(true);
+        //offerings.removeOffering(offering);
         return "Offering selection was a success.";
     }
 }

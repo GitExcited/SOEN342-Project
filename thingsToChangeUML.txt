@@ -12,10 +12,6 @@ It simply allows Instructor to VIEW the offerings published. so i renamed it to 
 
 - age validation for instructor and Client
 - underage client features
-- rethink design so that instructor can still see their offerings even when a booking has been made 
-
-
-
 
 Compile: javac -d out $(find . -name "*.java")
 

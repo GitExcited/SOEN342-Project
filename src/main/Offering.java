@@ -6,6 +6,7 @@ public class Offering {
     private String id;
     private Lesson lesson;
     private Instructor instructor;
+    private boolean booked;
     
     // Default constructor
     public Offering() {
@@ -17,6 +18,7 @@ public class Offering {
         this.id = uuid.toString();
         this.lesson = lesson;
         this.instructor = instructor;
+        this.booked = false;
     }
 
     // Getters and setters
@@ -42,6 +44,14 @@ public class Offering {
 
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
+    }
+
+    public boolean getBooked() {
+        return booked;
+    }
+
+    public void setBooked(boolean booked){
+        this.booked = booked;
     }
 
     // toString method

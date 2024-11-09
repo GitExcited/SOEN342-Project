@@ -87,6 +87,16 @@ class Offerings{
         return description.toString();
     }
 
+    public String getAllnonBookedOfferingDescriptions(){
+        StringBuilder description = new StringBuilder("");
+        for (Offering offering : offeringsCollection) {
+            if(!offering.getBooked()){
+                description.append(offering.toString()+ " \n");
+            }
+        }
+        return description.toString();
+    }
+
     public boolean deleteOffering(String id) {
         Offering offeringToRemove = null;
         for (Offering offering : offeringsCollection) {

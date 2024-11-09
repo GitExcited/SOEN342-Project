@@ -42,8 +42,8 @@ public class BookingsRegistry {
      * @param booking The booking to be deleted.
      * @return true if the booking was successfully deleted, false otherwise.
      */
-    public boolean deleteBooking(Booking booking) {
-        return bookings.remove(booking);
+    public void deleteBooking(Booking booking) {
+        bookings.remove(booking);
     }
 
     /**
