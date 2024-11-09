@@ -90,7 +90,7 @@ public class BookingsRegistry {
     public String getClientBookings(String id) {
         StringBuilder sb = new StringBuilder();
         for (Booking b: bookings) {
-            if(b.getClient().getID() == id){
+            if(b.getClient().getID().trim().equals(id.trim())){
                 sb.append("BOOKING NUMBER ").append(b.getID()).append("\n");
                 sb.append(b.toString()).append("\n");
                 break;
@@ -101,7 +101,7 @@ public class BookingsRegistry {
 
     public Booking getBookingById(String id) {
         for (Booking booking: bookings) {
-            if (booking.getID() == id){
+            if (booking.getID().trim().equals(id.trim())){
                 return booking;
             }
         }

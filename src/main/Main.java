@@ -3,12 +3,12 @@ package main;
 import java.util.Scanner;
 
 public class Main {
+    static boolean running = true;
     public static void main(String[] args) {
         AppSystem appSystem = new AppSystem();
         Scanner in = new Scanner(System.in);
         
         String userInput = "";
-        boolean running = true;
         while(running){
             //System.out.println("Debug: running main loop");
             if (!appSystem.isUserAuthenticated()){
@@ -178,7 +178,7 @@ public class Main {
                         break;
                     case "7": //View Offerings
                         System.out.println("Thank you for using our System!.");
-                        System.exit(0);
+                        running = false;
                         break;
                     default:
                         System.out.println("Invalid choice, try again.");
@@ -212,17 +212,17 @@ public class Main {
                     System.out.println("\n");
                     break;
                 case "4": //Cancel Booking
-                System.out.println("Your active Bookings: ");
-                System.out.println(appSystem.getCurrentUserBookings());
-                System.out.println("Enter ID of the Booking to delete. >>");
-                Id = in.nextLine();
-                result = appSystem.deleteBooking(Id);//DeleteOffering takes int 
-                if (result){
-                    System.out.println("Successfully Deleted Booking.");
-                }else{
-                    System.out.println("Failed to Delete Booking.");
-                }
-                System.out.println("\n");
+                    System.out.println("Your active Bookings: ");
+                    System.out.println(appSystem.getCurrentUserBookings());
+                    System.out.println("Enter ID of the Booking to delete. >>");
+                    Id = in.nextLine();
+                    result = appSystem.deleteBooking(Id);//DeleteOffering takes int 
+                    if (result){
+                        System.out.println("Successfully Deleted Booking.");
+                    }else{
+                        System.out.println("Failed to Delete Booking.");
+                    }
+                    System.out.println("\n");
                     break;
                 case "5": //Logout
                     appSystem.Logout();
@@ -233,6 +233,7 @@ public class Main {
                     System.out.println("\n");
                     break;
             }
+                break;
             case Instructor:
             switch (userInput) {
                 case "1": //Select Lesson
