@@ -9,6 +9,7 @@ import main.exceptions.ScheduleConflictException;
 
 enum UserAuthLevel {
     Client,
+    ClientMinor,
     Instructor,
     Admin,
     NotAuthorized
@@ -179,7 +180,11 @@ public class AppSystem {
         }
         if( client.getPassword().equals(password)){
             userAuthenticated = true;
-            authLevel = UserAuthLevel.Client;
+            if(client instanceof UnderAgeClient){
+                authLevel = UserAuthLevel.ClientMinor;
+            }else{
+                authLevel = UserAuthLevel.Client;
+            }
             currentClient = client;
             return true;
         }else{
@@ -212,7 +217,7 @@ public class AppSystem {
         }
     }
 
-    public String registerUser(String name, String phoneNumber, Integer age , String password){
+    public String registerUser(String name, String phoneNumber, Integer age , String password, String guardianId){
         //verify user does not already exist 
         Client client = clients.getClientbyName(name);
         if (client != null) {
@@ -227,7 +232,11 @@ public class AppSystem {
         if(age >= 18) {
             newClient = new Client(name, phoneNumber, age, password);
         }else{
-            newClient = new UnderAgeClient(name, phoneNumber, 0, password, null);
+            client = clients.getClientbyId(guardianId);
+            if(client == null){
+                return "Error: guardian specified by id does not exist";
+            }
+            newClient = new UnderAgeClient(name, phoneNumber, 0, password, guardianId);
         }
         clients.addClient(newClient);
         return "Registering new user was a success, please login now.";

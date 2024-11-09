@@ -81,4 +81,13 @@ public class ClientsRegistry {
             return true;
         }
     }
+
+    public Client getClientbyId(String guardianId) {
+        for (Client client : clients) {
+            if (client.getID().trim().equals(guardianId.trim())){
+                return client;
+            }
+        }
+        return null;
+    }
 }

@@ -34,12 +34,25 @@ public class Main {
                         2) Process new Bookings
                         3) View your Bookings
                         4) Cancel Booking
-                        5) Logout
+                        5) Process new Bookings for child
+                        6) Cancel Booking for child
+                        7) Logout
                         """);
                     userInput = in.nextLine();
                     processUserInput(userInput, UserAuthLevel.Client, in, appSystem);
                     userInput = "";
                         break;
+                    case ClientMinor:
+                    System.out.println("""
+                        Logged in as Client, please choose an action:
+                        1) View Offerings
+                        2) View your Bookings
+                        3) Logout
+                        """);
+                    userInput = in.nextLine();
+                    processUserInput(userInput, UserAuthLevel.ClientMinor, in, appSystem);
+                    userInput = "";
+                            break;
                     case Instructor:
                     System.out.println("""
                         Logged in as Instructor, please choose an action:
@@ -137,9 +150,15 @@ public class Main {
                         phoneNumber = in.nextLine();
                         System.out.println("Enter your age. >>");
                         age = in.nextLine();
+                        String guardian = "";
+                        if(Integer.parseInt(age) < 18){
+                            System.out.println(appSystem.getAllClientsToString());
+                            System.out.println("Enter the Id of your guardian>>");
+                            guardian = in.nextLine();
+                        }
                         System.out.println("Enter your password. >> ");
                         password = in.nextLine();
-                        System.out.println(appSystem.registerUser(name, phoneNumber, Integer.parseInt(age), password));
+                        System.out.println(appSystem.registerUser(name, phoneNumber, Integer.parseInt(age), password, guardian));
                         System.out.println("\n");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -204,7 +223,35 @@ public class Main {
                     System.out.println(appSystem.deleteBooking(Id));
                     System.out.println("\n");
                     break;
-                case "5": //Logout
+                case "5": //book for child
+                    System.out.println("\n");
+                    break;
+                case "6": //process for child
+                    System.out.println("\n");
+                    break;
+                case "7": //Logout
+                    appSystem.Logout();
+                    System.out.println("\n");
+                    break;
+                default:
+                    System.out.println("Invalid choice, try again.");
+                    System.out.println("\n");
+                    break;
+            }
+                break;
+            case ClientMinor:
+            switch (userInput) {
+                case "1": //View Offerings Done
+                    System.out.println("Available Offerings: ");
+                    System.out.println(appSystem.getAllnonBookedOfferingsToString());
+                    System.out.println("\n");
+                    break;
+                case "2": //View Bookings
+                    System.out.println("Your active Bookings: ");
+                    System.out.println(appSystem.getCurrentUserBookings());
+                    System.out.println("\n");
+                    break;
+                case "3": //Logout
                     appSystem.Logout();
                     System.out.println("\n");
                     break;

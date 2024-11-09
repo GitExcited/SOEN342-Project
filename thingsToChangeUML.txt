@@ -10,8 +10,14 @@ The method ' takeOnOfferings()' has a real weird name for what it is supposed to
 It simply allows Instructor to VIEW the offerings published. so i renamed it to viewOfferings
 
 
-- age validation for instructor and Client
-- underage client features
+implement
+                case "5": //book for child
+                    System.out.println("\n");
+                    break;
+                case "6": //process for child
+                    System.out.println("\n");
+                    break;
+
 
 Compile: javac -d out $(find . -name "*.java")
 

@@ -1,12 +1,12 @@
 package main;
 
 public class UnderAgeClient extends Client {
-    private Client guardian;
+    private String guardianId;
 
     // Constructor
-    public UnderAgeClient(String name, String email,int age, String password, Client guardian) {
+    public UnderAgeClient(String name, String email,int age, String password, String guardianId) {
         super(name, email,age , password);
-        this.guardian = guardian;
+        this.guardianId = guardianId;
     }
 
     //TODO : Implement booking and public offering classes
@@ -36,11 +36,11 @@ public class UnderAgeClient extends Client {
     // }
 
     // Getter and setter for guardian
-    public Client getGuardian() {
-        return guardian;
+    public String getGuardian() {
+        return guardianId;
     }
 
-    public void setGuardian(Client guardian) {
-        this.guardian = guardian;
+    public void setGuardian(String guardian) {
+        this.guardianId = guardian;
     }
 }
