@@ -240,7 +240,7 @@ public class AppSystem {
     // }
 
     public String getCurrentUserBookings(){
-        return "";
+        return bookings.getClientBookings(currentClient.getID());
     }
 
     public String getCurrentUserSelectedLessons(){
@@ -251,8 +251,12 @@ public class AppSystem {
 
     }
 
-    public void deleteBooking(){
-
+    public boolean deleteBooking(String id){
+        Booking booking = bookings.getBookingById(id);
+        if(booking == null){
+            return false;
+        }
+        return true;
     }
 
     // public String getAllOfferingsToString(){
@@ -342,7 +346,24 @@ public class AppSystem {
 
     public boolean cancelLessonSelection(String id) {
         Offering offering = offerings.getOfferingById(id);
+        if(offering == null){
+            return false;
+        }
         lessons.addLesson(offering.getLesson());
+        offerings.removeOffering(offering);
+        return true;
+    }
+
+    public String getAllOfferingsToString() {
+       return offerings.getAllOfferingDescriptions();
+    }
+
+    public boolean selectOffering(String id) {
+        Offering offering = offerings.getOfferingById(id);
+        if(offering == null){
+            return false;
+        }
+        bookings.addBooking(new Booking(offering, currentClient));
         offerings.removeOffering(offering);
         return true;
     }

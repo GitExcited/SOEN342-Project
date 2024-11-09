@@ -86,4 +86,25 @@ public class BookingsRegistry {
         sb.append("}");
         return sb.toString();
     }
+
+    public String getClientBookings(String id) {
+        StringBuilder sb = new StringBuilder();
+        for (Booking b: bookings) {
+            if(b.getClient().getID() == id){
+                sb.append("BOOKING NUMBER ").append(b.getID()).append("\n");
+                sb.append(b.toString()).append("\n");
+                break;
+            }
+        }
+        return sb.toString();
+    }
+
+    public Booking getBookingById(String id) {
+        for (Booking booking: bookings) {
+            if (booking.getID() == id){
+                return booking;
+            }
+        }
+        return null;
+    }
 }

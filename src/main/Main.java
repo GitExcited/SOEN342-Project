@@ -179,19 +179,37 @@ public class Main {
                 break;
             case Client:
             switch (userInput) {
-                case "1": //View Offerings
+                case "1": //View Offerings Done
                     System.out.println("Available Offerings: ");
-                    //System.out.println(appSystem.browsePublicOfferings());
+                    System.out.println(appSystem.getAllOfferingsToString());
                     break;
                 case "2": //Process Booking
-                    appSystem.processNewBookings();
+                    System.out.println("Available Offerings: ");
+                    System.out.println(appSystem.getAllOfferingsToString());
+                    System.out.println(" Enter ID of the Offering to select. >>");
+                    Id = in.nextLine();
+                    result = appSystem.selectOffering(Id);//DeleteOffering takes int 
+                    if (result){
+                        System.out.println("Successfully Created Booking.");
+                    }else{
+                        System.out.println("Failed to Create Booking.");
+                    }
                     break;
                 case "3": //View Bookings
                     System.out.println("Your active Bookings: ");
                     System.out.println(appSystem.getCurrentUserBookings());
                     break;
                 case "4": //Cancel Booking
-                    appSystem.deleteBooking();
+                System.out.println("Your active Bookings: ");
+                System.out.println(appSystem.getCurrentUserBookings());
+                System.out.println(" Enter ID of the Booking to delete. >>");
+                Id = in.nextLine();
+                result = appSystem.deleteBooking(Id);//DeleteOffering takes int 
+                if (result){
+                    System.out.println("Successfully Deleted Booking.");
+                }else{
+                    System.out.println("Failed to Delete Booking.");
+                }
                     break;
                 case "5": //Logout
                     appSystem.Logout();

@@ -26,6 +26,6 @@ s
 - SelectOffering DONE
 - CancelOfferingSelection DONE
 
-- Process new Bookings
+- Process new Bookings DONE
 - View your Bookings
 - Cancel Booking

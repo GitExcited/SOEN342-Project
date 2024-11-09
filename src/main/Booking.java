@@ -1,16 +1,22 @@
 package main;
 
-public class Booking extends PublicOffering {
+import java.util.UUID;
+
+public class Booking{
+    private String id;
     private Client client;
+    private Offering offering;
 
     // Constructor
-    public Booking(Lesson lesson, TimeSlot timeSlot, Instructor instructor, Location location, Client client) {
-        super(lesson, timeSlot, instructor, location);
-        this.client = client;
-    }
+    // public Booking(Lesson lesson, TimeSlot timeSlot, Instructor instructor, Location location, Client client) {
+    //     super(lesson, timeSlot, instructor, location);
+    //     this.client = client;
+    // }
     // Constructor to transform Public Offering into Booking
-    public Booking(PublicOffering po, Client client) {
-        super(po.getLesson(), po.getTimeSlot(), po.getInstructor(), po.getLocation());
+    public Booking(Offering offering, Client client) {
+        UUID uuid = UUID.randomUUID();
+        this.id = uuid.toString();
+        this.offering = offering;
         this.client = client;
     }
 
@@ -25,13 +31,21 @@ public class Booking extends PublicOffering {
         this.client = client;
     }
 
-    @Override
-    public String toString() {
-        return "Booking{" +
-                "lesson=" + getLesson() +
-                ", at time=" + getTimeSlot() +
-                ", instructor=" + getInstructor() +
-                ", client=" + client +
-                '}';
+    public String getID() {
+        return id;
     }
+
+    public void setID(String id) {
+        this.id = id;
+    }
+
+    // @Override
+    // public String toString() {
+    //     return "Booking{" +
+    //             "lesson=" + getLesson() +
+    //             ", at time=" + getTimeSlot() +
+    //             ", instructor=" + getInstructor() +
+    //             ", client=" + client +
+    //             '}';
+    // }
 }
