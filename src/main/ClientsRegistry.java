@@ -39,9 +39,10 @@ public class ClientsRegistry {
         return clients;
     }
 
-    public Client getClientbyUsername(String username){
+    public Client getClientbyName(String name){
         for (Client client : clients) {
-            if (client.getName() == username){
+            System.out.println("Debug client name: "+client.getName());
+            if (client.getName().trim().equals(name.trim())){
                 return client;
             }
         }

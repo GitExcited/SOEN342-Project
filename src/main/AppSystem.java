@@ -32,6 +32,7 @@ public class AppSystem {
 
 
     public AppSystem(){
+        //System.out.println("Debug: AppSystem constructor");
         this.admin = new Admin();
         this.organization = new Organization();
         this.clients = new ClientsRegistry();
@@ -164,10 +165,11 @@ public class AppSystem {
         return this.authLevel;
     }
 
-    public boolean loginClient(String username, String password){
+    public boolean loginClient(String name, String password){
         //find client with that username then do a password comparison
-        Client client = clients.getClientbyUsername(username);
+        Client client = clients.getClientbyName(name);
         if (client == null) {
+            System.out.println("Debug: client not found");
             return false;
         }
         if( client.getPassword().equals(password)){
@@ -180,8 +182,8 @@ public class AppSystem {
         }
     }
 
-    public boolean loginInstructor(String username, String password){
-        Instructor instructor = instructors.getInstructorbyUsername(username);
+    public boolean loginInstructor(String name, String password){
+        Instructor instructor = instructors.getInstructorbyName(name);
         if (instructor == null){
             return false;
         }
@@ -195,8 +197,8 @@ public class AppSystem {
         }
     }
 
-    public boolean loginAdmin(String username, String password){
-        if(admin.getPassword().equals(password)){
+    public boolean loginAdmin(String password){
+        if(admin.getPassword().trim().equals(password.trim())){
             userAuthenticated = true;
             authLevel = UserAuthLevel.Admin;
             return true;
@@ -207,7 +209,7 @@ public class AppSystem {
 
     public boolean registerUser(String name, String phoneNumber, Integer age , String password){
         //verify user does not already exist 
-        Client client = clients.getClientbyUsername(name);
+        Client client = clients.getClientbyName(name);
         if (client != null) {
             return false;
         }
@@ -222,7 +224,7 @@ public class AppSystem {
 
     public boolean registerInstructor(String name, String phoneNumber, Integer age, String password){
                 //verify user does not already exist 
-        Instructor instructor = instructors.getInstructorbyUsername(name);
+        Instructor instructor = instructors.getInstructorbyName(name);
         if (instructor != null) {
             return false;
         }

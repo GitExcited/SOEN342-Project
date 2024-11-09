@@ -60,9 +60,9 @@ public class InstructorsRegistry {
         return instructors;
     }
 
-    public Instructor getInstructorbyUsername(String username){
+    public Instructor getInstructorbyName(String name){
         for (Instructor instructor : instructors) {
-            if (instructor.getName() == username){
+            if (instructor.getName().trim().equals(name.trim())){
                 return instructor;
             }
         }

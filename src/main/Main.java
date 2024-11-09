@@ -10,7 +10,8 @@ public class Main {
         String userInput = "";
         boolean running = true;
         while(running){
-            if (appSystem.isUserAuthenticated()){
+            //System.out.println("Debug: running main loop");
+            if (!appSystem.isUserAuthenticated()){
                 System.out.println("""
                         Welcome to the lesson booking system please select an action:
                         1) Login client
@@ -19,6 +20,7 @@ public class Main {
                         4) Register client
                         5) Register Instructor
                         6) View Offerings
+                        7) Exit
                         """);
                 userInput = in.nextLine();
                 processUserInput(userInput, UserAuthLevel.NotAuthorized, in, appSystem);
@@ -74,7 +76,6 @@ public class Main {
     private static void processUserInput(String userInput, UserAuthLevel authLevel, Scanner in, AppSystem appSystem) {
         switch (authLevel) {
             case NotAuthorized:
-                String username;
                 String password;
                 boolean loginSuccessful;
                 boolean registerSuccessful;
@@ -89,11 +90,11 @@ public class Main {
                 switch (userInput) {
                     case "1": //Login Client
                         System.out.println("Client Login: ");
-                        System.out.println("Enter your username. >> ");
-                        username = in.nextLine();
+                        System.out.println("Enter your name. >> ");
+                        name = in.nextLine();
                         System.out.println("Enter your password. >> ");
                         password = in.nextLine();
-                        loginSuccessful = appSystem.loginClient(username, password);
+                        loginSuccessful = appSystem.loginClient(name, password);
                         if (loginSuccessful){
                             System.out.println("Login successful.");
                         }else{
@@ -102,11 +103,11 @@ public class Main {
                         break;
                     case "2": //Login Instructor
                         System.out.println("Instructor Login: ");
-                        System.out.println("Enter your username. >> ");
-                        username = in.nextLine();
+                        System.out.println("Enter your name. >> ");
+                        name = in.nextLine();
                         System.out.println("Enter your password. >> ");
                         password = in.nextLine();
-                        loginSuccessful = appSystem.loginInstructor(username, password);
+                        loginSuccessful = appSystem.loginInstructor(name, password);
                         if (loginSuccessful){
                             System.out.println("Login Successful.");
                         }else{
@@ -115,11 +116,9 @@ public class Main {
                         break;
                     case "3": //Login Admin
                         System.out.println("Admin Login: ");
-                        System.out.println("Enter your username. >> ");
-                        username = in.nextLine();
                         System.out.println("Enter your password. >> ");
                         password = in.nextLine();
-                        loginSuccessful = appSystem.loginAdmin(username, password);
+                        loginSuccessful = appSystem.loginAdmin(password);
                         if (loginSuccessful){
                             System.out.println("Login Successful.");
                         }else{
@@ -154,7 +153,7 @@ public class Main {
                             name = in.nextLine();
                             System.out.println("Enter your phone number. >>");
                             phoneNumber = in.nextLine();
-                            System.out.println("Enter your name. >>");
+                            System.out.println("Enter your age. >>");
                             age = in.nextLine();
                             System.out.println("Enter your password. >> ");
                             password = in.nextLine();
@@ -171,6 +170,10 @@ public class Main {
                     case "6": //View Offerings
                         System.out.println("Available public offerings: ");
                         //System.out.println(appSystem.browsePublicOfferings());
+                        break;
+                    case "7": //View Offerings
+                        System.out.println("Thank you for using our System!.");
+                        System.exit(0);
                         break;
                     default:
                         System.out.println("Invalid choice, try again.");
