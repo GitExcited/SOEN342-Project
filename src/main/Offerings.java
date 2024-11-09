@@ -111,9 +111,16 @@ class Offerings{
             }
         }
         for (Offering o: instructorsCollection){
-            if( o.getLesson().getLocation().equals(lesson.getLocation()) 
-                &&
-                o.getLesson().getTimeSlot().collides(lesson.getTimeSlot())){
+            if(o.getLesson().getTimeSlot().collides(lesson.getTimeSlot())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkTimeCollision(Lesson lesson) {
+        for (Offering o: offeringsCollection){
+            if(o.getLesson().getTimeSlot().collides(lesson.getTimeSlot())){
                 return true;
             }
         }

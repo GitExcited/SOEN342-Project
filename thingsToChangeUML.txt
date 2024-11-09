@@ -12,13 +12,8 @@ It simply allows Instructor to VIEW the offerings published. so i renamed it to 
 
 - age validation for instructor and Client
 - underage client features
-
-- day of week lowercase and validations DONE
-- make sure time conflict validation works DONE Admin 
-
 - rethink design so that instructor can still see their offerings even when a booking has been made 
 
-- fix to string methods DONE
 
 
 

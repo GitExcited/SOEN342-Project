@@ -39,6 +39,14 @@ public class Booking{
         this.id = id;
     }
 
+    public Offering getOffering() {
+        return offering;
+    }
+
+    public void setOffering(Offering offering) {
+        this.offering = offering;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +

@@ -125,6 +125,9 @@ public class AppSystem {
     //yan refactor
     public boolean selectLesson(String lessonId){
         Lesson lesson = lessons.getLessonById(lessonId);
+        if(lesson == null){
+            return false;
+        }
         boolean collision = offerings.checkTimeCollision(currentInstructor, lesson);
         if (collision){ 
             System.out.println("AppSystem says: SCHEDULE CONFLICT. Lesson couldnt be added to Offerings.");
@@ -396,6 +399,8 @@ public class AppSystem {
         if(offering == null){
             return "Failed to find offering specified by id.";
         }
+        
+        //needs to be refactored
         bookings.addBooking(new Booking(offering, currentClient));
         offerings.removeOffering(offering);
         return "Offering selection was a success.";

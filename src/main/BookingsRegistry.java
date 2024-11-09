@@ -71,6 +71,21 @@ public class BookingsRegistry {
         return bookings;
     }
 
+    public boolean checkTimeCollision(Client currentClient, Offering offering) {
+        ArrayList<Booking> clientsCollection = new ArrayList<Booking>();;
+        for (Booking b: bookings){
+            if(b.getClient().getID().trim().equals(currentClient.getID().trim())){
+               clientsCollection.add(b);
+            }
+        }
+        for (Booking b: clientsCollection){
+            if(b.getOffering().getLesson().getTimeSlot().collides(offering.getLesson().getTimeSlot())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Provides a string representation of the list of bookings.
      * 
