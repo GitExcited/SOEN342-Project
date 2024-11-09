@@ -5,18 +5,20 @@ import java.util.UUID;
 public class Offering {
     private String id;
     private Lesson lesson;
-    private Event lessonTime;
-
+    private Instructor instructor;
+    private boolean booked;
+    
     // Default constructor
     public Offering() {
     }
 
     // Parameterized constructor
-    public Offering(Lesson lesson, Event lessonTime) {
+    public Offering(Lesson lesson, Instructor instructor) {
         UUID uuid = UUID.randomUUID();
         this.id = uuid.toString();
         this.lesson = lesson;
-        this.lessonTime = lessonTime;
+        this.instructor = instructor;
+        this.booked = false;
     }
 
     // Getters and setters
@@ -28,14 +30,6 @@ public class Offering {
         this.lesson = lesson;
     }
 
-    public Event getLessonTime() {
-        return lessonTime;
-    }
-
-    public void setLessonTime(Event event) {
-        this.lessonTime = event;
-    }
-
     public String getID() {
         return id;
     }
@@ -44,12 +38,28 @@ public class Offering {
         this.id = id;
     }
 
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
+    }
+
+    public boolean getBooked() {
+        return booked;
+    }
+
+    public void setBooked(boolean booked){
+        this.booked = booked;
+    }
+
     // toString method
     @Override
     public String toString() {
         return "Offering{" +
-                "lesson=" + lesson +
-                ", at time=" + lessonTime +
+                "lesson =" + lesson +
+                "instructor =" + instructor +
                 '}';
     }
 }

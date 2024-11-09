@@ -4,11 +4,11 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Clients {
+public class ClientsRegistry {
     private List<Client> clients;
 
     // Constructor
-    public Clients() {
+    public ClientsRegistry() {
         this.clients = new ArrayList<>();
     }
 
@@ -39,9 +39,10 @@ public class Clients {
         return clients;
     }
 
-    public Client getClientbyUsername(String username){
+    public Client getClientbyName(String name){
         for (Client client : clients) {
-            if (client.getName() == username){
+            //System.out.println("Debug client name: "+client.getName());
+            if (client.getName().trim().equals(name.trim())){
                 return client;
             }
         }
@@ -68,7 +69,7 @@ public class Clients {
     public boolean deleteClient(String id) {
         Client clientToRemove = null;
         for (Client client : clients) {
-            if(client.getID() == id){
+            if(client.getID().trim().equals(id.trim())){
                 clientToRemove = client;
                 break;
             }
@@ -79,5 +80,14 @@ public class Clients {
             removeClient(clientToRemove);
             return true;
         }
+    }
+
+    public Client getClientbyId(String guardianId) {
+        for (Client client : clients) {
+            if (client.getID().trim().equals(guardianId.trim())){
+                return client;
+            }
+        }
+        return null;
     }
 }

@@ -2,8 +2,8 @@ package main;
 public class PrivateLesson extends Lesson {
 
     // Constructor
-    public PrivateLesson(String title, String description, int duration) {
-        super(title, description, duration);
+    public PrivateLesson(String title, String description, Location loc, TimeSlot timeSlot) {
+        super(title, description, loc, timeSlot);
     }
 
     @Override
