@@ -66,7 +66,7 @@ class Offerings{
 
     public Offering getOfferingById(String id){
         for (Offering offering : offeringsCollection) {
-            if (offering.getID() == id){
+            if (offering.getID().trim().equals(id.trim())){
                 return offering;
             }
         }
@@ -123,7 +123,7 @@ class Offerings{
     public String getOfferingsforInstructor(Instructor currentInstructor) {
         StringBuilder sb = new StringBuilder();
         for (Offering o: offeringsCollection) {
-            if(o.getInstructor() == currentInstructor){
+            if(o.getInstructor().getID().trim().equals(currentInstructor.getID().trim())){
                 sb.append("OFFERING NUMBER ").append(o.getID()).append("\n");
                 sb.append(o.toString()).append("\n");
                 break;
