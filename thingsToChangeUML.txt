@@ -27,5 +27,9 @@ s
 - CancelOfferingSelection DONE
 
 - Process new Bookings DONE
-- View your Bookings
+- View your Bookings DONE
 - Cancel Booking
+
+Compile: javac -d out $(find . -name "*.java")
+
+Run: java -classpath out main.Main
