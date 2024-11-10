@@ -91,11 +91,9 @@ public class Main {
             case NotAuthorized:
                 String password;
                 boolean loginSuccessful;
-                boolean registerSuccessful;
                 String name; 
                 String age;
                 String phoneNumber;
-                String LessonId;
                 String LocationId;
                 String BookingId;
                 String time;

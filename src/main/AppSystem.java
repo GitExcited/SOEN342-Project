@@ -1,11 +1,8 @@
 package main;
-import java.time.LocalDateTime; //Used for start and end time of CreateOffering
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
-
-import main.exceptions.ScheduleConflictException;
 
 enum UserAuthLevel {
     Client,
@@ -21,7 +18,6 @@ public class AppSystem {
     private Admin admin;
     private Client currentClient;
     private Instructor currentInstructor;
-    private Organization organization;
     private ClientsRegistry clients;
     private InstructorsRegistry instructors;
     private BookingsRegistry bookings;
@@ -37,7 +33,6 @@ public class AppSystem {
     public AppSystem(){
         //System.out.println("Debug: AppSystem constructor");
         this.admin = new Admin();
-        this.organization = new Organization();
         this.clients = new ClientsRegistry();
         this.instructors = new InstructorsRegistry();
         this.bookings = new BookingsRegistry();
@@ -51,7 +46,7 @@ public class AppSystem {
         this.userAuthenticated = false;
         this.authLevel = UserAuthLevel.NotAuthorized;
     }
-    
+
     /**
      * Prints to screen all available offerings with their Ids
      */
