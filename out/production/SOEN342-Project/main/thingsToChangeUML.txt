@@ -1,0 +1,15 @@
+
+UPDATE 1: 
+createOffering() in the system sequence diagram should have signature
+(lesson, LOCATION, start time, endtime) instead of SCHEDULE. This is because
+location HAS a schedule, so the organization is esentially asking to have a lesson
+at a given location and then we check if that locatin's schedule works or not. 
+^^^ There are other places this needs to be changed such as the sequence diagram for createOffering
+
+The method ' takeOnOfferings()' has a real weird name for what it is supposed to do: 
+It simply allows Instructor to VIEW the offerings published. so i renamed it to viewOfferings
+
+
+Compile: javac -d out $(find . -name "*.java")
+
+Run: java -classpath out main.Main
