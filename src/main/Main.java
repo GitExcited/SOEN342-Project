@@ -97,6 +97,7 @@ public class Main {
                 String phoneNumber;
                 String LessonId;
                 String LocationId;
+                String BookingId;
                 String time;
                 String Id;
                 boolean result;
@@ -223,10 +224,28 @@ public class Main {
                     System.out.println(appSystem.deleteBooking(Id));
                     System.out.println("\n");
                     break;
-                case "5": //book for child
+                case "5": //book for child DONE
+                    System.out.println("Children you are responsible of: ");
+                    System.out.println(appSystem.getCurrentResponsibleChildren());
+                    System.out.println("Enter the ID of the child to create a booking for: ");
+                    Id = in.nextLine();
+                    System.out.println("Available Offerings: ");
+                    System.out.println(appSystem.getAllnonBookedOfferingsToString());
+                    System.out.println("Enter ID of the Offering to select. >>");
+                    BookingId = in.nextLine();
+                    System.out.println(appSystem.selectOffering(BookingId, Id));
                     System.out.println("\n");
                     break;
-                case "6": //process for child
+                case "6": //Cancel for child DONE
+                    System.out.println("Children you are responsible of: ");
+                    System.out.println(appSystem.getCurrentResponsibleChildren());
+                    System.out.println("Enter the ID of the child to delete a booking for: ");
+                    Id = in.nextLine();
+                    System.out.println("Active Bookings of the child: ");
+                    System.out.println(appSystem.getCurrentUserBookings(Id));
+                    System.out.println("Enter ID of the Booking to select. >>");
+                    BookingId = in.nextLine();
+                    System.out.println(appSystem.deleteBooking(Id));
                     System.out.println("\n");
                     break;
                 case "7": //Logout

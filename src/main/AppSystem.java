@@ -268,6 +268,10 @@ public class AppSystem {
         return bookings.getClientBookings(currentClient.getID());
     }
 
+    public String getCurrentUserBookings(String Id){
+        return bookings.getClientBookings(Id);
+    }
+
     public String getCurrentUserSelectedLessons(){
         return offerings.getOfferingsforInstructor(currentInstructor);
     }
@@ -414,11 +418,37 @@ public class AppSystem {
         if(offering == null){
             return "Failed to find offering specified by id.";
         }
-
+        if(bookings.checkTimeCollision(currentClient, offering)){
+            return "Unable to add booking, collision detected with other bookings the client already has.";
+        }
         //needs to be refactored
         bookings.addBooking(new Booking(offering, currentClient));
         offering.setBooked(true);
         //offerings.removeOffering(offering);
         return "Offering selection was a success.";
+    }
+
+    public String selectOffering(String id, String minorId) {
+        Client client = clients.getClientbyId(minorId);
+        if (client == null) {
+            return "Could not find client specified by Id.";
+        }
+        Offering offering = offerings.getOfferingById(id);
+        if(offering == null){
+            return "Failed to find offering specified by id.";
+        }
+        if(bookings.checkTimeCollision(client, offering)){
+            return "Unable to add booking, collision detected with other bookings the client already has.";
+        }
+
+        //needs to be refactored
+        bookings.addBooking(new Booking(offering, client));
+        offering.setBooked(true);
+        //offerings.removeOffering(offering);
+        return "Offering selection was a success.";
+    }
+
+    public String getCurrentResponsibleChildren() {
+        return clients.getAllResponsibleChildrenByGuardianId(currentClient.getID());
     }
 }

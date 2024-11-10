@@ -82,12 +82,26 @@ public class ClientsRegistry {
         }
     }
 
-    public Client getClientbyId(String guardianId) {
+    public Client getClientbyId(String Id) {
         for (Client client : clients) {
-            if (client.getID().trim().equals(guardianId.trim())){
+            if (client.getID().trim().equals(Id.trim())){
                 return client;
             }
         }
         return null;
+    }
+
+    public String getAllResponsibleChildrenByGuardianId(String id) {
+        StringBuilder sb = new StringBuilder();
+        for (Client c: clients) {
+            if(c instanceof UnderAgeClient){
+                UnderAgeClient uClient = (UnderAgeClient) c;
+                if(uClient.getGuardian().trim().equals(id.trim())){
+                    sb.append(c.toString()).append("\n");
+                    break;
+                }
+            }
+        }
+        return sb.toString();
     }
 }
