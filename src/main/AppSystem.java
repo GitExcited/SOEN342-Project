@@ -51,77 +51,13 @@ public class AppSystem {
         this.userAuthenticated = false;
         this.authLevel = UserAuthLevel.NotAuthorized;
     }
-
-    //? PART OF USE CASE 1: Process Offerings
-
-    /**
-     * Creates Offering and adds it to the collection Offerings
-     * @param lesson The type of lesson ( swiming, boxing, etc)
-     * @param location The location you want to make the lesson
-     * @param startTime Start time of lesson
-     * @param endTime end time of lesson
-     */
-    // public void createOffering(Lesson lesson, Location location,LocalDateTime startTime, LocalDateTime endTime ) {
-    //     TimeSlot temptativeTime = new TimeSlot(startTime, endTime);
-    //     Offering off = null;
-    //     try{
-    //      off =offerings.createOffering(lesson, location, temptativeTime);
-    //     } catch (ScheduleConflictException e) {
-    //         // TODO: handle exception. For now simply printit
-    //         System.out.println("AppSystem says: SCHEDULE CONFLICT. Lesson Couldn't be added");
-    //     }
-    //     System.out.println("AppSystem says: Offering Created"+ off.toString());  
-    // }
-
-    // public boolean createOffering(String LessonId, String LocationId, String time ) {
-    //     try {
-    //         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    //         String[] params = time.split(" ");
-    //         String dayOfWeek = params[0];
-    //         LocalTime starTime = LocalTime.parse(params[1], timeFormatter);
-    //         LocalTime endTime = LocalTime.parse(params[2], timeFormatter);
-
-    //         TimeSlot timeslot = new TimeSlot(dayOfWeek, starTime, endTime);
-    //         //find lesson
-    //         Lesson lesson = admin.organization.getLessonById(LessonId);
-    //         //find Location
-    //         Location location = admin.organization.getLocationById(LocationId);
-    //         if (location == null || lesson == null){
-    //             return false;
-    //         }
-    //         //create offering
-    //         offerings.createOffering(lesson,location, timeslot);
-    //     } catch (Exception e) {
-    //         System.out.println(e.getMessage());
-    //         return false;
-    //     }
-    //     return true;
-    // }
-
+    
     /**
      * Prints to screen all available offerings with their Ids
      */
     public void viewOfferings(){
         offerings.getAvailableOfferings();
     }
-    /**
-     * Gets offering by Id, checks if there is a time collision 
-     * @param instructor
-     * @param offeringId
-     */
-    // public void selectOffering(Instructor instructor, int offeringId){
-    //     Offering selectedOffering = offerings.getOfferingById(offeringId);
-    //     boolean collision = publicOfferings.checkTimeCollision(selectedOffering);
-    //     if ( collision){ 
-    //         System.out.println("AppSystem says: SCHEDULE CONFLICT. Offering Couldn't be added to Public Offerings");
-    //     }
-    //     else {
-    //         //Removes and adds offering from Offerings to PublicOfferings
-    //         PublicOffering newPO = new PublicOffering(offerings.deleteOffering(offeringId), instructor);
-    //         publicOfferings.addOffering(newPO);
-    //     } 
-
-    // }
 
     //yan refactor
     public boolean selectLesson(String lessonId){
@@ -148,20 +84,6 @@ public class AppSystem {
 
 
     //? USE CASE 2
-
-    // public  void createBooking(Client client ,int publicOfferingId){
-    //     PublicOffering selectPublicOffering= publicOfferings.getPublicOfferingById(publicOfferingId);
-    //     boolean collision = bookings.checkTimeCollision(selectPublicOffering);
-    //     if ( collision){ 
-    //         System.out.println("AppSystem says: SCHEDULE CONFLICT. PublicOffering Couldn't be transformed into Booking");
-    //     }
-    //     else {
-    //         //Removes and adds publicOffering from PublicOfferings to Bookings
-    //         Booking newBooking = new Booking(publicOfferings.deleteOffering(publicOfferingId), client);
-    //         bookings.addBooking(newBooking);
-    //     } 
-    // }
-
 
     public boolean isUserAuthenticated(){
         return this.userAuthenticated;
@@ -290,12 +212,6 @@ public class AppSystem {
         return "Deleting booking was a success";
     }
 
-    // public String getAllOfferingsToString(){
-    //     return offerings.getAllOfferingDescriptions() +" \n" + publicOfferings.getAvailablePublicOfferings();
-    // }
-
-
-
     public boolean deleteOffering(String Id){
         return offerings.deleteOffering(Id);
     }
@@ -330,14 +246,6 @@ public class AppSystem {
         currentInstructor = null;
         currentClient = null;
     }
-
-    // public boolean cancelOfferingSelection(String id) {
-    //     PublicOffering selectedOffering = publicOfferings.getPublicOfferingById(id);
-
-    //     offerings.addOffering(selectedOffering);
-    //     publicOfferings.deleteOffering(selectedOffering);
-    //     return true;
-    // }
 
     public boolean createLesson(String title, String description, String locationId, String time) {
         try {

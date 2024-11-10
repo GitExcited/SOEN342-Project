@@ -19,24 +19,6 @@ public class Client {
         this.password = password;
     }
 
-    //TODO: Implement Booking and Public Offerings classes
-    /**
-     * Creates a booking from public offerings.
-     * 
-     * @param publicOfferings The public offerings to choose from.
-     * @param offeringId The ID of the offering to book.
-     * @return The created booking.
-     * @throws Exception If the booking cannot be created.
-     */
-    // public Booking createBooking(PublicOfferings publicOfferings, int offeringId) throws Exception {
-    //     Offering offering = publicOfferings.getOfferingById(offeringId);
-    //     if (offering == null) {
-    //         throw new Exception("Offering not found.");
-    //     }
-    //     Booking booking = new Booking(this, offering);
-    //     return booking;
-    // }
-
     // Getters and setters for name and email
     public String getName() {
         return name;

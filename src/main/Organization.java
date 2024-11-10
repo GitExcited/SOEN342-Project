@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Organization {
     private ArrayList<Location> locationCollection = new ArrayList<Location>();
-    
 
     public Organization(){
 
@@ -23,28 +22,6 @@ public class Organization {
         locationCollection.add(new Location("10", "Lakeside Track & Field", "444 Poplar Ave", "Clearwater", "Field A"));
     }
 
-    //Load sample lesson data
-    // public void initializeLessons(){
-    //     lessonCollection.add(new PublicLesson("1", "Soccer", "Learn the basics of soccer, including rules and techniques."));
-    //     lessonCollection.add(new PublicLesson("2","Basketball", "An overview of basketball skills and gameplay strategies."));
-    //     lessonCollection.add(new PublicLesson("3","Tennis", "Basics of tennis, including serves, volleys, and backhands."));
-    //     lessonCollection.add(new PublicLesson("4","Swimming", "Learn swimming techniques, strokes, and breathing exercises."));
-    //     lessonCollection.add(new PrivateLesson("5","Running Mechanics", "Improve your running form and understand endurance training."));
-    //     lessonCollection.add(new PrivateLesson("6","Yoga", "Basic yoga poses and stretches tailored for athletes."));
-    //     lessonCollection.add(new PrivateLesson("7","Strength Training", "Introduction to weightlifting and bodyweight exercises."));
-    //     lessonCollection.add(new PublicLesson("8","Cycling Basics", "Learn cycling techniques, safety, and endurance training."));
-    //     lessonCollection.add(new PublicLesson("9","Volleyball", "Overview of volleyball basics, including serving, passing, and setting."));
-    //     lessonCollection.add(new PrivateLesson("10","Martial Arts", "Learn fundamental martial arts moves and self-defense techniques."));
-    // }
-
-    // public String getAllLessonsDescriptions(){
-    //     StringBuilder description = new StringBuilder("");
-    //     for (Lesson lesson : lessonCollection) {
-    //         description.append(lesson.toString()+ " \n");
-    //     }
-    //     return description.toString();
-    // }
-
     public String getAllLocationsDescriptions(){
         StringBuilder description = new StringBuilder("");
         for (Location location : locationCollection) {
@@ -52,17 +29,6 @@ public class Organization {
         }
         return description.toString();
     }
-
-    // public Lesson getLessonById(String id){
-    //     Lesson lesson = null;
-    //     for (Lesson lesson2 : lessonCollection) {
-    //         if(lesson2.getID() == id){
-    //             lesson = lesson2;
-    //             break;
-    //         }
-    //     }
-    //     return lesson;
-    // }
 
     public Location getLocationById(String id){
         Location location = null;

@@ -10,22 +10,6 @@ public class BookingsRegistry {
     public BookingsRegistry() {
         this.bookings = new ArrayList<>();
     }
-        /**
-     * Checks if the given offering collides with any existing public offerings for the same LOCATION and TIME
-     * 
-     * @param offering The offering to check for time collision.
-     * @return true if there is a time collision, false otherwise.
-     */
-    // public boolean checkTimeCollision(Offering offering){
-    //     for (Booking b: bookings){
-    //         if( b.getLesson().getLocation().equals(offering.getLesson().getLocation()) 
-    //             &&
-    //             b.getTimeSlot().collides(offering.getTimeSlot())){
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 
     /**
      * Adds a new booking to the registry.

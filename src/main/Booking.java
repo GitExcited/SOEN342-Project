@@ -7,11 +7,6 @@ public class Booking{
     private Client client;
     private Offering offering;
 
-    // Constructor
-    // public Booking(Lesson lesson, TimeSlot timeSlot, Instructor instructor, Location location, Client client) {
-    //     super(lesson, timeSlot, instructor, location);
-    //     this.client = client;
-    // }
     // Constructor to transform Public Offering into Booking
     public Booking(Offering offering, Client client) {
         UUID uuid = UUID.randomUUID();
