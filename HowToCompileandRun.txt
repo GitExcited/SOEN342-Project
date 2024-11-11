@@ -1,0 +1,8 @@
+
+How to compile and run with jar files
+
+From Folder SOEN342-Project
+
+Compile: javac -d out -classpath "lib/*" $(find . -name "*.java")
+
+Run: java -classpath "out;lib/*" main.Main

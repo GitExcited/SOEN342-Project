@@ -1,10 +1,13 @@
 package main;
 
 import java.util.Scanner;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Main {
     static boolean running = true;
     public static void main(String[] args) {
+        connect();
         AppSystem appSystem = new AppSystem();
         Scanner in = new Scanner(System.in);
         
@@ -84,6 +87,16 @@ public class Main {
             }
         }
         in.close();
+    }
+
+    public static void connect() {
+        // connection string
+        var url = "jdbc:sqlite:./soen-project.db";
+        try (var conn = DriverManager.getConnection(url)) {
+            System.out.println("Connection to SQLite has been established.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void processUserInput(String userInput, UserAuthLevel authLevel, Scanner in, AppSystem appSystem) {
