@@ -13,3 +13,7 @@ It simply allows Instructor to VIEW the offerings published. so i renamed it to 
 Compile: javac -d out $(find . -name "*.java")
 
 Run: java -classpath out main.Main
+
+Compile: javac -d out -classpath "lib/*" $(find . -name "*.java")
+
+Run: java -classpath "out:lib/*" Main
