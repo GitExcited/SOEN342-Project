@@ -61,8 +61,8 @@ public class SQLiteJDBC {
             Location location2 = new Location("Loc2", "Annex Building 456 Side St", "Los Angeles", "Room 202", schedule2);
 
             // Add them to table location
-            locationsRegistry.addLocation(location1);
-            locationsRegistry.addLocation(location2);
+            locationsRegistry.createLocation(location1);
+            locationsRegistry.createLocation(location2);
 
             // Test LessonTDG
             System.out.println(location1.getID());

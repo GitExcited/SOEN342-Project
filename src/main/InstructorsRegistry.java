@@ -62,13 +62,14 @@ public class InstructorsRegistry {
         instructorsCollection.remove(instructor);
         try {
             instructorTDG.delete(instructor.getID());
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }finally{
             //? Unlock
             writeLock.unlock();
         }
-        return true;
     }
 
 
