@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Instructor {
@@ -8,6 +10,7 @@ public class Instructor {
     private String phoneNumber;
     private int age;
     private String password;
+    private ArrayList <String> cities = new ArrayList<String>();
 
     // Constructor
     public Instructor(String name, String phoneNumber, int age, String password) {
@@ -57,6 +60,35 @@ public class Instructor {
 
     public void setID(String id) {
         this.id = id;
+    }
+        // CRUD operations for cities
+
+    // Create: Add a city
+    public void addCity(String city) {
+        cities.add(city);
+    }
+
+    // Read: Get all cities
+    public List<String> getCities() {
+        return cities;
+    }
+
+    // Update: Update a city
+    public void updateCity(int index, String newCity) {
+        if (index >= 0 && index < cities.size()) {
+            cities.set(index, newCity);
+        } else {
+            System.out.println("Invalid index");
+        }
+    }
+
+    // Delete: Remove a city
+    public void removeCity(int index) {
+        if (index >= 0 && index < cities.size()) {
+            cities.remove(index);
+        } else {
+            System.out.println("Invalid index");
+        }
     }
 
     public String toString(){
