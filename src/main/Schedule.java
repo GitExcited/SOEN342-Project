@@ -1,11 +1,10 @@
 package main;
 
-
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-// ? Each location has a schedule which is an array of Events where the location is available
+// Each location has a schedule which is an array of Events where the location is available
 public class Schedule {
     private List<TimeSlot> schedule;
 
@@ -22,18 +21,18 @@ public class Schedule {
         }
     }
 
-// Method to check for time conflicts. 
-public boolean hasConflict(TimeSlot newEvent) {
-    for (TimeSlot existingEvent : schedule) {
-        //Returns true if conflict is found
-        if (newEvent.getdayOfWeek() == existingEvent.getdayOfWeek()){
-            if (!newEvent.getEnd().isBefore(existingEvent.getStart()) && !newEvent.getStart().isAfter(existingEvent.getEnd())) {
-                return true;
+    // Method to check for time conflicts
+    public boolean hasConflict(TimeSlot newEvent) {
+        for (TimeSlot existingEvent : schedule) {
+            // Returns true if conflict is found
+            if (newEvent.getDayOfWeek().equals(existingEvent.getDayOfWeek())) {
+                if (!newEvent.getEnd().isBefore(existingEvent.getStart()) && !newEvent.getStart().isAfter(existingEvent.getEnd())) {
+                    return true;
+                }
             }
         }
+        return false;
     }
-    return false;
-}
 
     // Method to convert Schedule to JSON string
     public String toJson() {
@@ -48,5 +47,32 @@ public boolean hasConflict(TimeSlot newEvent) {
         json.append("]");
         return json.toString();
     }
-    
+
+    // Method to add a TimeSlot
+    public void addTimeSlot(TimeSlot timeSlot) {
+        schedule.add(timeSlot);
+    }
+
+    // Method to delete a TimeSlot by index
+    public void deleteTimeSlot(int index) {
+        if (index >= 0 && index < schedule.size()) {
+            schedule.remove(index);
+        } else {
+            System.out.println("Invalid index");
+        }
+    }
+
+    // Method to view all TimeSlots
+    public List<TimeSlot> viewTimeSlots() {
+        return new ArrayList<>(schedule);
+    }
+
+    // Method to update a TimeSlot by index
+    public void updateTimeSlot(int index, TimeSlot newTimeSlot) {
+        if (index >= 0 && index < schedule.size()) {
+            schedule.set(index, newTimeSlot);
+        } else {
+            System.out.println("Invalid index");
+        }
+    }
 }

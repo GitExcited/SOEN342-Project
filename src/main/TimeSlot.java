@@ -14,7 +14,7 @@ public class TimeSlot {
         this.end = end;
     }
 
-    public String getdayOfWeek() {
+    public String getDayOfWeek() {
         return dayOfWeek;
     }
 
