@@ -10,6 +10,8 @@ class OfferingsRegistry{
 
     public OfferingsRegistry() throws ClassNotFoundException, SQLException {
         this.offeringTDG = new OfferingTDG();
+        //Initializes the table of offerings it not existant
+        offeringTDG.createTable();
     }
 
     public void addOffering(Offering offering) {
@@ -23,18 +25,39 @@ class OfferingsRegistry{
 
     public void removeOffering(Offering offering) {
         offeringsCollection.remove(offering);
+        try {
+            offeringTDG.delete(offering.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+       
+    }
+/**
+ * Updates the passed offeringId with the newLesson, newInstructor and new booked boolean value
+ * @param OfferingId
+ * @param newLesson
+ * @param newInstructor
+ * @param booked
+ */
+    public void updateOffering(int OfferingId, Lesson newLesson, Instructor newInstructor,boolean booked ){
+        Offering oldOffering = offeringsCollection.get(OfferingId);
+        oldOffering.setLesson(newLesson);
+        oldOffering.setInstructor(newInstructor);
+        oldOffering.setBooked(booked);  
+
+        try {
+            offeringTDG.update(oldOffering.toParams());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public Offering deleteOffering(int offeringId){
-        return offeringsCollection.remove(offeringId);
-    }
 
     public void getAvailableOfferings(){
-        //int id = 0 ;
         for (Offering o : offeringsCollection) {
             System.out.println("OFFERING NUMBER "+ o.getID());
             System.out.println(o.toString());
-            //id++;
         }
     }
 

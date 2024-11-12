@@ -1,14 +1,25 @@
 package main;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tdg.LocationTDG;
+
 public class LocationsRegistry {
-    private List<Location> locations;
+    private List<Location> locations = new ArrayList<>();
+    private LocationTDG locationTDG;
 
     // Constructor
     public LocationsRegistry() {
-        this.locations = new ArrayList<>();
+        try {
+            this.locationTDG = new LocationTDG();
+
+            //Initialize table Location if not existant
+            locationTDG.createTable();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -18,6 +29,11 @@ public class LocationsRegistry {
      */
     public void addLocation(Location location) {
         locations.add(location);
+        try {
+            locationTDG.insert(location.toParams());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -27,6 +43,13 @@ public class LocationsRegistry {
      * @return true if the location was successfully deleted, false otherwise.
      */
     public boolean deleteLocation(Location location) {
+        try {
+            locationTDG.delete(location.getID());
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
         return locations.remove(location);
     }
 
@@ -38,10 +61,18 @@ public class LocationsRegistry {
      * @return true if the location was successfully updated, false otherwise.
      */
     public boolean updateLocation(Location oldLocation, Location newLocation) {
+        //! VERY IMPORTANT: the new location must have the same id as the old one for persistence reasons ( other tables might have this location id as a foreign key)
+        newLocation.setID(oldLocation.getID());
         int index = locations.indexOf(oldLocation);
         if (index != -1) {
             locations.set(index, newLocation);
             return true;
+        }
+        try {
+            locationTDG.update(newLocation);
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
         return false;
     }

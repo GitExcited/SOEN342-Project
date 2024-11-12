@@ -1,5 +1,6 @@
 package main;
 
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +34,19 @@ public boolean hasConflict(TimeSlot newEvent) {
     }
     return false;
 }
+
+    // Method to convert Schedule to JSON string
+    public String toJson() {
+        StringBuilder json = new StringBuilder();
+        json.append("[");
+        for (int i = 0; i < schedule.size(); i++) {
+            json.append(schedule.get(i).toJson());
+            if (i < schedule.size() - 1) {
+                json.append(",");
+            }
+        }
+        json.append("]");
+        return json.toString();
+    }
     
 }

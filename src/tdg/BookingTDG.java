@@ -26,7 +26,9 @@ public class BookingTDG {
             String sql = "CREATE TABLE IF NOT EXISTS BOOKING " +
                          "(ID TEXT PRIMARY KEY NOT NULL," +
                          " CLIENT_ID TEXT NOT NULL, " + 
-                         " OFFERING_ID TEXT NOT NULL)";
+                         " OFFERING_ID TEXT NOT NULL, " +
+                         " FOREIGN KEY (CLIENT_ID) REFERENCES CLIENT(ID), " +
+                         " FOREIGN KEY (OFFERING_ID) REFERENCES OFFERING(ID))";
             stmt.executeUpdate(sql);
         } finally {
             closeResources(stmt);

@@ -5,8 +5,9 @@ public class LocationTDG {
 
     private Connection connection;
 
-    public LocationTDG(Connection connection) {
-        this.connection = connection;
+    public LocationTDG( ) throws ClassNotFoundException, SQLException {
+        Class.forName("org.sqlite.JDBC");
+        this.connection = DriverManager.getConnection("jdbc:sqlite:test.db");
     }
 
     public void createTable() throws SQLException {

@@ -75,6 +75,22 @@ public class Location {
     public void setID(String id) {
         this.id = id;
     }
+        /**
+     * Helper method to turn Location into paramters that can be passed to its TDG 
+     * @param offering
+     * @return Object array with each of its attributes in order : 
+     * id, name, address, city, room, and schedule as a json 
+     */
+    public Object[] toParams() {
+        return new Object[] {
+            this.id,
+            this.name,
+            this.address,
+            this.city,
+            this.room,
+            this.schedule != null ? this.schedule.toJson() : null
+        };
+    }
     
     @Override
     public String toString() {

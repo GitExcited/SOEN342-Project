@@ -6,11 +6,22 @@ public class OfferingTDG {
 
     private Connection connection;
 
+    /**
+     * Constructor to initialize the database connection.
+     *
+     * @throws ClassNotFoundException if the JDBC class is not found
+     * @throws SQLException if a database access error occurs
+     */
     public OfferingTDG() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
         this.connection = DriverManager.getConnection("jdbc:sqlite:test.db");
     }
 
+    /**
+     * Creates the OFFERING table if it does not already exist.
+     *
+     * @throws SQLException if a database access error occurs
+     */
     public void createTable() throws SQLException {
         Statement stmt = null;
         try {
@@ -19,13 +30,21 @@ public class OfferingTDG {
                          "(ID TEXT PRIMARY KEY NOT NULL," +
                          " LESSON_ID TEXT NOT NULL, " + 
                          " INSTRUCTOR_ID TEXT NOT NULL, " + 
-                         " BOOKED BOOLEAN NOT NULL)";
+                         " BOOKED BOOLEAN NOT NULL, " +
+                         " FOREIGN KEY (LESSON_ID) REFERENCES LESSON(ID), " +
+                         " FOREIGN KEY (INSTRUCTOR_ID) REFERENCES INSTRUCTOR(ID))";
             stmt.executeUpdate(sql);
         } finally {
             closeResources(stmt);
         }
     }
 
+    /**
+     * Inserts a new offering into the OFFERING table.
+     *
+     * @param params the parameters for the new offering
+     * @throws SQLException if a database access error occurs
+     */
     public void insert(Object... params) throws SQLException {
         String sql = "INSERT INTO OFFERING (ID, LESSON_ID, INSTRUCTOR_ID, BOOKED) VALUES (?, ?, ?, ?)";
         PreparedStatement pstmt = null;
@@ -97,6 +116,11 @@ public class OfferingTDG {
         }
     }
 
+    /**
+     * Closes the given resources.
+     *
+     * @param resources the resources to close
+     */
     private void closeResources(AutoCloseable... resources) {
         for (AutoCloseable resource : resources) {
             if (resource != null) {

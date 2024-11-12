@@ -55,5 +55,11 @@ public class TimeSlot {
     public boolean collides(TimeSlot other) {
         return !this.end.isBefore(other.start) && !this.start.isAfter(other.end);
     }
+
+    // Method to convert TimeSlot to JSON string
+    public String toJson() {
+        return String.format("{\"dayOfWeek\":\"%s\",\"start\":\"%s\",\"end\":\"%s\"}",
+                dayOfWeek, start.toString(), end.toString());
+    }
     
 }
