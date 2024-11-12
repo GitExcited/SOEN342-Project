@@ -84,7 +84,7 @@ public class SQLiteJDBC {
             instructor1.setName("John Smith");
             instructorsRegistry.updateInstructor(0, instructor1);
             System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
-            instructorsRegistry.removeInstructor(instructor1);
+            instructorsRegistry.deleteInstructor(instructor1);
             System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
 
             // Test BookingTDG and BookingRegistry

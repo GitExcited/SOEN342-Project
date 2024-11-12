@@ -213,7 +213,7 @@ public class AppSystem {
     }
 
     public boolean deleteInstructor(String Id){
-        return instructors.removeInstructor(instructors.getInstructorById(Id));
+        return instructors.deleteInstructor(instructors.getInstructorById(Id));
     }
 
     public boolean deleteClient(String Id){
