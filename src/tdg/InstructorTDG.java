@@ -12,10 +12,12 @@ public class InstructorTDG {
     /**
      * Constructor to initialize the database connection.
      *
-     * @param connection the database connection
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public InstructorTDG(Connection connection) {
-        this.connection = connection;
+    public InstructorTDG() throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        this.connection = DriverManager.getConnection("jdbc:sqlite:test.db");
     }
 
     /**
@@ -33,7 +35,8 @@ public class InstructorTDG {
                          " PHONE_NUMBER TEXT NOT NULL, " + 
                          " AGE INT NOT NULL, " + 
                          " PASSWORD TEXT NOT NULL, " +
-                         " SALT TEXT NOT NULL)";
+                         " SALT TEXT NOT NULL, " +
+                         " CITIES TEXT NOT NULL)"; // Added CITIES column
             stmt.executeUpdate(sql);
         } finally {
             closeResources(stmt);
@@ -48,7 +51,7 @@ public class InstructorTDG {
      * @throws NoSuchAlgorithmException if the specified algorithm is not available
      */
     public void insert(Object... params) throws SQLException, NoSuchAlgorithmException {
-        String sql = "INSERT INTO INSTRUCTOR (ID, NAME, PHONE_NUMBER, AGE, PASSWORD, SALT) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO INSTRUCTOR (ID, NAME, PHONE_NUMBER, AGE, PASSWORD, SALT, CITIES) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = null;
         try {
             pstmt = connection.prepareStatement(sql);
@@ -66,6 +69,7 @@ public class InstructorTDG {
 
             pstmt.setString(5, hashedPassword);
             pstmt.setString(6, saltStr);
+            pstmt.setString(7, (String) params[5]); // Assuming cities are passed as a comma-separated string
             pstmt.executeUpdate();
         } finally {
             closeResources(pstmt);
@@ -80,7 +84,7 @@ public class InstructorTDG {
      * @throws NoSuchAlgorithmException if the specified algorithm is not available
      */
     public void update(Object... params) throws SQLException, NoSuchAlgorithmException {
-        String sql = "UPDATE INSTRUCTOR SET NAME = ?, PHONE_NUMBER = ?, AGE = ?, PASSWORD = ?, SALT = ? WHERE ID = ?";
+        String sql = "UPDATE INSTRUCTOR SET NAME = ?, PHONE_NUMBER = ?, AGE = ?, PASSWORD = ?, SALT = ?, CITIES = ? WHERE ID = ?";
         PreparedStatement pstmt = null;
         try {
             pstmt = connection.prepareStatement(sql);
@@ -97,7 +101,8 @@ public class InstructorTDG {
 
             pstmt.setString(4, hashedPassword);
             pstmt.setString(5, saltStr);
-            pstmt.setString(6, (String) params[0]);
+            pstmt.setString(6, (String) params[5]); // Assuming cities are passed as a comma-separated string
+            pstmt.setString(7, (String) params[0]);
             pstmt.executeUpdate();
         } finally {
             closeResources(pstmt);
@@ -154,12 +159,14 @@ public class InstructorTDG {
                 int age = rs.getInt("AGE");
                 String password = rs.getString("PASSWORD");
                 String salt = rs.getString("SALT");
+                String cities = rs.getString("CITIES");
                 System.out.println("ID = " + id);
                 System.out.println("NAME = " + name);
                 System.out.println("PHONE_NUMBER = " + phoneNumber);
                 System.out.println("AGE = " + age);
                 System.out.println("PASSWORD = " + password);
                 System.out.println("SALT = " + salt);
+                System.out.println("CITIES = " + cities);
                 System.out.println();
             }
         } finally {

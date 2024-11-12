@@ -174,7 +174,7 @@ public class AppSystem {
             return "Phone number already in use.";
         }
         //create and add user to user collection
-        instructors.addInstructor(new Instructor(name, phoneNumber, age, password));
+        instructors.createInstructor(new Instructor(name, phoneNumber, age, password));
         return "Registering instructor was a success, please login now.";
     }
 
@@ -213,7 +213,7 @@ public class AppSystem {
     }
 
     public boolean deleteInstructor(String Id){
-        return instructors.deleteInstructor(Id);
+        return instructors.removeInstructor(instructors.getInstructorById(Id));
     }
 
     public boolean deleteClient(String Id){
@@ -304,7 +304,7 @@ public class AppSystem {
         if(offering == null){
             return false;
         }
-        lessons.addLesson(offering.getLesson());
+        lessons.createLesson(offering.getLesson());
         offerings.removeOffering(offering);
         return true;
     }

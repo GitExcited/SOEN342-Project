@@ -91,6 +91,18 @@ public class Instructor {
         }
     }
 
+        
+    // Convert Instructor object to an array of its attributes
+    public Object[] toParams() {
+        return new Object[] {
+                this.id,
+                this.name,
+                this.phoneNumber,
+                this.age,
+                this.password,
+                String.join(",", this.cities) // Convert list of cities to a comma-separated string
+            };
+        }
     public String toString(){
         return "Id: "+ id+ " Name: "+ name + " phoneNumber: "+ phoneNumber;
     }

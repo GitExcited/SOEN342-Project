@@ -1,67 +1,56 @@
 package main;
 
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tdg.InstructorTDG;
+
 public class InstructorsRegistry {
-    private List<Instructor> instructors;
+    private List<Instructor> instructorsCollection = new ArrayList<>();
+    private InstructorTDG instructorTDG;
 
     // Constructor
     public InstructorsRegistry() {
-        this.instructors = new ArrayList<>();
+        try {
+            this.instructorTDG = new InstructorTDG();
+            instructorTDG.createTable();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Adds a new instructor to the registry.
-     * 
-     * @param instructor The instructor to be added.
-     */
-    public void addInstructor(Instructor instructor) {
-        instructors.add(instructor);
+    public void createInstructor(Instructor instructor) {
+        instructorsCollection.add(instructor);
+        try {
+            instructorTDG.insert(instructor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Deletes an instructor from the registry.
-     * 
-     * @param instructor The instructor to be deleted.
-     * @return true if the instructor was successfully deleted, false otherwise.
-     */
-    public Instructor deleteInstructor(int instructorId) {
-        return instructors.remove(instructorId);
+    public String getAllInstructorsDescriptions() {
+        StringBuilder sb = new StringBuilder();
+        for (Instructor i : instructorsCollection) {
+            sb.append(i.toString()).append("\n");
+        }
+        return sb.toString();
     }
 
-    public Instructor deleteInstructor(Instructor instructor) {
-        instructors.remove(instructor);
+    public Instructor getInstructorById(String id) {
+        Instructor instructor = null;
+        for (Instructor instructor2 : instructorsCollection) {
+            if (instructor2.getID().trim().equals(id.trim())) {
+                instructor = instructor2;
+                break;
+            }
+        }
         return instructor;
     }
 
-    /**
-     * Updates an existing instructor in the registry.
-     * 
-     * @param oldInstructor The instructor to be updated.
-     * @param newInstructor The new instructor details.
-     * @return true if the instructor was successfully updated, false otherwise.
-     */
-    public boolean updateInstructor(Instructor oldInstructor, Instructor newInstructor) {
-        int index = instructors.indexOf(oldInstructor);
-        if (index != -1) {
-            instructors.set(index, newInstructor);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Retrieves the list of instructors.
-     * 
-     * @return The list of instructors.
-     */
-    public List<Instructor> getInstructors() {
-        return instructors;
-    }
-
     public Instructor getInstructorbyName(String name){
-        for (Instructor instructor : instructors) {
+        for (Instructor instructor : instructorsCollection) {
             if (instructor.getName().trim().equals(name.trim())){
                 return instructor;
             }
@@ -69,8 +58,19 @@ public class InstructorsRegistry {
         return null;
     }
 
+
+    public boolean removeInstructor(Instructor instructor) {
+        instructorsCollection.remove(instructor);
+        try {
+            instructorTDG.delete(instructor.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public Instructor getInstructorbyPhoneNumber(String phoneNumber){
-        for (Instructor instructor : instructors) {
+        for (Instructor instructor : instructorsCollection) {
             if (instructor.getPhoneNumber() == phoneNumber){
                 return instructor;
             }
@@ -78,27 +78,16 @@ public class InstructorsRegistry {
         return null;
     }
 
-    public String getAllInstructorsDescriptions(){
-        StringBuilder description = new StringBuilder("");
-        for (Instructor instructor : instructors) {
-            description.append(instructor.toString()+ " \n");
-        }
-        return description.toString();
-    }
 
-    public boolean deleteInstructor(String id) {
-        Instructor instructorToRemove = null;
-        for (Instructor instructor : instructors) {
-            if(instructor.getID().trim().equals(id.trim())){
-                instructorToRemove = instructor;
-                break;
-            }
-        }
-        if (instructorToRemove == null){
-            return false;
-        }else{
-            deleteInstructor(instructorToRemove);
-            return true;
+    public void updateInstructor(int instructorId, Instructor updatedInstructor) {
+        Instructor oldInstructor = instructorsCollection.get(instructorId);
+        updatedInstructor.setID(oldInstructor.getID());
+        instructorsCollection.set(instructorId, updatedInstructor);
+
+        try {
+            instructorTDG.update(updatedInstructor.toParams());
+        } catch (SQLException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
     }
 
@@ -111,7 +100,7 @@ public class InstructorsRegistry {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("InstructorsRegistry{\n");
-        for (Instructor instructor : instructors) {
+        for (Instructor instructor : instructorsCollection) {
             sb.append(instructor.toString()).append("\n");
         }
         sb.append("}");
