@@ -65,6 +65,22 @@ public class Lesson {
         System.out.println("At Location"+location);
     }
 
+
+            /**
+     * Helper method to turn Lesson into paramters that can be passed to its TDG 
+     * @param offering
+     * @return Object array with each of its attributes in order : 
+     * id, title, description, locatin id and timeslot as a json 
+     */
+    public Object[] toParams() {
+        return new Object[] {
+            this.id,
+            this.title,
+            this.description,
+            this.location.getID(),
+            this.timeSlot != null ? this.timeSlot.toJson() : null
+        };
+    }
     @Override
     public String toString() {
         return "Lesson{" +

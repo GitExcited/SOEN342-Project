@@ -5,8 +5,9 @@ public class LessonTDG {
 
     private Connection connection;
 
-    public LessonTDG(Connection connection) {
-        this.connection = connection;
+    public LessonTDG() throws ClassNotFoundException, SQLException {
+        Class.forName("org.sqlite.JDBC");
+        this.connection = DriverManager.getConnection("jdbc:sqlite:test.db");
     }
 
     public void createTable() throws SQLException {
@@ -18,7 +19,8 @@ public class LessonTDG {
                          " TITLE TEXT NOT NULL, " + 
                          " DESCRIPTION TEXT NOT NULL, " + 
                          " LOCATION_ID TEXT NOT NULL, " + 
-                         " TIMESLOT TEXT NOT NULL)"; // Assuming timeslot is stored as a JSON string
+                         " TIMESLOT TEXT NOT NULL, " + 
+                         " FOREIGN KEY (LOCATION_ID) REFERENCES LOCATION(ID))"; // Adding foreign key constraint
             stmt.executeUpdate(sql);
         } finally {
             closeResources(stmt);

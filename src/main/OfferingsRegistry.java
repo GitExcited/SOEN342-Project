@@ -25,25 +25,19 @@ class OfferingsRegistry{
 
     public void removeOffering(Offering offering) {
         offeringsCollection.remove(offering);
-        try {
-            offeringTDG.delete(offering.getID());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+ 
        
     }
 /**
- * Updates the passed offeringId with the newLesson, newInstructor and new booked boolean value
- * @param OfferingId
- * @param newLesson
- * @param newInstructor
- * @param booked
+ * Updates the passed offeringId to match the attributes of updatesOffering while keeping the same ID
+ * @param OfferingId The offering which will be updates. The resulting Offering has the same ID.
+ * @param updatedOffering The offering with attributes to use.
  */
-    public void updateOffering(int OfferingId, Lesson newLesson, Instructor newInstructor,boolean booked ){
+    public void updateOffering(int OfferingId, Offering updatedOffering ){
         Offering oldOffering = offeringsCollection.get(OfferingId);
-        oldOffering.setLesson(newLesson);
-        oldOffering.setInstructor(newInstructor);
-        oldOffering.setBooked(booked);  
+        
+        updatedOffering.setID(oldOffering.getID());
+        offeringsCollection.set(OfferingId, updatedOffering);
 
         try {
             offeringTDG.update(oldOffering.toParams());

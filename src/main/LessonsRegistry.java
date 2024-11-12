@@ -1,18 +1,32 @@
 package main;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tdg.LessonTDG;
+
 public class LessonsRegistry {
-    private List<Lesson> lessonsCollection;
+    private List<Lesson> lessonsCollection= new ArrayList<>();;
+    private LessonTDG lessonTDG;
 
     // Constructor
     public LessonsRegistry() {
-        this.lessonsCollection = new ArrayList<>();
+        try {
+            this.lessonTDG = new LessonTDG();
+            lessonTDG.createTable();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } 
     }
 
     public void createLesson(Lesson lesson) {
         lessonsCollection.add(lesson);
+        try {
+            lessonTDG.insert(lesson.toParams());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean checkTimeCollision(Lesson lesson) {
@@ -48,9 +62,31 @@ public class LessonsRegistry {
 
     public void removeLesson(Lesson lesson) {
         lessonsCollection.remove(lesson);
+        try {
+            lessonTDG.delete(lesson.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void addLesson(Lesson lesson) {
-        lessonsCollection.add(lesson);
+
+
+    /***
+     * Updates the lesson to match the parameters of updatedLesson while keeping the same ID 
+     * @param lessonId the lesson to update. The resulting lesson has the same id
+     * @param updatedLesson the lesson object with the updated values, possibly having some values not updated
+     */
+    public void updateLesson( int lessonId, Lesson updatedLesson) {
+
+        Lesson oldLesson = lessonsCollection.get(lessonId);
+        //! WHEN updating a lesson, we keep the same id for foreign key purposes
+        updatedLesson.setID(oldLesson.getID());
+        lessonsCollection.set(lessonId, updatedLesson);
+                
+        try {
+            lessonTDG.update(updatedLesson.toParams());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
