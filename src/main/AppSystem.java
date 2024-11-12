@@ -69,7 +69,7 @@ public class AppSystem {
         else {
             lessons.removeLesson(lesson);
             Offering offering = new Offering(lesson, currentInstructor);
-            offerings.addOffering(offering);
+            offerings.createOffering(offering);
             return true;
         } 
     }
@@ -305,7 +305,7 @@ public class AppSystem {
             return false;
         }
         lessons.createLesson(offering.getLesson());
-        offerings.removeOffering(offering);
+        offerings.deleteOffering(offering);
         return true;
     }
 
