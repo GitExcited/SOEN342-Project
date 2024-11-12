@@ -53,7 +53,7 @@ public class Offering {
     public void setBooked(boolean booked){
         this.booked = booked;
     }
-
+    
     // toString method
     @Override
     public String toString() {
@@ -61,5 +61,19 @@ public class Offering {
                 "lesson =" + lesson +
                 "instructor =" + instructor +
                 '}';
+    }
+
+    /**
+     * Helper method to turn Offering into paramters that can be passed to its TDG 
+     * @param offering
+     * @return Object array with each of its attributes in order : id, lesson_id, instructor_id, booked boolean
+     */
+    public Object[] toParams() {
+        return new Object[] {
+            this.id,
+            this.lesson.getID(),
+            this.instructor.getID(),
+            this.booked
+        };
     }
 }

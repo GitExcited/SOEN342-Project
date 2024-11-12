@@ -3,11 +3,11 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationRegistry {
+public class LocationsRegistry {
     private List<Location> locations;
 
     // Constructor
-    public LocationRegistry() {
+    public LocationsRegistry() {
         this.locations = new ArrayList<>();
     }
 

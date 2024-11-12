@@ -1,4 +1,5 @@
 package main;
+import java.sql.SQLException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -21,8 +22,8 @@ public class AppSystem {
     private ClientsRegistry clients;
     private InstructorsRegistry instructors;
     private BookingsRegistry bookings;
-    private Lessons lessons;
-    private Offerings offerings;
+    private LessonsRegistry lessons;
+    private OfferingsRegistry offerings;
     //private PublicOfferings publicOfferings;
 
     private boolean userAuthenticated;
@@ -30,15 +31,15 @@ public class AppSystem {
 
 
 
-    public AppSystem(){
+    public AppSystem() throws ClassNotFoundException, SQLException{
         //System.out.println("Debug: AppSystem constructor");
         this.admin = new Admin();
         this.clients = new ClientsRegistry();
         this.instructors = new InstructorsRegistry();
         this.bookings = new BookingsRegistry();
         
-        this.lessons = new Lessons();
-        this.offerings = new Offerings();
+        this.lessons = new LessonsRegistry();
+        this.offerings = new OfferingsRegistry();
         //this.publicOfferings = new PublicOfferings();
         this.currentClient = null;
         this.currentInstructor = null;

@@ -8,7 +8,13 @@ public class Main {
     static boolean running = true;
     public static void main(String[] args) {
         connect();
-        AppSystem appSystem = new AppSystem();
+        AppSystem appSystem = null;
+        //This is caused by SQL implementation
+        try {
+            appSystem = new AppSystem();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         Scanner in = new Scanner(System.in);
         
         String userInput = "";

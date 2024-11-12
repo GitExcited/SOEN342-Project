@@ -1,11 +1,24 @@
 package main;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-class Offerings{
+import tdg.OfferingTDG;
+
+class OfferingsRegistry{
     private ArrayList<Offering> offeringsCollection = new ArrayList<Offering>();//Collection of offerings
+    private OfferingTDG offeringTDG;
+
+    public OfferingsRegistry() throws ClassNotFoundException, SQLException {
+        this.offeringTDG = new OfferingTDG();
+    }
 
     public void addOffering(Offering offering) {
         offeringsCollection.add(offering);
+        try {
+            offeringTDG.insert(offering.toParams());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void removeOffering(Offering offering) {
@@ -120,5 +133,12 @@ class Offerings{
             }
         }
         return sb.toString();
+    }
+
+    public OfferingTDG getTDG(){
+        return offeringTDG;
+    }
+    public void setTDG( OfferingTDG tdg){
+        this.offeringTDG = tdg;
     }
 }
