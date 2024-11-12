@@ -1,5 +1,7 @@
 package main;
 
+import java.util.UUID;
+
 public class Location {
     private String id;
     private String name;
@@ -10,6 +12,8 @@ public class Location {
 
     // Constructor
     public Location(String name, String address, String city, String room, Schedule schedule) {
+        UUID uuid = UUID.randomUUID();
+        this.id = uuid.toString();
         this.name = name;
         this.address = address;
         this.city = city;

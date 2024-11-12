@@ -47,10 +47,8 @@ public class InstructorTDG {
      * Inserts a new instructor into the INSTRUCTOR table.
      *
      * @param params the parameters for the new instructor
-     * @throws SQLException if a database access error occurs
-     * @throws NoSuchAlgorithmException if the specified algorithm is not available
      */
-    public void insert(Object... params) throws SQLException, NoSuchAlgorithmException {
+    public void insert(Object... params) {
         String sql = "INSERT INTO INSTRUCTOR (ID, NAME, PHONE_NUMBER, AGE, PASSWORD, SALT, CITIES) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = null;
         try {
@@ -71,7 +69,11 @@ public class InstructorTDG {
             pstmt.setString(6, saltStr);
             pstmt.setString(7, (String) params[5]); // Assuming cities are passed as a comma-separated string
             pstmt.executeUpdate();
-        } finally {
+        } catch(Exception e ){
+            e.printStackTrace();
+        }
+        
+        finally {
             closeResources(pstmt);
         }
     }
@@ -83,7 +85,7 @@ public class InstructorTDG {
      * @throws SQLException if a database access error occurs
      * @throws NoSuchAlgorithmException if the specified algorithm is not available
      */
-    public void update(Object... params) throws SQLException, NoSuchAlgorithmException {
+    public void update(Object... params)  {
         String sql = "UPDATE INSTRUCTOR SET NAME = ?, PHONE_NUMBER = ?, AGE = ?, PASSWORD = ?, SALT = ?, CITIES = ? WHERE ID = ?";
         PreparedStatement pstmt = null;
         try {
@@ -104,7 +106,9 @@ public class InstructorTDG {
             pstmt.setString(6, (String) params[5]); // Assuming cities are passed as a comma-separated string
             pstmt.setString(7, (String) params[0]);
             pstmt.executeUpdate();
-        } finally {
+        } catch(Exception e ){
+            e.printStackTrace();
+        }finally {
             closeResources(pstmt);
         }
     }

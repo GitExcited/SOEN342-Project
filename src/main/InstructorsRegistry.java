@@ -83,12 +83,8 @@ public class InstructorsRegistry {
         Instructor oldInstructor = instructorsCollection.get(instructorId);
         updatedInstructor.setID(oldInstructor.getID());
         instructorsCollection.set(instructorId, updatedInstructor);
-
-        try {
-            instructorTDG.update(updatedInstructor.toParams());
-        } catch (SQLException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        instructorTDG.update(updatedInstructor.toParams());
+      
     }
 
     /**

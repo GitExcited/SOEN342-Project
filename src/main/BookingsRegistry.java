@@ -114,7 +114,13 @@ public class BookingsRegistry {
         }
         return sb.toString();
     }
-
+    public String getAllBookingsDescriptions() {
+        StringBuilder sb = new StringBuilder();
+        for (Booking b : bookingCollection) {
+            sb.append(b.toString()).append("\n");
+        }
+        return sb.toString();
+    }
     public Booking getBookingById(String id) {
         for (Booking booking: bookingCollection) {
             if (booking.getID().trim().equals(id.trim())){
