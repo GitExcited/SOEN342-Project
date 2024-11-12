@@ -63,4 +63,19 @@ public class Client {
     public String toString(){
         return "Id: "+ id+ " Name: "+ name + " phoneNumber: "+ phoneNumber + " Age: "+ age;
     }
+
+        /**
+     * Helper method to turn Client  into paramters that can be passed to its TDG 
+     * @param offering
+     * @return Object array with each of its attributes in order
+     */
+    public Object[] toParams() {
+        return new Object[] {
+            this.id,
+            this.name,
+            this.phoneNumber,
+            this.age,
+            this.password
+        };
+    }
 }

@@ -1,14 +1,24 @@
 package main;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tdg.BookingTDG;
+
 public class BookingsRegistry {
-    private List<Booking> bookings;
+    private List<Booking> bookingCollection= new ArrayList<>();;
+    private BookingTDG bookingTDG;
 
     // Constructor
     public BookingsRegistry() {
-        this.bookings = new ArrayList<>();
+        this.bookingTDG = new BookingTDG();
+        try {
+            bookingTDG.createTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     /**
@@ -17,7 +27,12 @@ public class BookingsRegistry {
      * @param booking The booking to be added.
      */
     public void addBooking(Booking booking) {
-        bookings.add(booking);
+        bookingCollection.add(booking);
+        try {
+            bookingTDG.insert(booking.toParams());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -27,23 +42,25 @@ public class BookingsRegistry {
      * @return true if the booking was successfully deleted, false otherwise.
      */
     public void deleteBooking(Booking booking) {
-        bookings.remove(booking);
+        bookingCollection.remove(booking);
+        try {
+            bookingTDG.delete(booking.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Updates an existing booking in the registry.
-     * 
-     * @param oldBooking The booking to be updated.
-     * @param newBooking The new booking details.
-     * @return true if the booking was successfully updated, false otherwise.
-     */
-    public boolean updateBooking(Booking oldBooking, Booking newBooking) {
-        int index = bookings.indexOf(oldBooking);
-        if (index != -1) {
-            bookings.set(index, newBooking);
-            return true;
+    public void updateBooking(int BookingId, Booking newBooking) {
+        Booking oldBooking= bookingCollection.get(BookingId);
+        
+        newBooking.setID(oldBooking.getID());
+        bookingCollection.set(BookingId, newBooking);
+
+        try {
+            bookingTDG.update(newBooking.toParams());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false;
     }
 
     /**
@@ -51,13 +68,13 @@ public class BookingsRegistry {
      * 
      * @return The list of bookings.
      */
-    public List<Booking> getBookings() {
-        return bookings;
+    public List<Booking> getBookingCollection() {
+        return bookingCollection;
     }
 
     public boolean checkTimeCollision(Client currentClient, Offering offering) {
         ArrayList<Booking> clientsCollection = new ArrayList<Booking>();;
-        for (Booking b: bookings){
+        for (Booking b: bookingCollection){
             if(b.getClient().getID().trim().equals(currentClient.getID().trim())){
                clientsCollection.add(b);
             }
@@ -79,7 +96,7 @@ public class BookingsRegistry {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("BookingsRegistry{\n");
-        for (Booking booking : bookings) {
+        for (Booking booking : bookingCollection) {
             sb.append(booking.toString()).append("\n");
         }
         sb.append("}");
@@ -88,7 +105,7 @@ public class BookingsRegistry {
 
     public String getClientBookings(String id) {
         StringBuilder sb = new StringBuilder();
-        for (Booking b: bookings) {
+        for (Booking b: bookingCollection) {
             if(b.getClient().getID().trim().equals(id.trim())){
                 sb.append("BOOKING NUMBER ").append(b.getID()).append("\n");
                 sb.append(b.toString()).append("\n");
@@ -99,7 +116,7 @@ public class BookingsRegistry {
     }
 
     public Booking getBookingById(String id) {
-        for (Booking booking: bookings) {
+        for (Booking booking: bookingCollection) {
             if (booking.getID().trim().equals(id.trim())){
                 return booking;
             }

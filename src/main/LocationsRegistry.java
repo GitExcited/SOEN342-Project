@@ -7,7 +7,7 @@ import java.util.List;
 import tdg.LocationTDG;
 
 public class LocationsRegistry {
-    private List<Location> locations = new ArrayList<>();
+    private List<Location> locationCollection = new ArrayList<>();
     private LocationTDG locationTDG;
 
     // Constructor
@@ -28,7 +28,7 @@ public class LocationsRegistry {
      * @param location The location to be added.
      */
     public void addLocation(Location location) {
-        locations.add(location);
+        locationCollection.add(location);
         try {
             locationTDG.insert(location.toParams());
         } catch (Exception e) {
@@ -50,31 +50,22 @@ public class LocationsRegistry {
 
         }
 
-        return locations.remove(location);
+        return locationCollection.remove(location);
     }
 
-    /**
-     * Updates an existing location in the registry.
-     * 
-     * @param oldLocation The location to be updated.
-     * @param newLocation The new location details.
-     * @return true if the location was successfully updated, false otherwise.
-     */
-    public boolean updateLocation(Location oldLocation, Location newLocation) {
+
+    public void updateLocation(int locationId, Location newLocation) {
         //! VERY IMPORTANT: the new location must have the same id as the old one for persistence reasons ( other tables might have this location id as a foreign key)
+        Location oldLocation = locationCollection.get(locationId);
+        
         newLocation.setID(oldLocation.getID());
-        int index = locations.indexOf(oldLocation);
-        if (index != -1) {
-            locations.set(index, newLocation);
-            return true;
-        }
+        locationCollection.set(locationId, newLocation);
+
         try {
-            locationTDG.update(newLocation);
+            locationTDG.update(newLocation.toParams());
         } catch (Exception e) {
             e.printStackTrace();
-
         }
-        return false;
     }
 
     /**
@@ -82,8 +73,8 @@ public class LocationsRegistry {
      * 
      * @return The list of locations.
      */
-    public List<Location> getLocations() {
-        return locations;
+    public List<Location> getLocationCollection() {
+        return locationCollection;
     }
 
     /**
@@ -95,7 +86,7 @@ public class LocationsRegistry {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("LocationRegistry{\n");
-        for (Location location : locations) {
+        for (Location location : locationCollection) {
             sb.append(location.toString()).append("\n");
         }
         sb.append("}");

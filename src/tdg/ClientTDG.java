@@ -14,8 +14,14 @@ public class ClientTDG {
      *
      * @param connection the database connection
      */
-    public ClientTDG(Connection connection) {
-        this.connection = connection;
+    public ClientTDG() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            this.connection = DriverManager.getConnection("jdbc:sqlite:test.db");
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

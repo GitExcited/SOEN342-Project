@@ -25,6 +25,11 @@ class OfferingsRegistry{
 
     public void removeOffering(Offering offering) {
         offeringsCollection.remove(offering);
+        try {
+            offeringTDG.delete(offering.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
  
        
     }

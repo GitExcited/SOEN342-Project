@@ -10,10 +10,15 @@ public class BookingTDG {
      *
      * @param connection the database connection
      */
-    public BookingTDG(Connection connection) {
-        this.connection = connection;
-    }
+    public BookingTDG() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            this.connection = DriverManager.getConnection("jdbc:sqlite:test.db");
 
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Creates the BOOKING table if it does not already exist.
      *

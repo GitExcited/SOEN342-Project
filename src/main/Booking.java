@@ -49,4 +49,12 @@ public class Booking{
                 ", client= " + client.toString() +
                 '}';
     }
+
+    public Object[] toParams() {
+        return new Object[] {
+            this.id,
+            this.client.getID(),
+            this.offering.getID()
+        };
+    }
 }
