@@ -323,18 +323,6 @@ public class SQLiteJDBC {
         }
     }
 
- 
-    private static void closeDatabaseConnection(String dbUrl) {
-        try (Connection c = DriverManager.getConnection(dbUrl)) {
-            // Closing the connection
-            if (c != null && !c.isClosed()) {
-                c.close();
-                System.out.println("Database connection closed.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
     
     
 

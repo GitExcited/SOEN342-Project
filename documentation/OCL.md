@@ -10,7 +10,7 @@
 # Underage Guardian Requirement
 
 **context** UnderageClient  
-**inv**: self.guardian.oclIsTypeOf(Client)
+**inv**: self.guardian -> **exists**(self.guardian.oclIsTypeOf(Client))
 
 # Instructor City Availability
 
