@@ -105,6 +105,7 @@ public class Main {
                 String BookingId;
                 String time;
                 String Id;
+                String cities;
                 boolean result;
                 switch (userInput) {
                     case "1": //Login Client
@@ -181,7 +182,10 @@ public class Main {
                             age = in.nextLine();
                             System.out.println("Enter your password. >> ");
                             password = in.nextLine();
-                            System.out.println(appSystem.registerInstructor(name, phoneNumber, Integer.parseInt(age), password));
+                            System.out.println(appSystem.listAllCities());
+                            System.out.println("Please list all the cities you are available to give lessons in. (separated by a single space) >> ");
+                            cities = in.nextLine();
+                            System.out.println(appSystem.registerInstructor(name, phoneNumber, Integer.parseInt(age), password, cities));
                             System.out.println("\n");
                         } catch (Exception e) {
                             System.out.println(e.getMessage());

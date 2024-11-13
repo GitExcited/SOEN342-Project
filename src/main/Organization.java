@@ -1,5 +1,7 @@
 package main;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Organization {
     private ArrayList<Location> locationCollection = new ArrayList<Location>();
@@ -38,6 +40,18 @@ public class Organization {
             }
         }
         return location;
+    }
+
+    public String getAllCities() {
+        Set<String> cities = new HashSet<>();
+        StringBuilder description = new StringBuilder("");
+        for (Location location : locationCollection) {
+            if (!cities.contains(location.getCity())){
+                description.append(location.getCity()+ " \n");
+                cities.add(location.getCity());
+            }
+        }
+        return description.toString();
     }
 
 }
