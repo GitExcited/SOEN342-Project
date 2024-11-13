@@ -10,16 +10,19 @@ public class Instructor {
     private String phoneNumber;
     private int age;
     private String password;
-    private ArrayList <String> cities = new ArrayList<String>();
+    public ArrayList <String> cities = new ArrayList<String>();
 
     // Constructor
-    public Instructor(String name, String phoneNumber, int age, String password) {
+    public Instructor(String name, String phoneNumber, int age, String password, String[] cities) {
         UUID uuid = UUID.randomUUID();
         this.id = uuid.toString();
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.age = age;
         this.password = password;
+        for (int i = 0; i < cities.length ; i++){
+            this.cities.add(cities[i]);
+        }
     }
 
     public String getName() {

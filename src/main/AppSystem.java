@@ -61,12 +61,16 @@ public class AppSystem {
         if(lesson == null){
             return false;
         }
+
+        if(!currentInstructor.cities.contains(lesson.getLocation().getCity())){
+            return false;
+        }
+
         boolean collision = offerings.checkTimeCollision(currentInstructor, lesson);
         if (collision){ 
             System.out.println("AppSystem says: SCHEDULE CONFLICT. Lesson couldnt be added to Offerings.");
             return false;
-        }
-        else {
+        } else {
             lessons.removeLesson(lesson);
             Offering offering = new Offering(lesson, currentInstructor);
             offerings.createOffering(offering);
@@ -160,7 +164,7 @@ public class AppSystem {
         return "Registering new user was a success, please login now.";
     }
 
-    public String registerInstructor(String name, String phoneNumber, Integer age, String password){
+    public String registerInstructor(String name, String phoneNumber, Integer age, String password, String cities){
         if(age < 18){ //instructor cant be a minor
             return "Instructor must be an adult";
         }
@@ -173,8 +177,10 @@ public class AppSystem {
         if (instructor != null) {
             return "Phone number already in use.";
         }
+        //parse list cities
+        String[] citiesParsed = cities.split(" ");
         //create and add user to user collection
-        instructors.createInstructor(new Instructor(name, phoneNumber, age, password));
+        instructors.createInstructor(new Instructor(name, phoneNumber, age, password, citiesParsed));
         return "Registering instructor was a success, please login now.";
     }
 
@@ -354,5 +360,9 @@ public class AppSystem {
 
     public String getCurrentResponsibleChildren() {
         return clients.getAllResponsibleChildrenByGuardianId(currentClient.getID());
+    }
+
+    public String listAllCities() {
+        return admin.organization.getAllCities();
     }
 }

@@ -126,16 +126,16 @@ public class SQLiteJDBC {
         }
         System.out.println("Operation done successfully");
         // Create Instructors for testing purposes with ids from 0 to 100
-        for (int i = 0; i < 100; i++) {
-            try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                System.out.println("Im thread 1 yipee");
-                Instructor ins = new Instructor("John Doe", "1234567890", 30, "password123");
-                ins.setID(String.valueOf(i));
-                instructorsRegistry.createInstructor(ins);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        // for (int i = 0; i < 100; i++) {
+        //     try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+        //         System.out.println("Im thread 1 yipee");
+        //         Instructor ins = new Instructor("John Doe", "1234567890", 30, "password123");
+        //         ins.setID(String.valueOf(i));
+        //         instructorsRegistry.createInstructor(ins);
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
         
 
         // List<Instructor> Thread2Instructors = new ArrayList<>();
