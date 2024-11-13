@@ -108,14 +108,9 @@ public class AppSystem {
 
                 // Convert the comma-separated string back into an array of strings
                 String[] cities = citiesStr.split(",");
-                ArrayList<String> intializedCities = new ArrayList<String>();
-                for(String s : cities){
-                        intializedCities.add(s);
-                }
             
-                Instructor instructor = new Instructor(name, phone, age, hashedPassword);
+                Instructor instructor = new Instructor(name, phone, age, hashedPassword,cities);
                 instructor.setID(id);
-                instructor.setCities(intializedCities);
                  
                 instructors.initializeInstructor(instructor);
             }

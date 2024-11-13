@@ -24,6 +24,15 @@ public class Instructor {
             this.cities.add(cities[i]);
         }
     }
+    //Second Constructor
+    public Instructor(String name, String phoneNumber, int age, String password) {
+        UUID uuid = UUID.randomUUID();
+        this.id = uuid.toString();
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.age = age;
+        this.password = password;
+    }
 
     public String getName() {
         return name;
