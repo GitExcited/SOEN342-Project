@@ -156,7 +156,7 @@ public class AppSystem {
             }
             newClient = new UnderAgeClient(name, phoneNumber, 0, password, guardianId);
         }
-        clients.addClient(newClient);
+        clients.createClient(newClient);
         return "Registering new user was a success, please login now.";
     }
 
@@ -326,7 +326,7 @@ public class AppSystem {
             return "Unable to add booking, collision detected with other bookings the client already has.";
         }
         //needs to be refactored
-        bookings.addBooking(new Booking(offering, currentClient));
+        bookings.createBooking(new Booking(offering, currentClient));
         offering.setBooked(true);
         //offerings.removeOffering(offering);
         return "Offering selection was a success.";
@@ -346,7 +346,7 @@ public class AppSystem {
         }
 
         //needs to be refactored
-        bookings.addBooking(new Booking(offering, client));
+        bookings.createBooking(new Booking(offering, client));
         offering.setBooked(true);
         //offerings.removeOffering(offering);
         return "Offering selection was a success.";

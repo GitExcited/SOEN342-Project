@@ -89,7 +89,7 @@ public class SQLiteJDBC {
 
             // Test BookingTDG and BookingRegistry
             Booking booking1 = new Booking( new Offering(lesson1, instructor1), new Client("Jane Doe", "9876543210", 25, "password456"));
-            bookingsRegistry.addBooking(booking1);
+            bookingsRegistry.createBooking(booking1);
             System.out.println(bookingsRegistry.getAllBookingsDescriptions());
             booking1.setOffering(new Offering( lesson1, instructor1));
             bookingsRegistry.updateBooking(0, booking1);

@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import tdg.ClientTDG;
 
@@ -12,7 +13,7 @@ public class ClientsRegistry {
     private List<Client> clientCollection = new ArrayList<>();
     private ClientTDG clientTDG;
 
-    // Constructor
+    //* Constructor
     public ClientsRegistry() {
         this.clientTDG= new ClientTDG();
         try {
@@ -23,17 +24,26 @@ public class ClientsRegistry {
 
     }
 
+    //* CREATE, UPDATE and DELETE Operations
+
     /**
      * Adds a new client to the collection.
      * 
      * @param client The client to be added.
      */
-    public void addClient(Client client) {
+    public void createClient(Client client) {
+        //? Writer operates in self-exclusion
+        ReentrantReadWriteLock.WriteLock writeLock = DatabaseLock.lock.writeLock();
+        writeLock.lock();
+
         clientCollection.add(client);
         try {
             clientTDG.insert(client.toParams());
         } catch (NoSuchAlgorithmException | SQLException e) {
             e.printStackTrace();
+        }finally {
+            //? Unlock
+            writeLock.unlock();
         }
     }
 
@@ -42,16 +52,27 @@ public class ClientsRegistry {
      * 
      * @param client The client to be removed.
      */
-    public void removeClient(Client client) {
+    public void deleteClient(Client client) {
+        //? Writer operates in self-exclusion
+        ReentrantReadWriteLock.WriteLock writeLock = DatabaseLock.lock.writeLock();
+        writeLock.lock();
+
         clientCollection.remove(client);
         try {
             clientTDG.delete(client.getID());
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            //? Unlock
+            writeLock.unlock();
         }
     }
 
     public void updateClient(int ClientId, Client updatedClient ){
+        //? Writer operates in self-exclusion
+        ReentrantReadWriteLock.WriteLock writeLock = DatabaseLock.lock.writeLock();
+        writeLock.lock();
+
         Client oldClient = clientCollection.get(ClientId);
         
         updatedClient.setID(oldClient.getID());
@@ -61,72 +82,129 @@ public class ClientsRegistry {
             clientTDG.update(updatedClient.toParams());
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //? Unlock 
+            writeLock.unlock();
         }
 
     }
 
+    public boolean deleteClient(String id) {
+        //? Writer operates in self-exclusion
+        ReentrantReadWriteLock.WriteLock writeLock = DatabaseLock.lock.writeLock();
+        writeLock.lock();
+
+        try{
+                Client clientToRemove = null;
+            for (Client client : clientCollection) {
+                if(client.getID().trim().equals(id.trim())){
+                    clientToRemove = client;
+                    break;
+                }
+            }
+            if (clientToRemove == null){
+                return false;
+            }else{
+                deleteClient(clientToRemove);
+                return true;
+            }
+        }finally {
+            //? Unlock 
+            writeLock.unlock();
+        }
+    }
+    //* READ operations
     /**
      * Retrieves the list of clients.
      * 
      * @return The list of clients.
      */
     public List<Client> getClientCollection() {
-        return clientCollection;
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+
+        try {
+        return clientCollection;}finally {
+            //? Unlock
+            readLock.unlock();
+        }
     }
 
     public Client getClientbyName(String name){
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+
+        try {
         for (Client client : clientCollection) {
             //System.out.println("Debug client name: "+client.getName());
             if (client.getName().trim().equals(name.trim())){
                 return client;
             }
         }
-        return null;
+        return null;}finally {
+            //? Unlock
+            readLock.unlock();
+        }
     }
 
     public Client getClientbyPhoneNumber(String phoneNumber){
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+
+        try {
         for (Client client : clientCollection) {
             if (client.getPhoneNumber() == phoneNumber){
                 return client;
             }
         }
-        return null;
+        return null;}finally {
+            //? Unlock
+            readLock.unlock();
+        }
     }
 
     public String getAllClientsDescriptions(){
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+
+        try {
         StringBuilder description = new StringBuilder("");
         for (Client client : clientCollection) {
             description.append(client.toString()+ " \n");
         }
-        return description.toString();
-    }
-
-    public boolean deleteClient(String id) {
-        Client clientToRemove = null;
-        for (Client client : clientCollection) {
-            if(client.getID().trim().equals(id.trim())){
-                clientToRemove = client;
-                break;
-            }
-        }
-        if (clientToRemove == null){
-            return false;
-        }else{
-            removeClient(clientToRemove);
-            return true;
+        return description.toString();}finally {
+            //? Unlock
+            readLock.unlock();
         }
     }
 
     public Client getClientbyId(String Id) {
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+
+        try {
         for (Client client : clientCollection) {
             if (client.getID().trim().equals(Id.trim())){
                 return client;
             }
         }
-        return null;
+        return null;}finally {
+            //? Unlock
+            readLock.unlock();
+        }
     }
 
     public String getAllResponsibleChildrenByGuardianId(String id) {
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+
+        try {
         StringBuilder sb = new StringBuilder();
         for (Client c: clientCollection) {
             if(c instanceof UnderAgeClient){
@@ -137,6 +215,9 @@ public class ClientsRegistry {
                 }
             }
         }
-        return sb.toString();
+        return sb.toString();}finally {
+            //? Unlock
+            readLock.unlock();
+        }
     }
 }
