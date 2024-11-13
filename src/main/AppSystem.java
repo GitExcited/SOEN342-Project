@@ -1,9 +1,16 @@
 package main;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 enum UserAuthLevel {
     Client,
@@ -37,15 +44,86 @@ public class AppSystem {
         this.clients = new ClientsRegistry();
         this.instructors = new InstructorsRegistry();
         this.bookings = new BookingsRegistry();
-        
         this.lessons = new LessonsRegistry();
         this.offerings = new OfferingsRegistry();
         //this.publicOfferings = new PublicOfferings();
         this.currentClient = null;
         this.currentInstructor = null;
-
         this.userAuthenticated = false;
         this.authLevel = UserAuthLevel.NotAuthorized;
+ 
+        //Initializes all objects in their registries from the database
+        System.out.println("Initializing Database ...");
+        initialize();
+
+    }
+
+    public static void main(String[] args) {
+        try {
+            AppSystem app =new AppSystem();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+            //* INITIALIZE Method */
+    public void initialize() {
+        System.out.println("i made it here *");
+
+        ReentrantReadWriteLock.WriteLock writeLock = DatabaseLock.lock.writeLock();
+        writeLock.lock();
+        System.out.println("i made it here **");
+        try {
+            Class.forName("org.sqlite.JDBC");
+            Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
+            System.out.println("i made it here ***");
+            // INTIALIZE CLIENTS 
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENT");
+
+            while (rs.next()) {
+                String id = rs.getString("ID");
+                String name = rs.getString("NAME");
+                String phone = rs.getString("PHONE_NUMBER");
+                int age = rs.getInt("AGE");
+                String hashedPassword = rs.getString("PASSWORD");
+
+                
+                Client client = new Client(name, phone, age, hashedPassword);
+                client.setID(id);
+                clients.initializeClient(client);
+            }
+
+            // INTIALIZE INSTRUCTORS 
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM INSTRUCTOR");
+
+            while (rs.next()) {
+                String id = rs.getString("ID");
+                String name = rs.getString("NAME");
+                String phone = rs.getString("PHONE_NUMBER");
+                int age = rs.getInt("AGE");
+                String hashedPassword = rs.getString("PASSWORD");
+                String citiesStr = rs.getString("CITIES");
+
+                // Convert the comma-separated string back into an array of strings
+                String[] cities = citiesStr.split(",");
+                ArrayList<String> intializedCities = new ArrayList<String>();
+                for(String s : cities){
+                        intializedCities.add(s);
+                }
+            
+                Instructor instructor = new Instructor(name, phone, age, hashedPassword);
+                instructor.setID(id);
+                instructor.setCities(intializedCities);
+                 
+                instructors.initializeInstructor(instructor);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            writeLock.unlock();
+        }
     }
 
     /**
@@ -355,4 +433,6 @@ public class AppSystem {
     public String getCurrentResponsibleChildren() {
         return clients.getAllResponsibleChildrenByGuardianId(currentClient.getID());
     }
+
+    
 }

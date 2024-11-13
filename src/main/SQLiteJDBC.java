@@ -39,8 +39,8 @@ public class SQLiteJDBC {
         schedule2.addTimeSlot(timeSlot4);
         try {
 
-            Class.forName("org.sqlite.JDBC");
-            Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
+            // Class.forName("org.sqlite.JDBC");
+            // Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
             // Initialize TDGs and create tables
             LocationTDG locationTDG = new LocationTDG();
             locationTDG.createTable();
@@ -79,17 +79,20 @@ public class SQLiteJDBC {
             // lessonTDG.delete(lesson1.getID());
             // lessonTDG.printAllLessons();
 
-            // // Test InstructorTDG and InstructorsRegistry
-            // Instructor instructor1 = new Instructor("John Doe", "1234567890", 30, "password123");
-            // instructor1.addCity("New York");
-            // instructor1.addCity("Los Angeles");
-            // instructorsRegistry.createInstructor(instructor1);
-            // System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
-            // instructor1.setName("John Smith");
-            // instructorsRegistry.updateInstructor(0, instructor1);
-            // System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
-            // instructorsRegistry.deleteInstructor(instructor1);
-            // System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
+            // Test InstructorTDG and InstructorsRegistry
+            Instructor instructor1 = new Instructor("John Doe", "1234567890", 30, "password123");
+            instructor1.addCity("New York");
+            instructor1.addCity("Los Angeles");
+            instructorsRegistry.createInstructor(instructor1);
+            instructor1.setName("John Smith");
+            // Test InstructorTDG and InstructorsRegistry
+            Instructor instructor2= new Instructor("Francois Leclerc", "1234567890", 30, "password123");
+            instructor2.addCity("Montreal");
+            instructor2.addCity("Toronto");
+            instructorsRegistry.createInstructor(instructor2);
+            
+            instructorsRegistry.updateInstructor(0, instructor1);
+            
 
             // // Test BookingTDG and BookingRegistry
             // Booking booking1 = new Booking( new Offering(lesson1, instructor1), new Client("Jane Doe", "9876543210", 25, "password456"));
@@ -107,7 +110,7 @@ public class SQLiteJDBC {
             // client1.setName("Jane Jack");
             // clientsRegistry.updateClient(0, client1);
             // System.out.println(clientsRegistry.getAllClientsDescriptions());
-            // clientsRegistry.deleteClient(client1);
+            // // clientsRegistry.deleteClient(client1);
             // System.out.println(clientsRegistry.getAllClientsDescriptions());
 
             // // Test OfferingTDG and OfferingRegistry
@@ -126,16 +129,16 @@ public class SQLiteJDBC {
         }
         System.out.println("Operation done successfully");
         // Create Instructors for testing purposes with ids from 0 to 100
-        for (int i = 0; i < 100; i++) {
-            try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                System.out.println("Im thread 1 yipee");
-                Instructor ins = new Instructor("John Doe", "1234567890", 30, "password123");
-                ins.setID(String.valueOf(i));
-                instructorsRegistry.createInstructor(ins);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        // for (int i = 0; i < 100; i++) {
+        //     try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+        //         System.out.println("Im thread 1 yipee");
+        //         Instructor ins = new Instructor("John Doe", "1234567890", 30, "password123");
+        //         ins.setID(String.valueOf(i));
+        //         instructorsRegistry.createInstructor(ins);
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
         
 
         // List<Instructor> Thread2Instructors = new ArrayList<>();
@@ -185,130 +188,130 @@ public class SQLiteJDBC {
         // }
 
 
-        Thread readThread = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                    String query = "SELECT * FROM Instructor LIMIT 1";
-                    try (PreparedStatement pstmt = c.prepareStatement(query);
-                         ResultSet rs = pstmt.executeQuery()) {
-                        if (rs.next()) {
-                            // Read values from the result set
-                            String id = rs.getString("ID");
-                            String name = rs.getString("NAME");
-                            String phoneNumber = rs.getString("PHONE_NUMBER");
-                            int age = rs.getInt("AGE");
-                            String password = rs.getString("PASSWORD");
-                            String salt = rs.getString("SALT");
-                            String cities = rs.getString("CITIES");
-                            System.out.println("IM THREAD 1 AND I JUST READ "+ id+" whose name is"+name +" NOW I HOLD LOCK");
+        // Thread readThread = new Thread(() -> {
+        //     for (int i = 0; i < 100; i++) {
+        //         try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+        //             String query = "SELECT * FROM Instructor LIMIT 1";
+        //             try (PreparedStatement pstmt = c.prepareStatement(query);
+        //                  ResultSet rs = pstmt.executeQuery()) {
+        //                 if (rs.next()) {
+        //                     // Read values from the result set
+        //                     String id = rs.getString("ID");
+        //                     String name = rs.getString("NAME");
+        //                     String phoneNumber = rs.getString("PHONE_NUMBER");
+        //                     int age = rs.getInt("AGE");
+        //                     String password = rs.getString("PASSWORD");
+        //                     String salt = rs.getString("SALT");
+        //                     String cities = rs.getString("CITIES");
+        //                     System.out.println("IM THREAD 1 AND I JUST READ "+ id+" whose name is"+name +" NOW I HOLD LOCK");
 
-                            Thread.sleep(10000);
-                            System.out.println("Im thread 1 and I release lock");
+        //                     Thread.sleep(10000);
+        //                     System.out.println("Im thread 1 and I release lock");
 
-                            // Values are read but not printed
-                        }
-                    } 
-                } catch (SQLException |InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        Thread readThread2 = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                    String query = "SELECT * FROM Instructor LIMIT 1";
-                    try (PreparedStatement pstmt = c.prepareStatement(query);
-                         ResultSet rs = pstmt.executeQuery()) {
-                        if (rs.next()) {
-                            // Read values from the result set
-                            String id = rs.getString("ID");
-                            String name = rs.getString("NAME");
-                            String phoneNumber = rs.getString("PHONE_NUMBER");
-                            int age = rs.getInt("AGE");
-                            String password = rs.getString("PASSWORD");
-                            String salt = rs.getString("SALT");
-                            String cities = rs.getString("CITIES");
+        //                     // Values are read but not printed
+        //                 }
+        //             } 
+        //         } catch (SQLException |InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // });
+        // Thread readThread2 = new Thread(() -> {
+        //     for (int i = 0; i < 100; i++) {
+        //         try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+        //             String query = "SELECT * FROM Instructor LIMIT 1";
+        //             try (PreparedStatement pstmt = c.prepareStatement(query);
+        //                  ResultSet rs = pstmt.executeQuery()) {
+        //                 if (rs.next()) {
+        //                     // Read values from the result set
+        //                     String id = rs.getString("ID");
+        //                     String name = rs.getString("NAME");
+        //                     String phoneNumber = rs.getString("PHONE_NUMBER");
+        //                     int age = rs.getInt("AGE");
+        //                     String password = rs.getString("PASSWORD");
+        //                     String salt = rs.getString("SALT");
+        //                     String cities = rs.getString("CITIES");
 
-                            System.out.println("IM THREAD 2 AND I JUST READ "+ id+" whose name is"+name +" NOW I HOLD LOCK");
-                            Thread.sleep(10000);
-                            System.out.println("Im thread 2 and I release lock");
+        //                     System.out.println("IM THREAD 2 AND I JUST READ "+ id+" whose name is"+name +" NOW I HOLD LOCK");
+        //                     Thread.sleep(10000);
+        //                     System.out.println("Im thread 2 and I release lock");
 
 
-                            // Values are read but not printed
-                        }
-                    }
-                } catch (SQLException |InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        Thread readThread3= new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                    String query = "SELECT * FROM Instructor LIMIT 1";
-                    try (PreparedStatement pstmt = c.prepareStatement(query);
-                         ResultSet rs = pstmt.executeQuery()) {
-                        if (rs.next()) {
-                            // Read values from the result set
-                            String id = rs.getString("ID");
-                            String name = rs.getString("NAME");
-                            String phoneNumber = rs.getString("PHONE_NUMBER");
-                            int age = rs.getInt("AGE");
-                            String password = rs.getString("PASSWORD");
-                            String salt = rs.getString("SALT");
-                            String cities = rs.getString("CITIES");
-                            System.out.println("IM THREAD 3 AND I JUST READ "+ id+" whose name is"+name+" NOW I HOLD LOCK");
-                            Thread.sleep(10000);
-                            System.out.println("Im thread 3 and I release lock");
+        //                     // Values are read but not printed
+        //                 }
+        //             }
+        //         } catch (SQLException |InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // });
+        // Thread readThread3= new Thread(() -> {
+        //     for (int i = 0; i < 100; i++) {
+        //         try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+        //             String query = "SELECT * FROM Instructor LIMIT 1";
+        //             try (PreparedStatement pstmt = c.prepareStatement(query);
+        //                  ResultSet rs = pstmt.executeQuery()) {
+        //                 if (rs.next()) {
+        //                     // Read values from the result set
+        //                     String id = rs.getString("ID");
+        //                     String name = rs.getString("NAME");
+        //                     String phoneNumber = rs.getString("PHONE_NUMBER");
+        //                     int age = rs.getInt("AGE");
+        //                     String password = rs.getString("PASSWORD");
+        //                     String salt = rs.getString("SALT");
+        //                     String cities = rs.getString("CITIES");
+        //                     System.out.println("IM THREAD 3 AND I JUST READ "+ id+" whose name is"+name+" NOW I HOLD LOCK");
+        //                     Thread.sleep(10000);
+        //                     System.out.println("Im thread 3 and I release lock");
 
-                            // Values are read but not printed
-                        }
-                    }
-                } catch (SQLException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        Thread readThread4 = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                    String query = "SELECT * FROM Instructor LIMIT 1";
-                    try (PreparedStatement pstmt = c.prepareStatement(query);
-                         ResultSet rs = pstmt.executeQuery()) {
-                        if (rs.next()) {
-                            // Read values from the result set
-                            String id = rs.getString("ID");
-                            String name = rs.getString("NAME");
-                            String phoneNumber = rs.getString("PHONE_NUMBER");
-                            int age = rs.getInt("AGE");
-                            String password = rs.getString("PASSWORD");
-                            String salt = rs.getString("SALT");
-                            String cities = rs.getString("CITIES");
-                            System.out.println("IM THREAD 4 AND I JUST READ "+ id+" whose name is"+name+" NOW I HOLD LOCK");
-                            Thread.sleep(10000);
-                            System.out.println("Im thread 4 and I release lock");
-                            // Values are read but not printed
-                        }
-                    }
-                } catch (SQLException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        //                     // Values are read but not printed
+        //                 }
+        //             }
+        //         } catch (SQLException | InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // });
+        // Thread readThread4 = new Thread(() -> {
+        //     for (int i = 0; i < 100; i++) {
+        //         try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+        //             String query = "SELECT * FROM Instructor LIMIT 1";
+        //             try (PreparedStatement pstmt = c.prepareStatement(query);
+        //                  ResultSet rs = pstmt.executeQuery()) {
+        //                 if (rs.next()) {
+        //                     // Read values from the result set
+        //                     String id = rs.getString("ID");
+        //                     String name = rs.getString("NAME");
+        //                     String phoneNumber = rs.getString("PHONE_NUMBER");
+        //                     int age = rs.getInt("AGE");
+        //                     String password = rs.getString("PASSWORD");
+        //                     String salt = rs.getString("SALT");
+        //                     String cities = rs.getString("CITIES");
+        //                     System.out.println("IM THREAD 4 AND I JUST READ "+ id+" whose name is"+name+" NOW I HOLD LOCK");
+        //                     Thread.sleep(10000);
+        //                     System.out.println("Im thread 4 and I release lock");
+        //                     // Values are read but not printed
+        //                 }
+        //             }
+        //         } catch (SQLException | InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // });
 
-        readThread.start();
-        readThread2.start();
-        readThread3.start();
-        readThread4.start();
+        // readThread.start();
+        // readThread2.start();
+        // readThread3.start();
+        // readThread4.start();
 
-        try {
-            readThread.join();
-            readThread2.join();
-            readThread3.join();
-            readThread4.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     readThread.join();
+        //     readThread2.join();
+        //     readThread3.join();
+        //     readThread4.join();
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
         
     }
 

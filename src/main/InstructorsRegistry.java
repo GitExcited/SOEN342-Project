@@ -22,6 +22,18 @@ public class InstructorsRegistry {
         }
     }
 
+       //* INITIALIZE operation */
+
+    /**Only called by AppSystem to bring a object from the Database to the collection
+     * @param instructor The object to be initialized from db
+     */
+    public void initializeInstructor(Instructor instructor){
+        if (!instructorsCollection.contains(instructor)) {
+            instructorsCollection.add(instructor);
+            System.out.println("I added an instructor");
+        }
+    }
+
     //* CREATE, UPDATE and DELETE Operations
 
     public void createInstructor(Instructor instructor) {
@@ -211,4 +223,6 @@ public class InstructorsRegistry {
         }
 
     }
+
+    
 }

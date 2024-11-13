@@ -73,6 +73,10 @@ public class Instructor {
         return cities;
     }
 
+    public void setCities(ArrayList<String> cities){
+         this.cities=cities;
+    }
+
     // Update: Update a city
     public void updateCity(int index, String newCity) {
         if (index >= 0 && index < cities.size()) {

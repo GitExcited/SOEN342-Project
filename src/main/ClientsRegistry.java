@@ -24,6 +24,17 @@ public class ClientsRegistry {
 
     }
 
+    //* INITIALIZE operation */
+
+    /**Only called by AppSystem to bring a client from the Database to the collection
+     * @param client The client to be initialized from db
+     */
+    public void initializeClient(Client client){
+        if (!clientCollection.contains(client)) {
+            clientCollection.add(client);
+        }
+    }
+
     //* CREATE, UPDATE and DELETE Operations
 
     /**
@@ -125,7 +136,8 @@ public class ClientsRegistry {
         readLock.lock();
 
         try {
-        return clientCollection;}finally {
+        return clientCollection;
+        }finally {
             //? Unlock
             readLock.unlock();
         }
