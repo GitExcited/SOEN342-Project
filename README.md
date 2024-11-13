@@ -11,3 +11,8 @@ J David Ruiz:
   - Email: josedruiz1@gmail.com
   - Github Handle: GitExcited
 
+How to compile and run the project:
+From Folder SOEN342-Project
+  - Compile: javac -d out -classpath "lib/*" $(find . -name "*.java")
+  - Run: java -classpath "out;lib/*" main.Main
+
