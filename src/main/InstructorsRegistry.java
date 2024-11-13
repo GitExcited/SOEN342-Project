@@ -187,4 +187,28 @@ public class InstructorsRegistry {
         sb.append("}");
         return sb.toString();
     }
+
+    //** TESTING operations */
+    public boolean isEmpty(){
+        return this.instructorsCollection.isEmpty();
+    }
+    public Instructor snatch(){
+        //? Writer operates in self-exclusion
+        ReentrantReadWriteLock.WriteLock writeLock = DatabaseLock.lock.writeLock();
+        writeLock.lock();
+        try{
+            if (!instructorsCollection.isEmpty()) {
+                Instructor snatchedInstructor =instructorsCollection.remove(0);
+                deleteInstructor(snatchedInstructor);
+                return snatchedInstructor;
+            } else {
+                return null;
+            }
+        }
+        finally {
+            //? Unlock
+            writeLock.unlock();
+        }
+
+    }
 }

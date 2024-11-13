@@ -4,6 +4,8 @@ import java.nio.file.*;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -36,9 +38,6 @@ public class SQLiteJDBC {
         schedule2.addTimeSlot(timeSlot3);
         schedule2.addTimeSlot(timeSlot4);
         try {
-            // Drop Database ( uncomment this and comment the rest)
-            // closeDatabaseConnection("jdbc:sqlite:test.db");
-            // deleteDatabaseFile("test.db");
 
             Class.forName("org.sqlite.JDBC");
             Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
@@ -69,96 +68,96 @@ public class SQLiteJDBC {
             locationsRegistry.createLocation(location1);
             locationsRegistry.createLocation(location2);
 
-            // Test LessonTDG
-            System.out.println(location1.getID());
-            Lesson lesson1 = new Lesson("Math", "Math Lesson", location1, timeSlot1);
-            lessonTDG.insert(lesson1.toParams());
-            lessonTDG.printAllLessons();
-            lesson1.setTitle("Advanced Math");
-            lessonTDG.update(lesson1.toParams());
-            lessonTDG.printAllLessons();
-            lessonTDG.delete(lesson1.getID());
-            lessonTDG.printAllLessons();
+            // // Test LessonTDG
+            // System.out.println(location1.getID());
+            // Lesson lesson1 = new Lesson("Math", "Math Lesson", location1, timeSlot1);
+            // lessonTDG.insert(lesson1.toParams());
+            // lessonTDG.printAllLessons();
+            // lesson1.setTitle("Advanced Math");
+            // lessonTDG.update(lesson1.toParams());
+            // lessonTDG.printAllLessons();
+            // lessonTDG.delete(lesson1.getID());
+            // lessonTDG.printAllLessons();
 
-            // Test InstructorTDG and InstructorsRegistry
-            Instructor instructor1 = new Instructor("John Doe", "1234567890", 30, "password123");
-            instructor1.addCity("New York");
-            instructor1.addCity("Los Angeles");
-            instructorsRegistry.createInstructor(instructor1);
-            System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
-            instructor1.setName("John Smith");
-            instructorsRegistry.updateInstructor(0, instructor1);
-            System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
-            instructorsRegistry.deleteInstructor(instructor1);
-            System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
+            // // Test InstructorTDG and InstructorsRegistry
+            // Instructor instructor1 = new Instructor("John Doe", "1234567890", 30, "password123");
+            // instructor1.addCity("New York");
+            // instructor1.addCity("Los Angeles");
+            // instructorsRegistry.createInstructor(instructor1);
+            // System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
+            // instructor1.setName("John Smith");
+            // instructorsRegistry.updateInstructor(0, instructor1);
+            // System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
+            // instructorsRegistry.deleteInstructor(instructor1);
+            // System.out.println(instructorsRegistry.getAllInstructorsDescriptions());
 
-            // Test BookingTDG and BookingRegistry
-            Booking booking1 = new Booking( new Offering(lesson1, instructor1), new Client("Jane Doe", "9876543210", 25, "password456"));
-            bookingsRegistry.createBooking(booking1);
-            System.out.println(bookingsRegistry.getAllBookingsDescriptions());
-            booking1.setOffering(new Offering( lesson1, instructor1));
-            bookingsRegistry.updateBooking(0, booking1);
-            System.out.println(bookingsRegistry.getAllBookingsDescriptions());
-            System.out.println(bookingsRegistry.getAllBookingsDescriptions());
+            // // Test BookingTDG and BookingRegistry
+            // Booking booking1 = new Booking( new Offering(lesson1, instructor1), new Client("Jane Doe", "9876543210", 25, "password456"));
+            // bookingsRegistry.createBooking(booking1);
+            // System.out.println(bookingsRegistry.getAllBookingsDescriptions());
+            // booking1.setOffering(new Offering( lesson1, instructor1));
+            // bookingsRegistry.updateBooking(0, booking1);
+            // System.out.println(bookingsRegistry.getAllBookingsDescriptions());
+            // System.out.println(bookingsRegistry.getAllBookingsDescriptions());
 
-            // Test ClientTDG and ClientRegistry
-            Client client1 = new Client("Jane Doe", "9876543210", 25, "password456");
-            clientsRegistry.createClient(client1);
-            System.out.println(clientsRegistry.getAllClientsDescriptions());
-            client1.setName("Jane Jack");
-            clientsRegistry.updateClient(0, client1);
-            System.out.println(clientsRegistry.getAllClientsDescriptions());
-            clientsRegistry.deleteClient(client1);
-            System.out.println(clientsRegistry.getAllClientsDescriptions());
+            // // Test ClientTDG and ClientRegistry
+            // Client client1 = new Client("Jane Doe", "9876543210", 25, "password456");
+            // clientsRegistry.createClient(client1);
+            // System.out.println(clientsRegistry.getAllClientsDescriptions());
+            // client1.setName("Jane Jack");
+            // clientsRegistry.updateClient(0, client1);
+            // System.out.println(clientsRegistry.getAllClientsDescriptions());
+            // clientsRegistry.deleteClient(client1);
+            // System.out.println(clientsRegistry.getAllClientsDescriptions());
 
-            // Test OfferingTDG and OfferingRegistry
-            Offering offering1 = new Offering( lesson1, instructor1);
-            offeringsRegistry.createOffering(offering1);
-            System.out.println(offeringsRegistry.getAllOfferingDescriptions());
-            offering1.setBooked(true);
-            offeringsRegistry.updateOffering(0, offering1);
-            System.out.println(offeringsRegistry.getAllOfferingDescriptions());
-            offeringsRegistry.deleteOffering(offering1);
-            System.out.println(offeringsRegistry.getAllOfferingDescriptions());
+            // // Test OfferingTDG and OfferingRegistry
+            // Offering offering1 = new Offering( lesson1, instructor1);
+            // offeringsRegistry.createOffering(offering1);
+            // System.out.println(offeringsRegistry.getAllOfferingDescriptions());
+            // offering1.setBooked(true);
+            // offeringsRegistry.updateOffering(0, offering1);
+            // System.out.println(offeringsRegistry.getAllOfferingDescriptions());
+            // offeringsRegistry.deleteOffering(offering1);
+            // System.out.println(offeringsRegistry.getAllOfferingDescriptions());
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
         System.out.println("Operation done successfully");
-        // Create threads
-        Thread insertThread = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                    System.out.println("Im thread 1 yipee");
-                    instructorsRegistry.createInstructor(new Instructor("John Doe", "1234567890", 30, "password123"));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        // Create Instructors for testing purposes with ids from 0 to 100
+        for (int i = 0; i < 100; i++) {
+            try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+                System.out.println("Im thread 1 yipee");
+                Instructor ins = new Instructor("John Doe", "1234567890", 30, "password123");
+                ins.setID(String.valueOf(i));
+                instructorsRegistry.createInstructor(ins);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        });
+        }
+        
 
-        Thread deleteThread = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
+        List<Instructor> Thread2Instructors = new ArrayList<>();
+        Thread snatchThread2 = new Thread(() -> {
+            while(!instructorsRegistry.isEmpty()){
                 try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
                     System.out.println("Im thread 2 yipee");
-                    instructorsRegistry.deleteInstructor("1");
+                    Instructor instructor= instructorsRegistry.snatch();
+                    Thread2Instructors.add(instructor);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        Thread readThread = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
+        List<Instructor> Thread3Instructors = new ArrayList<>();
+        Thread snatchThread3 = new Thread(() -> {
+            while(!instructorsRegistry.isEmpty()){
                 try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
                     System.out.println("Im thread 3 yipee");
-                    Instructor instructor = instructorsRegistry.getInstructorById("1");
-                    if (instructor != null) {
-                        System.out.println("Read instructor: " + instructor.getName());
-                    } else {
-                        System.out.println("Instructor not found");
-                    }
+                    Instructor instructor= instructorsRegistry.snatch();
+                    Thread3Instructors.add(instructor);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -166,17 +165,23 @@ public class SQLiteJDBC {
         });
 
         // Start threads
-        insertThread.start();
-        deleteThread.start();
-        readThread.start();
+        snatchThread2.start();
+        snatchThread3.start();
 
         // Wait for threads to finish
         try {
-            insertThread.join();
-            deleteThread.join();
-            readThread.join();
+            snatchThread2.join();
+            snatchThread3.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        System.out.println("*********THESE ARE THE IDS OF THREAD 2");
+        for (Instructor instructor : Thread2Instructors) {
+            System.out.print(instructor.getID()+", ");
+        }
+        System.out.println("*******THESE ARE THE IDS OF THREAD 3");
+        for (Instructor instructor : Thread3Instructors) {
+            System.out.print(instructor.getID()+", ");
         }
 
         
@@ -205,19 +210,7 @@ public class SQLiteJDBC {
             e.printStackTrace();
         }
     }
-    private static void deleteDatabaseFile(String dbName) {
-        File dbFile = new File(dbName);
-        if (dbFile.exists()) {
-            if (dbFile.delete()) {
-                System.out.println("Database file deleted successfully.");
-            } else {
-                System.out.println("Failed to delete the database file.");
-            }
-        } else {
-            System.out.println("Database file does not exist.");
-        }
-    }
-
+    
     
 
 }
