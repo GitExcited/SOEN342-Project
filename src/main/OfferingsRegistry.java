@@ -10,10 +10,16 @@ class OfferingsRegistry{
     private OfferingTDG offeringTDG;
 
     //* CONSTRUCTOR */
-    public OfferingsRegistry() throws ClassNotFoundException, SQLException {
-        this.offeringTDG = new OfferingTDG();
-        //Initializes the table of offerings it not existant
-        offeringTDG.createTable();
+    public OfferingsRegistry()  {
+        try {
+            this.offeringTDG = new OfferingTDG();
+            //Initializes the table of offerings it not existant
+            offeringTDG.createTable();
+        } catch (ClassNotFoundException | SQLException e) {
+       
+            e.printStackTrace();
+        }
+        
     }
 
     //* CREATE, UPDATE and DELETE Operations */

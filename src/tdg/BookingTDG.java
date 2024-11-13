@@ -32,8 +32,8 @@ public class BookingTDG {
                          "(ID TEXT PRIMARY KEY NOT NULL," +
                          " CLIENT_ID TEXT NOT NULL, " + 
                          " OFFERING_ID TEXT NOT NULL, " +
-                         " FOREIGN KEY (CLIENT_ID) REFERENCES CLIENT(ID), " +
-                         " FOREIGN KEY (OFFERING_ID) REFERENCES OFFERING(ID))";
+                         " FOREIGN KEY (CLIENT_ID) REFERENCES CLIENT(ID) ON DELETE CASCADE , " +
+                         " FOREIGN KEY (OFFERING_ID) REFERENCES OFFERING(ID) ON DELETE CASCADE )";
             stmt.executeUpdate(sql);
         } finally {
             closeResources(stmt);

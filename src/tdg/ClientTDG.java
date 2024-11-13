@@ -122,7 +122,14 @@ public class ClientTDG {
         try {
             pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, id);
-            pstmt.executeUpdate();
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected == 0) {
+                System.out.println("No client found with ID: " + id);
+            } else {
+                System.out.println("Client with ID: " + id + " deleted successfully.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             closeResources(pstmt);
         }

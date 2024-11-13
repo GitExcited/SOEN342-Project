@@ -31,8 +31,8 @@ public class OfferingTDG {
                          " LESSON_ID TEXT NOT NULL, " + 
                          " INSTRUCTOR_ID TEXT NOT NULL, " + 
                          " BOOKED BOOLEAN NOT NULL, " +
-                         " FOREIGN KEY (LESSON_ID) REFERENCES LESSON(ID), " +
-                         " FOREIGN KEY (INSTRUCTOR_ID) REFERENCES INSTRUCTOR(ID))";
+                         " FOREIGN KEY (LESSON_ID) REFERENCES LESSON(ID) ON DELETE CASCADE, " +
+                         " FOREIGN KEY (INSTRUCTOR_ID) REFERENCES INSTRUCTOR(ID) ON DELETE CASCADE) ";
             stmt.executeUpdate(sql);
         } finally {
             closeResources(stmt);

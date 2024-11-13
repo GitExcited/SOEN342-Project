@@ -20,7 +20,7 @@ public class LessonTDG {
                          " DESCRIPTION TEXT NOT NULL, " + 
                          " LOCATION_ID TEXT NOT NULL, " + 
                          " TIMESLOT TEXT NOT NULL, " + 
-                         " FOREIGN KEY (LOCATION_ID) REFERENCES LOCATION(ID))"; // Adding foreign key constraint
+                         " FOREIGN KEY (LOCATION_ID) REFERENCES LOCATION(ID) ON DELETE CASCADE )"; // Adding foreign key constraint
             stmt.executeUpdate(sql);
         } finally {
             closeResources(stmt);

@@ -31,7 +31,7 @@ public class InstructorsRegistry {
 
         instructorsCollection.add(instructor);
         try {
-            instructorTDG.insert(instructor);
+            instructorTDG.insert(instructor.toParams());
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -67,6 +67,32 @@ public class InstructorsRegistry {
             e.printStackTrace();
             return false;
         }finally{
+            //? Unlock
+            writeLock.unlock();
+        }
+    }
+
+    public boolean deleteInstructor(String id) {
+        //? Writer operates in self-exclusion
+        ReentrantReadWriteLock.WriteLock writeLock = DatabaseLock.lock.writeLock();
+        writeLock.lock();
+
+        try{
+            Instructor instructorToRemove = null;
+            for (Instructor i : instructorsCollection) {
+                if(i.getID() == id){
+                    instructorToRemove = i;
+                    break;
+                }
+            }
+            if (instructorToRemove == null){
+                return false;
+            }else{
+                deleteInstructor(instructorToRemove);
+                return true;
+            }
+        }
+        finally {
             //? Unlock
             writeLock.unlock();
         }

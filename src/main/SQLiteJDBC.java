@@ -1,19 +1,47 @@
 package main;
 import java.sql.*;
 import java.nio.file.*;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import tdg.*;
 
 public class SQLiteJDBC {
 
     public static void main(String args[]) {
+        // Initialize Registries
+        BookingsRegistry bookingsRegistry = new BookingsRegistry();
+        LocationsRegistry locationsRegistry = new LocationsRegistry();
+        OfferingsRegistry offeringsRegistry = new OfferingsRegistry();
+        ClientsRegistry clientsRegistry = new ClientsRegistry();
+        LessonsRegistry lessonsRegistry = new LessonsRegistry();
+        InstructorsRegistry instructorsRegistry = new InstructorsRegistry();
+
+        // Create TimeSlot objects for the schedules
+        TimeSlot timeSlot1 = new TimeSlot("Monday", LocalTime.of(9, 0), LocalTime.of(10, 0));
+        TimeSlot timeSlot2 = new TimeSlot("Tuesday", LocalTime.of(11, 0), LocalTime.of(12, 0));
+        TimeSlot timeSlot3 = new TimeSlot("Wednesday", LocalTime.of(13, 0), LocalTime.of(14, 0));
+        TimeSlot timeSlot4 = new TimeSlot("Thursday", LocalTime.of(15, 0), LocalTime.of(16, 0));
+
+        // Create Schedule objects
+        Schedule schedule1 = new Schedule();
+        schedule1.addTimeSlot(timeSlot1);
+        schedule1.addTimeSlot(timeSlot2);
+
+        Schedule schedule2 = new Schedule();
+        schedule2.addTimeSlot(timeSlot3);
+        schedule2.addTimeSlot(timeSlot4);
         try {
+            // Drop Database ( uncomment this and comment the rest)
+            // closeDatabaseConnection("jdbc:sqlite:test.db");
+            // deleteDatabaseFile("test.db");
+
             Class.forName("org.sqlite.JDBC");
             Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
-
             // Initialize TDGs and create tables
             LocationTDG locationTDG = new LocationTDG();
             locationTDG.createTable();
@@ -32,29 +60,6 @@ public class SQLiteJDBC {
 
             ClientTDG clientTDG = new ClientTDG();
             clientTDG.createTable();
-
-            // Initialize Registries
-            BookingsRegistry bookingsRegistry = new BookingsRegistry();
-            LocationsRegistry locationsRegistry = new LocationsRegistry();
-            OfferingsRegistry offeringsRegistry = new OfferingsRegistry();
-            ClientsRegistry clientsRegistry = new ClientsRegistry();
-            LessonsRegistry lessonsRegistry = new LessonsRegistry();
-            InstructorsRegistry instructorsRegistry = new InstructorsRegistry();
-
-            // Create TimeSlot objects for the schedules
-            TimeSlot timeSlot1 = new TimeSlot("Monday", LocalTime.of(9, 0), LocalTime.of(10, 0));
-            TimeSlot timeSlot2 = new TimeSlot("Tuesday", LocalTime.of(11, 0), LocalTime.of(12, 0));
-            TimeSlot timeSlot3 = new TimeSlot("Wednesday", LocalTime.of(13, 0), LocalTime.of(14, 0));
-            TimeSlot timeSlot4 = new TimeSlot("Thursday", LocalTime.of(15, 0), LocalTime.of(16, 0));
-
-            // Create Schedule objects
-            Schedule schedule1 = new Schedule();
-            schedule1.addTimeSlot(timeSlot1);
-            schedule1.addTimeSlot(timeSlot2);
-
-            Schedule schedule2 = new Schedule();
-            schedule2.addTimeSlot(timeSlot3);
-            schedule2.addTimeSlot(timeSlot4);
 
             // Create Location objects
             Location location1 = new Location("Loc1", "Main Building 123 Main St", "New York", "Room 101", schedule1);
@@ -96,31 +101,85 @@ public class SQLiteJDBC {
             System.out.println(bookingsRegistry.getAllBookingsDescriptions());
             System.out.println(bookingsRegistry.getAllBookingsDescriptions());
 
-            // // Test ClientTDG and ClientRegistry
-            // Client client1 = new Client("C1", "Jane Doe", "9876543210", 25, "password456");
-            // clientRegistry.addClient(client1);
-            // System.out.println(clientRegistry.getAllClientsDescriptions());
-            // client1.setName("Jane Smith");
-            // clientRegistry.updateClient(0, client1);
-            // System.out.println(clientRegistry.getAllClientsDescriptions());
-            // clientRegistry.removeClient(client1);
-            // System.out.println(clientRegistry.getAllClientsDescriptions());
+            // Test ClientTDG and ClientRegistry
+            Client client1 = new Client("Jane Doe", "9876543210", 25, "password456");
+            clientsRegistry.createClient(client1);
+            System.out.println(clientsRegistry.getAllClientsDescriptions());
+            client1.setName("Jane Jack");
+            clientsRegistry.updateClient(0, client1);
+            System.out.println(clientsRegistry.getAllClientsDescriptions());
+            clientsRegistry.deleteClient(client1);
+            System.out.println(clientsRegistry.getAllClientsDescriptions());
 
-            // // Test OfferingTDG and OfferingRegistry
-            // Offering offering1 = new Offering("O1", lesson1, instructor1, false);
-            // offeringRegistry.createOffering(offering1);
-            // System.out.println(offeringRegistry.getAllOfferingsDescriptions());
-            // offering1.setBooked(true);
-            // offeringRegistry.updateOffering(0, offering1);
-            // System.out.println(offeringRegistry.getAllOfferingsDescriptions());
-            // offeringRegistry.removeOffering(offering1);
-            // System.out.println(offeringRegistry.getAllOfferingsDescriptions());
+            // Test OfferingTDG and OfferingRegistry
+            Offering offering1 = new Offering( lesson1, instructor1);
+            offeringsRegistry.createOffering(offering1);
+            System.out.println(offeringsRegistry.getAllOfferingDescriptions());
+            offering1.setBooked(true);
+            offeringsRegistry.updateOffering(0, offering1);
+            System.out.println(offeringsRegistry.getAllOfferingDescriptions());
+            offeringsRegistry.deleteOffering(offering1);
+            System.out.println(offeringsRegistry.getAllOfferingDescriptions());
 
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
         System.out.println("Operation done successfully");
+        // Create threads
+        Thread insertThread = new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
+                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+                    System.out.println("Im thread 1 yipee");
+                    instructorsRegistry.createInstructor(new Instructor("John Doe", "1234567890", 30, "password123"));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Thread deleteThread = new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
+                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+                    System.out.println("Im thread 2 yipee");
+                    instructorsRegistry.deleteInstructor("1");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Thread readThread = new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
+                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+                    System.out.println("Im thread 3 yipee");
+                    Instructor instructor = instructorsRegistry.getInstructorById("1");
+                    if (instructor != null) {
+                        System.out.println("Read instructor: " + instructor.getName());
+                    } else {
+                        System.out.println("Instructor not found");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // Start threads
+        insertThread.start();
+        deleteThread.start();
+        readThread.start();
+
+        // Wait for threads to finish
+        try {
+            insertThread.join();
+            deleteThread.join();
+            readThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        
     }
 
     public static void executeSQLFile(Connection c, String filePath) throws IOException, SQLException {
@@ -134,16 +193,31 @@ public class SQLiteJDBC {
         }
     }
 
-    public static void dropTable(Connection c, String tableName) throws SQLException {
-        Statement stmt = null;
-        try {
-            stmt = c.createStatement();
-            String sql = "DROP TABLE IF EXISTS " + tableName;
-            stmt.executeUpdate(sql);
-        } finally {
-            if (stmt != null) {
-                stmt.close();
+ 
+    private static void closeDatabaseConnection(String dbUrl) {
+        try (Connection c = DriverManager.getConnection(dbUrl)) {
+            // Closing the connection
+            if (c != null && !c.isClosed()) {
+                c.close();
+                System.out.println("Database connection closed.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+    private static void deleteDatabaseFile(String dbName) {
+        File dbFile = new File(dbName);
+        if (dbFile.exists()) {
+            if (dbFile.delete()) {
+                System.out.println("Database file deleted successfully.");
+            } else {
+                System.out.println("Failed to delete the database file.");
+            }
+        } else {
+            System.out.println("Database file does not exist.");
+        }
+    }
+
+    
+
 }
