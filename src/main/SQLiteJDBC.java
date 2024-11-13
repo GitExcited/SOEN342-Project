@@ -138,52 +138,177 @@ public class SQLiteJDBC {
         }
         
 
-        List<Instructor> Thread2Instructors = new ArrayList<>();
-        Thread snatchThread2 = new Thread(() -> {
-            while(!instructorsRegistry.isEmpty()){
+        // List<Instructor> Thread2Instructors = new ArrayList<>();
+        // Thread snatchThread2 = new Thread(() -> {
+        //     while(!instructorsRegistry.isEmpty()){
+        //         try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+        //             System.out.println("Im thread 2 yipee");
+        //             Instructor instructor= instructorsRegistry.snatch();
+        //             Thread2Instructors.add(instructor);
+        //         } catch (SQLException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // });
+
+        // List<Instructor> Thread3Instructors = new ArrayList<>();
+        // Thread snatchThread3 = new Thread(() -> {
+        //     while(!instructorsRegistry.isEmpty()){
+        //         try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+        //             System.out.println("Im thread 3 yipee");
+        //             Instructor instructor= instructorsRegistry.snatch();
+        //             Thread3Instructors.add(instructor);
+        //         } catch (SQLException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // });
+
+        // // Start threads
+        // snatchThread2.start();
+        // snatchThread3.start();
+
+        // // Wait for threads to finish
+        // try {
+        //     snatchThread2.join();
+        //     snatchThread3.join();
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
+        // System.out.println("*********THESE ARE THE IDS OF THREAD 2");
+        // for (Instructor instructor : Thread2Instructors) {
+        //     System.out.print(instructor.getID()+", ");
+        // }
+        // System.out.println("*******THESE ARE THE IDS OF THREAD 3");
+        // for (Instructor instructor : Thread3Instructors) {
+        //     System.out.print(instructor.getID()+", ");
+        // }
+
+
+        Thread readThread = new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
                 try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                    System.out.println("Im thread 2 yipee");
-                    Instructor instructor= instructorsRegistry.snatch();
-                    Thread2Instructors.add(instructor);
-                } catch (SQLException e) {
+                    String query = "SELECT * FROM Instructor LIMIT 1";
+                    try (PreparedStatement pstmt = c.prepareStatement(query);
+                         ResultSet rs = pstmt.executeQuery()) {
+                        if (rs.next()) {
+                            // Read values from the result set
+                            String id = rs.getString("ID");
+                            String name = rs.getString("NAME");
+                            String phoneNumber = rs.getString("PHONE_NUMBER");
+                            int age = rs.getInt("AGE");
+                            String password = rs.getString("PASSWORD");
+                            String salt = rs.getString("SALT");
+                            String cities = rs.getString("CITIES");
+                            System.out.println("IM THREAD 1 AND I JUST READ "+ id+" whose name is"+name +" NOW I HOLD LOCK");
+
+                            Thread.sleep(10000);
+                            System.out.println("Im thread 1 and I release lock");
+
+                            // Values are read but not printed
+                        }
+                    } 
+                } catch (SQLException |InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Thread readThread2 = new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
+                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+                    String query = "SELECT * FROM Instructor LIMIT 1";
+                    try (PreparedStatement pstmt = c.prepareStatement(query);
+                         ResultSet rs = pstmt.executeQuery()) {
+                        if (rs.next()) {
+                            // Read values from the result set
+                            String id = rs.getString("ID");
+                            String name = rs.getString("NAME");
+                            String phoneNumber = rs.getString("PHONE_NUMBER");
+                            int age = rs.getInt("AGE");
+                            String password = rs.getString("PASSWORD");
+                            String salt = rs.getString("SALT");
+                            String cities = rs.getString("CITIES");
+
+                            System.out.println("IM THREAD 2 AND I JUST READ "+ id+" whose name is"+name +" NOW I HOLD LOCK");
+                            Thread.sleep(10000);
+                            System.out.println("Im thread 2 and I release lock");
+
+
+                            // Values are read but not printed
+                        }
+                    }
+                } catch (SQLException |InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Thread readThread3= new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
+                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+                    String query = "SELECT * FROM Instructor LIMIT 1";
+                    try (PreparedStatement pstmt = c.prepareStatement(query);
+                         ResultSet rs = pstmt.executeQuery()) {
+                        if (rs.next()) {
+                            // Read values from the result set
+                            String id = rs.getString("ID");
+                            String name = rs.getString("NAME");
+                            String phoneNumber = rs.getString("PHONE_NUMBER");
+                            int age = rs.getInt("AGE");
+                            String password = rs.getString("PASSWORD");
+                            String salt = rs.getString("SALT");
+                            String cities = rs.getString("CITIES");
+                            System.out.println("IM THREAD 3 AND I JUST READ "+ id+" whose name is"+name+" NOW I HOLD LOCK");
+                            Thread.sleep(10000);
+                            System.out.println("Im thread 3 and I release lock");
+
+                            // Values are read but not printed
+                        }
+                    }
+                } catch (SQLException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Thread readThread4 = new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
+                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+                    String query = "SELECT * FROM Instructor LIMIT 1";
+                    try (PreparedStatement pstmt = c.prepareStatement(query);
+                         ResultSet rs = pstmt.executeQuery()) {
+                        if (rs.next()) {
+                            // Read values from the result set
+                            String id = rs.getString("ID");
+                            String name = rs.getString("NAME");
+                            String phoneNumber = rs.getString("PHONE_NUMBER");
+                            int age = rs.getInt("AGE");
+                            String password = rs.getString("PASSWORD");
+                            String salt = rs.getString("SALT");
+                            String cities = rs.getString("CITIES");
+                            System.out.println("IM THREAD 4 AND I JUST READ "+ id+" whose name is"+name+" NOW I HOLD LOCK");
+                            Thread.sleep(10000);
+                            System.out.println("Im thread 4 and I release lock");
+                            // Values are read but not printed
+                        }
+                    }
+                } catch (SQLException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        List<Instructor> Thread3Instructors = new ArrayList<>();
-        Thread snatchThread3 = new Thread(() -> {
-            while(!instructorsRegistry.isEmpty()){
-                try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                    System.out.println("Im thread 3 yipee");
-                    Instructor instructor= instructorsRegistry.snatch();
-                    Thread3Instructors.add(instructor);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        readThread.start();
+        readThread2.start();
+        readThread3.start();
+        readThread4.start();
 
-        // Start threads
-        snatchThread2.start();
-        snatchThread3.start();
-
-        // Wait for threads to finish
         try {
-            snatchThread2.join();
-            snatchThread3.join();
+            readThread.join();
+            readThread2.join();
+            readThread3.join();
+            readThread4.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("*********THESE ARE THE IDS OF THREAD 2");
-        for (Instructor instructor : Thread2Instructors) {
-            System.out.print(instructor.getID()+", ");
-        }
-        System.out.println("*******THESE ARE THE IDS OF THREAD 3");
-        for (Instructor instructor : Thread3Instructors) {
-            System.out.print(instructor.getID()+", ");
-        }
-
         
     }
 
