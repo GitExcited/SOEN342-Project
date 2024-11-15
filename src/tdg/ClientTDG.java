@@ -39,7 +39,9 @@ public class ClientTDG {
                          " PHONE_NUMBER TEXT NOT NULL, " + 
                          " AGE INT NOT NULL, " + 
                          " PASSWORD TEXT NOT NULL, " +
-                         " SALT TEXT NOT NULL)";
+                         " SALT TEXT NOT NULL)"+
+                         " GUARDIAN_ID TEXT"+
+                         " FOREIGN KEY (GUARDIAN_ID) REFERENCES CLIENT(ID) ON DELETE CASCADE";
             stmt.executeUpdate(sql);
         } finally {
             closeResources(stmt);
@@ -54,7 +56,7 @@ public class ClientTDG {
      * @throws NoSuchAlgorithmException if the specified algorithm is not available
      */
     public void insert(Object... params) throws SQLException, NoSuchAlgorithmException {
-        String sql = "INSERT INTO CLIENT (ID, NAME, PHONE_NUMBER, AGE, PASSWORD, SALT) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO CLIENT (ID, NAME, PHONE_NUMBER, AGE, PASSWORD, SALT, GUARDIAN_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = null;
         try {
             pstmt = connection.prepareStatement(sql);
@@ -72,6 +74,7 @@ public class ClientTDG {
 
             pstmt.setString(5, hashedPassword);
             pstmt.setString(6, saltStr);
+            pstmt.setString(7, (String) params[5]); // Adding guardianId attribute
             pstmt.executeUpdate();
         } finally {
             closeResources(pstmt);
@@ -86,7 +89,7 @@ public class ClientTDG {
      * @throws NoSuchAlgorithmException if the specified algorithm is not available
      */
     public void update(Object... params) throws SQLException, NoSuchAlgorithmException {
-        String sql = "UPDATE CLIENT SET NAME = ?, PHONE_NUMBER = ?, AGE = ?, PASSWORD = ?, SALT = ? WHERE ID = ?";
+        String sql = "UPDATE CLIENT SET NAME = ?, PHONE_NUMBER = ?, AGE = ?, PASSWORD = ?, SALT = ?, GUARDIAN_ID = ? WHERE ID = ?";
         PreparedStatement pstmt = null;
         try {
             pstmt = connection.prepareStatement(sql);
@@ -103,7 +106,8 @@ public class ClientTDG {
 
             pstmt.setString(4, hashedPassword);
             pstmt.setString(5, saltStr);
-            pstmt.setString(6, (String) params[0]);
+            pstmt.setString(6, (String) params[5]); // Adding guardianId attribute
+            pstmt.setString(7, (String) params[0]);
             pstmt.executeUpdate();
         } finally {
             closeResources(pstmt);

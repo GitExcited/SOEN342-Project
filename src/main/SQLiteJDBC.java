@@ -70,7 +70,7 @@ public class SQLiteJDBC {
 
             // Test LessonTDG
             System.out.println(location1.getID());
-            Lesson lesson1 = new Lesson("Math", "Math Lesson", location1, timeSlot1);
+            Lesson lesson1 = new PublicLesson("Math", "Math Lesson", location1, timeSlot1);
             lessonTDG.insert(lesson1.toParams());
             lessonTDG.printAllLessons();
             lesson1.setTitle("Advanced Math");

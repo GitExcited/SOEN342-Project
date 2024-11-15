@@ -8,6 +8,7 @@ public class Client {
     private String phoneNumber;
     private int age;
     private String password;
+    protected String guardianId;
 
     // Constructor
     public Client(String name, String phoneNumber, int age, String password) {
@@ -17,6 +18,7 @@ public class Client {
         this.phoneNumber = phoneNumber;
         this.age = age;
         this.password = password;
+        this.guardianId = null;
     }
 
     // Getters and setters for name and email
@@ -75,7 +77,8 @@ public class Client {
             this.name,
             this.phoneNumber,
             this.age,
-            this.password
+            this.password,
+            this.guardianId
         };
     }
 }
