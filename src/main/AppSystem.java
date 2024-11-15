@@ -1,5 +1,6 @@
 package main;
 import java.sql.Statement;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,6 +12,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 enum UserAuthLevel {
     Client,
@@ -19,6 +23,8 @@ enum UserAuthLevel {
     Admin,
     NotAuthorized
 }
+
+
 
 public class AppSystem {
 
@@ -59,6 +65,12 @@ public class AppSystem {
         initialize();
         System.out.println("Database Loaded successfully");
 
+    }
+    private String hashPassword(String password, byte[] salt) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(salt);
+        byte[] hashedPassword = md.digest(password.getBytes());
+        return Base64.getEncoder().encodeToString(hashedPassword);
     }
 
     public static void main(String[] args) {
@@ -269,11 +281,32 @@ public class AppSystem {
             System.out.println("Debug: client not found");
             return false;
         }
-        if( client.getPassword().equals(password)){
+       // Retrieve the stored salt and hashed password from the database
+        byte[] salt;
+        String storedHashedPassword;
+        try {
+            salt = clients.getSaltByClientId(client.getID());
+            storedHashedPassword = clients.getHashedPasswordByClientId(client.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        // Hash the input password with the stored salt
+        String hashedInputPassword;
+        try {
+            hashedInputPassword = hashPassword(password, salt);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        // Compare the hashed input password with the stored hashed password
+        if (storedHashedPassword.equals(hashedInputPassword)) {
             userAuthenticated = true;
-            if(client instanceof UnderAgeClient){
+            if (client instanceof UnderAgeClient) {
                 authLevel = UserAuthLevel.ClientMinor;
-            }else{
+            } else {
                 authLevel = UserAuthLevel.Client;
             }
             currentClient = client;
@@ -283,17 +316,40 @@ public class AppSystem {
         }
     }
 
-    public boolean loginInstructor(String name, String password){
+    public boolean loginInstructor(String name, String password) {
+        // Find instructor with that username
         Instructor instructor = instructors.getInstructorbyName(name);
-        if (instructor == null){
+        if (instructor == null) {
             return false;
         }
-        if(instructor.getPassword().equals(password)){
+
+        // Retrieve the stored salt and hashed password from the database
+        byte[] salt;
+        String storedHashedPassword;
+        try {
+            salt = instructors.getSaltByInstructorId(instructor.getID());
+            storedHashedPassword = instructors.getHashedPasswordByInstructorId(instructor.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        // Hash the input password with the stored salt
+        String hashedInputPassword;
+        try {
+            hashedInputPassword = hashPassword(password, salt);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        // Compare the hashed input password with the stored hashed password
+        if (storedHashedPassword.equals(hashedInputPassword)) {
             userAuthenticated = true;
             authLevel = UserAuthLevel.Instructor;
             currentInstructor = instructor;
             return true;
-        }else{
+        } else {
             return false;
         }
     }

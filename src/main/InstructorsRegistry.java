@@ -182,6 +182,23 @@ public class InstructorsRegistry {
                 readLock.unlock();}
     }
 
+    public byte[] getSaltByInstructorId(String instructorId) throws SQLException {
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+        try{return instructorTDG.getSaltByInstructorId(instructorId);}   
+        finally{
+            readLock.unlock();}
+    }
+
+    public String getHashedPasswordByInstructorId(String instructorId) throws SQLException {
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+        try{return instructorTDG.getHashedPasswordByInstructorId(instructorId);}   
+        finally{
+            readLock.unlock();}
+    }
 
     /**
      * Provides a string representation of the list of instructors.

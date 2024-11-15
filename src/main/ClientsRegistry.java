@@ -232,4 +232,28 @@ public class ClientsRegistry {
             readLock.unlock();
         }
     }
+
+    public byte[] getSaltByClientId(String clientId) throws SQLException {
+         //? Readers operate in mutual exclusion with writers
+         ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+         readLock.lock();
+         try {
+        return clientTDG.getSaltByClientId(clientId);}finally {
+            //? Unlock
+            readLock.unlock();
+        }
+    }
+
+    public String getHashedPasswordByClientId(String clientId) throws SQLException {
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+
+        try {
+        return clientTDG.getHashedPasswordByClientId(clientId);}finally {
+            //? Unlock
+            readLock.unlock();
+        }
+    }
+    
 }

@@ -178,6 +178,32 @@ public class InstructorTDG {
         }
     }
 
+
+    public byte[] getSaltByInstructorId(String instructorId) throws SQLException {
+        String query = "SELECT salt FROM INSTRUCTOR WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, instructorId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return Base64.getDecoder().decode(rs.getString("salt"));
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public String getHashedPasswordByInstructorId(String instructorId) throws SQLException {
+        String query = "SELECT password FROM INSTRUCTOR WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, instructorId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("password");
+            } else {
+                return null;
+            }
+        }
+    }
     /**
      * Closes the given resources.
      *

@@ -224,4 +224,29 @@ public class ClientTDG {
         byte[] hashedPassword = md.digest(password.getBytes());
         return Base64.getEncoder().encodeToString(hashedPassword);
     }
+    public byte[] getSaltByClientId(String clientId) throws SQLException {
+        String query = "SELECT salt FROM Client WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, clientId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getBytes("salt");
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public String getHashedPasswordByClientId(String clientId) throws SQLException {
+        String query = "SELECT password FROM Client WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, clientId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("password");
+            } else {
+                return null;
+            }
+        }
+    }
 }
