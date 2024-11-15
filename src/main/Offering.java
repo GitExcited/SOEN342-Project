@@ -51,7 +51,9 @@ public class Offering {
     }
 
     public void setBooked(boolean booked){
-        this.booked = booked;
+        if (this.lesson instanceof PrivateLesson){
+            this.booked = booked;
+        }
     }
     
     // toString method
