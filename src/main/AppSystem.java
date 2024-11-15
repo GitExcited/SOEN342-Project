@@ -57,6 +57,7 @@ public class AppSystem {
         //Initializes all objects in their registries from the database
         System.out.println("Initializing Database ...");
         initialize();
+        System.out.println("Database Loaded successfully");
 
     }
 
@@ -70,15 +71,12 @@ public class AppSystem {
 
             //* INITIALIZE Method */
     public void initialize() {
-        System.out.println("i made it here *");
 
         ReentrantReadWriteLock.WriteLock writeLock = DatabaseLock.lock.writeLock();
         writeLock.lock();
-        System.out.println("i made it here **");
         try {
             Class.forName("org.sqlite.JDBC");
             Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
-            System.out.println("i made it here ***");
             
             
             // INTIALIZE CLIENTS 
@@ -167,7 +165,50 @@ public class AppSystem {
             // // Print all lessons to verify they are properly added
             // lessons.printAllLessons();
            
-            
+             // INITIALIZE OFFERINGS (must run after initializing lessons and instructors)
+             stmt = c.createStatement();
+             rs = stmt.executeQuery("SELECT * FROM OFFERING");
+             while (rs.next()) {
+                 String id = rs.getString("ID");
+                 String lessonID = rs.getString("LESSON_ID");
+                 String instructorID = rs.getString("INSTRUCTOR_ID");
+                 boolean booked = rs.getBoolean("BOOKED");
+ 
+                 // Find the lesson and instructor by ID
+                 Lesson lesson = lessons.getLessonById(lessonID);
+                 Instructor instructor = instructors.getInstructorById(instructorID);
+ 
+                 // Create and initialize the offering
+                 Offering offering = new Offering(lesson, instructor);
+                 offering.setID(id);
+                 offering.setBooked(booked);
+                 offerings.initializeOffering(offering);
+             }
+ 
+            //  // Print all offerings to verify they are properly added
+            //  offerings.printAllOfferings();
+
+            // INITIALIZE BOOKINGS (must run after initializing offerings and clients)
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM BOOKING");
+            while (rs.next()) {
+                String id = rs.getString("ID");
+                String clientID = rs.getString("CLIENT_ID");
+                String offeringID = rs.getString("OFFERING_ID");
+
+                // Find the client and offering by ID
+                Client client = clients.getClientbyId(clientID);
+                Offering offering = offerings.getOfferingById(offeringID);
+
+                // Create and initialize the booking
+                Booking booking = new Booking(offering, client);
+                booking.setID(id);
+                bookings.initializeBooking(booking);
+            }
+
+            // // Print all bookings to verify they are properly added
+            // bookings.printAllBookings();
+
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

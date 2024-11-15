@@ -78,49 +78,45 @@ public class SQLiteJDBC {
             lessonTDG.printAllLessons();
             lessonTDG.printAllLessons();
 
-            // // Test InstructorTDG and InstructorsRegistry
-            // Instructor instructor1 = new Instructor("John Doe", "1234567890", 30, "password123");
-            // instructor1.addCity("New York");
-            // instructor1.addCity("Los Angeles");
-            // instructorsRegistry.createInstructor(instructor1);
-            // instructor1.setName("John Smith");
-            // // Test InstructorTDG and InstructorsRegistry
-            // Instructor instructor2= new Instructor("Francois Leclerc", "1234567890", 30, "password123");
-            // instructor2.addCity("Montreal");
-            // instructor2.addCity("Toronto");
-            // instructorsRegistry.createInstructor(instructor2);
+            // Test InstructorTDG and InstructorsRegistry
+            Instructor instructor1 = new Instructor("John Doe", "1234567890", 30, "password123");
+            instructor1.addCity("New York");
+            instructor1.addCity("Los Angeles");
+            instructorsRegistry.createInstructor(instructor1);
+            instructor1.setName("John Smith");
+            // Test InstructorTDG and InstructorsRegistry
+            Instructor instructor2= new Instructor("Francois Leclerc", "1234567890", 30, "password123");
+            instructor2.addCity("Montreal");
+            instructor2.addCity("Toronto");
+            instructorsRegistry.createInstructor(instructor2);
             
-            // instructorsRegistry.updateInstructor(0, instructor1);
+            instructorsRegistry.updateInstructor(0, instructor1);
             
 
-            // // Test BookingTDG and BookingRegistry
-            // Booking booking1 = new Booking( new Offering(lesson1, instructor1), new Client("Jane Doe", "9876543210", 25, "password456"));
-            // bookingsRegistry.createBooking(booking1);
-            // System.out.println(bookingsRegistry.getAllBookingsDescriptions());
-            // booking1.setOffering(new Offering( lesson1, instructor1));
-            // bookingsRegistry.updateBooking(0, booking1);
-            // System.out.println(bookingsRegistry.getAllBookingsDescriptions());
-            // System.out.println(bookingsRegistry.getAllBookingsDescriptions());
+            
 
-            // // Test ClientTDG and ClientRegistry
-            // Client client1 = new Client("Jane Doe", "9876543210", 25, "password456");
-            // clientsRegistry.createClient(client1);
-            // System.out.println(clientsRegistry.getAllClientsDescriptions());
-            // client1.setName("Jane Jack");
-            // clientsRegistry.updateClient(0, client1);
-            // System.out.println(clientsRegistry.getAllClientsDescriptions());
-            // // clientsRegistry.deleteClient(client1);
-            // System.out.println(clientsRegistry.getAllClientsDescriptions());
+            // Test ClientTDG and ClientRegistry
+            Client client1 = new Client("Jane Doe", "9876543210", 25, "password456");
+            clientsRegistry.createClient(client1);
+            System.out.println(clientsRegistry.getAllClientsDescriptions());
+            client1.setName("Jane Jack");
+            clientsRegistry.updateClient(0, client1);
+            System.out.println(clientsRegistry.getAllClientsDescriptions());
 
-            // // Test OfferingTDG and OfferingRegistry
-            // Offering offering1 = new Offering( lesson1, instructor1);
-            // offeringsRegistry.createOffering(offering1);
-            // System.out.println(offeringsRegistry.getAllOfferingDescriptions());
-            // offering1.setBooked(true);
-            // offeringsRegistry.updateOffering(0, offering1);
-            // System.out.println(offeringsRegistry.getAllOfferingDescriptions());
-            // offeringsRegistry.deleteOffering(offering1);
-            // System.out.println(offeringsRegistry.getAllOfferingDescriptions());
+
+            // Test OfferingTDG and OfferingRegistry
+            Offering offering1 = new Offering( lesson1, instructor1);
+            offeringsRegistry.createOffering(offering1);
+            System.out.println(offeringsRegistry.getAllOfferingDescriptions());
+            offering1.setBooked(true);
+            offeringsRegistry.updateOffering(0, offering1);
+            System.out.println(offeringsRegistry.getAllOfferingDescriptions());
+
+            // Test BookingTDG and BookingRegistry
+            Booking booking1 = new Booking( offering1, client1);
+            bookingsRegistry.createBooking(booking1);
+            System.out.println(bookingsRegistry.getAllBookingsDescriptions());
+        
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());

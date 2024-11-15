@@ -27,7 +27,6 @@ public class LocationsRegistry {
     public void initializeLocation(Location location) {
         if (!locationCollection.contains(location)) {
             locationCollection.add(location);
-            System.out.println("I added a location ");
         }
     }
 

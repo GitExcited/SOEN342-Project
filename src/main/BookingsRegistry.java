@@ -22,6 +22,13 @@ public class BookingsRegistry {
         
     }
 
+    //* INITIALIZE booking from database */
+    public void initializeBooking(Booking booking) {
+        if (!bookingCollection.contains(booking)) {
+            bookingCollection.add(booking);
+        }
+    }
+
     //* CREATE, UPDATE and DELETE Operations */
 
     /**
@@ -206,6 +213,19 @@ public class BookingsRegistry {
         }
         return null;
         }finally {
+            //? Unlock
+            readLock.unlock();
+        }
+    }
+
+    public void printAllBookings() {
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+        try {
+        for (Booking booking : bookingCollection) {
+            System.out.println(booking);
+        }}finally {
             //? Unlock
             readLock.unlock();
         }

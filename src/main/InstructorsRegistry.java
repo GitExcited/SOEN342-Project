@@ -30,7 +30,6 @@ public class InstructorsRegistry {
     public void initializeInstructor(Instructor instructor){
         if (!instructorsCollection.contains(instructor)) {
             instructorsCollection.add(instructor);
-            System.out.println("I added an instructor");
         }
     }
 

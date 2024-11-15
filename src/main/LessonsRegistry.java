@@ -24,7 +24,6 @@ public class LessonsRegistry {
     public void initializeLesson(Lesson lesson) {
         if (!lessonsCollection.contains(lesson)) {
             lessonsCollection.add(lesson);
-            System.out.println("I added a location ");
         }
     }
 

@@ -23,6 +23,12 @@ class OfferingsRegistry{
         
     }
 
+    //* INITIALIZE from database */
+    public void initializeOffering(Offering offering) {
+        if (!offeringsCollection.contains(offering)) {
+            offeringsCollection.add(offering);
+        }
+    }
 
 
     //* CREATE, UPDATE and DELETE Operations */
@@ -163,6 +169,7 @@ class OfferingsRegistry{
 
         try {
             for (Offering offering : offeringsCollection) {
+
                 if (offering.getID().trim().equals(id.trim())){
                     return offering;
                 }
@@ -272,5 +279,19 @@ class OfferingsRegistry{
             //? Unlock
             readLock.unlock();
         }
+    }
+
+    public void printAllOfferings() {
+        //? Readers operate in mutual exclusion with writers
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+        try{
+        for (Offering offering : offeringsCollection) {
+            System.out.println(offering);
+        }
+    }finally{
+        //? Unlock
+        readLock.unlock();
+    }
     }
 }
