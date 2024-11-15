@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import tdg.LessonTDG;
 
 public class LessonsRegistry {
-    private List<Lesson> lessonsCollection= new ArrayList<>();;
+    private List<Lesson> lessonsCollection= new ArrayList<>();
     private LessonTDG lessonTDG;
 
     //* Constructor

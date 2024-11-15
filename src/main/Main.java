@@ -334,6 +334,7 @@ public class Main {
             case Admin:
             String title;
             String description;
+            String isPublic;
             switch (userInput) {
                 case "1": //Create Lesson DONE
                     System.out.println("Enter the Lesson's title. >>");
@@ -345,7 +346,13 @@ public class Main {
                     LocationId = in.nextLine();
                     System.out.println("Enter a day of the week, a start time and a finish time of format \"HH:mm\" >>");
                     time = in.nextLine();
-                    result = appSystem.createLesson(title, description, LocationId, time);
+                    System.out.println("Is the Lesson a \n 1. Public or \n 2. Private Lesson? (Enter 1 or 2) >>");
+                    isPublic = in.nextLine();
+                    if(Integer.parseInt(isPublic) == 1){
+                        result = appSystem.createLesson(title, description, LocationId, time,true);
+                    }else{
+                        result = appSystem.createLesson(title, description, LocationId, time,false);
+                    }
                     if (result){
                         System.out.println("Lesson created successfully.");
                     }else{

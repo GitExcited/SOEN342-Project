@@ -2,13 +2,13 @@ package main;
 
 import java.util.UUID;
 
-public class Lesson {
+public abstract class Lesson {
     // Class attributes
-    private String id;
-    private String title;
-    private String description;
-    private Location location;
-    private TimeSlot timeSlot;
+    protected String id;
+    protected String title;
+    protected String description;
+    protected Location location;
+    protected TimeSlot timeSlot;
     // Constructor
     public Lesson( String title, String description, Location loc, TimeSlot timeSlot) {
         UUID uuid = UUID.randomUUID();

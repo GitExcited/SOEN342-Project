@@ -20,6 +20,7 @@ public class LessonTDG {
                          " DESCRIPTION TEXT NOT NULL, " + 
                          " LOCATION_ID TEXT NOT NULL, " + 
                          " TIMESLOT TEXT NOT NULL, " + 
+                         " ISPUBLIC BOOLEAN NOT NULL, " + // Adding isPublic attribute
                          " FOREIGN KEY (LOCATION_ID) REFERENCES LOCATION(ID) ON DELETE CASCADE )"; // Adding foreign key constraint
             stmt.executeUpdate(sql);
         } finally {
@@ -28,7 +29,7 @@ public class LessonTDG {
     }
 
     public void insert(Object... params) throws SQLException {
-        String sql = "INSERT INTO LESSON (ID, TITLE, DESCRIPTION, LOCATION_ID, TIMESLOT) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO LESSON (ID, TITLE, DESCRIPTION, LOCATION_ID, TIMESLOT, ISPUBLIC) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = null;
         try {
             pstmt = connection.prepareStatement(sql);
@@ -37,6 +38,7 @@ public class LessonTDG {
             pstmt.setString(3, (String) params[2]);
             pstmt.setString(4, (String) params[3]);
             pstmt.setString(5, (String) params[4]); // Assuming timeslot is passed as a JSON string
+            pstmt.setBoolean(6, (Boolean) params[5]); // Adding isPublic attribute
             pstmt.executeUpdate();
         } finally {
             closeResources(pstmt);
@@ -44,7 +46,7 @@ public class LessonTDG {
     }
 
     public void update(Object... params) throws SQLException {
-        String sql = "UPDATE LESSON SET TITLE = ?, DESCRIPTION = ?, LOCATION_ID = ?, TIMESLOT = ? WHERE ID = ?";
+        String sql = "UPDATE LESSON SET TITLE = ?, DESCRIPTION = ?, LOCATION_ID = ?, TIMESLOT = ?, ISPUBLIC = ? WHERE ID = ?";
         PreparedStatement pstmt = null;
         try {
             pstmt = connection.prepareStatement(sql);
@@ -52,7 +54,8 @@ public class LessonTDG {
             pstmt.setString(2, (String) params[2]);
             pstmt.setString(3, (String) params[3]);
             pstmt.setString(4, (String) params[4]); // Assuming timeslot is passed as a JSON string
-            pstmt.setString(5, (String) params[0]);
+            pstmt.setBoolean(5, (Boolean) params[5]); // Adding isPublic attribute
+            pstmt.setString(6, (String) params[0]);
             pstmt.executeUpdate();
         } finally {
             closeResources(pstmt);
@@ -90,11 +93,13 @@ public class LessonTDG {
                 String description = rs.getString("DESCRIPTION");
                 String locationId = rs.getString("LOCATION_ID");
                 String timeslot = rs.getString("TIMESLOT");
+                boolean isPublic = rs.getBoolean("ISPUBLIC"); // Adding isPublic attribute
                 System.out.println("ID = " + id);
                 System.out.println("TITLE = " + title);
                 System.out.println("DESCRIPTION = " + description);
                 System.out.println("LOCATION_ID = " + locationId);
                 System.out.println("TIMESLOT = " + timeslot);
+                System.out.println("ISPUBLIC = " + isPublic); // Adding isPublic attribute
                 System.out.println();
             }
         } finally {

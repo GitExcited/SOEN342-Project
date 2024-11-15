@@ -74,17 +74,15 @@ public class AppSystem {
     }
 
     // ! FOR DEBUGGING 
-    // public static void main(String[] args) {
-    //     AppSystem app=null;
-    //     try {
-    //          app =new AppSystem();
-    //          System.out.println("I loged in: "+ app.loginClient("Jane Jack","password456"));
-    //     } catch (ClassNotFoundException | SQLException e) {
-    //         e.printStackTrace();
-    //     }
-
-
-    // }
+    public static void main(String[] args) {
+        AppSystem app=null;
+        try {
+             app =new AppSystem();
+             System.out.println("I loged in: "+ app.loginInstructor("John Smith","password123"));
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
             //* INITIALIZE Method */
     public void initialize() {
@@ -165,18 +163,24 @@ public class AppSystem {
                 String description = rs.getString("DESCRIPTION");
                 String locationID = rs.getString("LOCATION_ID");
                 String timeslotJSON = rs.getString("TIMESLOT");
-
+                Boolean isPublic = rs.getBoolean("ISPUBLIC");
                 // Parse the TIMESLOT JSON string
                 TimeSlot timeSlot = new TimeSlot(timeslotJSON);
-
                 // Find the location by ID
                 Location location = locations.getLocationById(locationID);
 
-                // Create and initialize the lesson
-                Lesson lesson = new Lesson(title, description, location, timeSlot);
-
-                lesson.setID(id);
-                lessons.initializeLesson(lesson);
+                //Check if Lesson was a publicLesson or a PrivateLesson
+                if(isPublic){
+                    PublicLesson publicLesson = new PublicLesson(title, description, location, timeSlot);
+                    publicLesson.setID(id);
+                    lessons.initializeLesson(publicLesson);
+                }else{
+                    PrivateLesson privateLesson = new PrivateLesson(title, description, location, timeSlot);
+                    privateLesson.setID(id);
+                    lessons.initializeLesson(privateLesson);
+                    
+                }
+                
             }
 
             // // Print all lessons to verify they are properly added
@@ -481,7 +485,7 @@ public class AppSystem {
         currentClient = null;
     }
 
-    public boolean createLesson(String title, String description, String locationId, String time) {
+    public boolean createLesson(String title, String description, String locationId, String time, Boolean isPublic) {
         try {
             Set<String> daysOfWeek = new HashSet<>();
             daysOfWeek.add("monday");
@@ -511,7 +515,12 @@ public class AppSystem {
             }
             //create Lesson
             //offerings.createOffering(lesson,location, timeslot);
-            Lesson newLesson = new Lesson(title, description, location, timeslot);
+            Lesson newLesson = null;
+            if (isPublic){
+                newLesson = new PublicLesson(title, description, location, timeslot);
+            }else{
+                newLesson = new PrivateLesson(title, description, location, timeslot);
+            }
             if(!lessons.checkTimeCollision(newLesson)){
                 lessons.createLesson(newLesson);
             }else{
