@@ -73,13 +73,18 @@ public class AppSystem {
         return Base64.getEncoder().encodeToString(hashedPassword);
     }
 
-    public static void main(String[] args) {
-        try {
-            AppSystem app =new AppSystem();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    // ! FOR DEBUGGING 
+    // public static void main(String[] args) {
+    //     AppSystem app=null;
+    //     try {
+    //          app =new AppSystem();
+    //          System.out.println("I loged in: "+ app.loginClient("Jane Jack","password456"));
+    //     } catch (ClassNotFoundException | SQLException e) {
+    //         e.printStackTrace();
+    //     }
+
+
+    // }
 
             //* INITIALIZE Method */
     public void initialize() {
@@ -287,6 +292,7 @@ public class AppSystem {
         try {
             salt = clients.getSaltByClientId(client.getID());
             storedHashedPassword = clients.getHashedPasswordByClientId(client.getID());
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -294,6 +300,7 @@ public class AppSystem {
 
         // Hash the input password with the stored salt
         String hashedInputPassword;
+        
         try {
             hashedInputPassword = hashPassword(password, salt);
         } catch (NoSuchAlgorithmException e) {

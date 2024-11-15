@@ -230,7 +230,7 @@ public class ClientTDG {
             stmt.setString(1, clientId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getBytes("salt");
+                return Base64.getDecoder().decode(rs.getString("salt"));
             } else {
                 return null;
             }
