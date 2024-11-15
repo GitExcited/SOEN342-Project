@@ -4,6 +4,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+
 // Each location has a schedule which is an array of Events where the location is available
 public class Schedule {
     private List<TimeSlot> schedule;
@@ -74,5 +76,19 @@ public class Schedule {
         } else {
             System.out.println("Invalid index");
         }
+    }
+
+    // Method to convert JSON string to Schedule object
+    public  Schedule fromJson(String json) {
+        JSONArray jsonArray = new JSONArray(json);
+        List<TimeSlot> timeSlots = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String timeSlotJson = jsonArray.getJSONObject(i).toString();
+            TimeSlot timeSlot = new TimeSlot(timeSlotJson); 
+            timeSlots.add(timeSlot);
+        }
+        Schedule schedule = new Schedule();
+        schedule.schedule = timeSlots;
+        return schedule;
     }
 }

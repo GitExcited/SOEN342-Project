@@ -1,6 +1,7 @@
 package main;
 
 import java.time.LocalTime;
+import org.json.JSONObject;
 
 // Event class to encapsulate start and end times
 public class TimeSlot {
@@ -12,6 +13,15 @@ public class TimeSlot {
         this.dayOfWeek = dayOfWeek;
         this.start = start;
         this.end = end;
+    }
+
+    //Costructor from JSON 
+    public  TimeSlot(String json) {
+        JSONObject jsonObject = new JSONObject(json);
+            this.dayOfWeek = jsonObject.getString("dayOfWeek");
+            this.start = LocalTime.parse(jsonObject.getString("start"));
+            this.end = LocalTime.parse(jsonObject.getString("end"));
+        
     }
 
     public String getDayOfWeek() {
@@ -61,5 +71,6 @@ public class TimeSlot {
         return String.format("{\"dayOfWeek\":\"%s\",\"start\":\"%s\",\"end\":\"%s\"}",
                 dayOfWeek, start.toString(), end.toString());
     }
+
     
 }

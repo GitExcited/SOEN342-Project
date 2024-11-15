@@ -31,6 +31,7 @@ public class AppSystem {
     private BookingsRegistry bookings;
     private LessonsRegistry lessons;
     private OfferingsRegistry offerings;
+    private LocationsRegistry locations;
     //private PublicOfferings publicOfferings;
 
     private boolean userAuthenticated;
@@ -46,6 +47,7 @@ public class AppSystem {
         this.bookings = new BookingsRegistry();
         this.lessons = new LessonsRegistry();
         this.offerings = new OfferingsRegistry();
+        this.locations= new LocationsRegistry();
         //this.publicOfferings = new PublicOfferings();
         this.currentClient = null;
         this.currentInstructor = null;
@@ -77,6 +79,8 @@ public class AppSystem {
             Class.forName("org.sqlite.JDBC");
             Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
             System.out.println("i made it here ***");
+            
+            
             // INTIALIZE CLIENTS 
             Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENT");
@@ -114,6 +118,57 @@ public class AppSystem {
                  
                 instructors.initializeInstructor(instructor);
             }
+            // INTIALIZE LOCATION 
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM LOCATION");
+
+            while (rs.next()) {
+                String id = rs.getString("ID");
+                String name = rs.getString("NAME");
+                String adress = rs.getString("ADDRESS");
+                String city= rs.getString("CITY");
+                String room= rs.getString("ROOM");
+                String scheduleJSON = rs.getString("SCHEDULE");
+
+                Schedule schedule = new Schedule();
+                schedule.fromJson(scheduleJSON);
+                Location location = new Location(name, adress,city,room,schedule);
+
+                location.setID(id);
+                locations.initializeLocation(location);
+            }
+
+            // // Print all locations to verify they are properly added
+            // locations.printAllLocations();
+
+            // INITIALIZE LESSON (must run after initializing location)
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM LESSON");
+            while (rs.next()) {
+                String id = rs.getString("ID");
+                String title = rs.getString("TITLE");
+                String description = rs.getString("DESCRIPTION");
+                String locationID = rs.getString("LOCATION_ID");
+                String timeslotJSON = rs.getString("TIMESLOT");
+
+                // Parse the TIMESLOT JSON string
+                TimeSlot timeSlot = new TimeSlot(timeslotJSON);
+
+                // Find the location by ID
+                Location location = locations.getLocationById(locationID);
+
+                // Create and initialize the lesson
+                Lesson lesson = new Lesson(title, description, location, timeSlot);
+
+                lesson.setID(id);
+                lessons.initializeLesson(lesson);
+            }
+
+            // // Print all lessons to verify they are properly added
+            // lessons.printAllLessons();
+           
+            
+
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {

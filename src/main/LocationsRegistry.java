@@ -23,6 +23,15 @@ public class LocationsRegistry {
         }
     }
 
+    //*INITIALIZE from database */
+    public void initializeLocation(Location location) {
+        if (!locationCollection.contains(location)) {
+            locationCollection.add(location);
+            System.out.println("I added a location ");
+        }
+    }
+
+
     //* CREATE, UPDATE and DELETE Operations */
     /**
      * Adds a new location to the registry.
@@ -131,4 +140,32 @@ public class LocationsRegistry {
             readLock.unlock();
         }
     }
+
+    public Location getLocationById(String id) {
+        
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+
+        try {
+            for (Location location : locationCollection) {
+                if (location.getID().trim().equals(id.trim())) {
+                    return location;
+                }
+            }
+            return null;
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+
+ /**
+     * Prints all locations in the registry.
+     */
+    public void printAllLocations() {
+        for (Location location : locationCollection) {
+            System.out.println(location);
+        }
+    }
+    
 }

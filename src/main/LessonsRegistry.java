@@ -21,6 +21,13 @@ public class LessonsRegistry {
         } 
     }
 
+    public void initializeLesson(Lesson lesson) {
+        if (!lessonsCollection.contains(lesson)) {
+            lessonsCollection.add(lesson);
+            System.out.println("I added a location ");
+        }
+    }
+
     //* CREATE, UPDATE and DELETE Operations
 
     public void createLesson(Lesson lesson) {
@@ -120,6 +127,19 @@ public class LessonsRegistry {
         }
     }
 
+    // Method to print all lessons
+    public void printAllLessons() {
+        ReentrantReadWriteLock.ReadLock readLock = DatabaseLock.lock.readLock();
+        readLock.lock();
+        try {
+            for (Lesson lesson : lessonsCollection) {
+                System.out.println(lesson);
+            }
+        } finally {
+            readLock.unlock();
+        }
+    }
+
     public Lesson getLessonById(String id){
         //? Writer operates in self-exclusion
         ReentrantReadWriteLock.WriteLock writeLock = DatabaseLock.lock.writeLock();
@@ -138,6 +158,8 @@ public class LessonsRegistry {
             writeLock.unlock();
         }
     }
+
+
 
 
 }

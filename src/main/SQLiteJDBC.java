@@ -68,30 +68,29 @@ public class SQLiteJDBC {
             locationsRegistry.createLocation(location1);
             locationsRegistry.createLocation(location2);
 
-            // // Test LessonTDG
-            // System.out.println(location1.getID());
-            // Lesson lesson1 = new Lesson("Math", "Math Lesson", location1, timeSlot1);
-            // lessonTDG.insert(lesson1.toParams());
-            // lessonTDG.printAllLessons();
-            // lesson1.setTitle("Advanced Math");
-            // lessonTDG.update(lesson1.toParams());
-            // lessonTDG.printAllLessons();
-            // lessonTDG.delete(lesson1.getID());
-            // lessonTDG.printAllLessons();
+            // Test LessonTDG
+            System.out.println(location1.getID());
+            Lesson lesson1 = new Lesson("Math", "Math Lesson", location1, timeSlot1);
+            lessonTDG.insert(lesson1.toParams());
+            lessonTDG.printAllLessons();
+            lesson1.setTitle("Advanced Math");
+            lessonTDG.update(lesson1.toParams());
+            lessonTDG.printAllLessons();
+            lessonTDG.printAllLessons();
 
-            // Test InstructorTDG and InstructorsRegistry
-            Instructor instructor1 = new Instructor("John Doe", "1234567890", 30, "password123");
-            instructor1.addCity("New York");
-            instructor1.addCity("Los Angeles");
-            instructorsRegistry.createInstructor(instructor1);
-            instructor1.setName("John Smith");
-            // Test InstructorTDG and InstructorsRegistry
-            Instructor instructor2= new Instructor("Francois Leclerc", "1234567890", 30, "password123");
-            instructor2.addCity("Montreal");
-            instructor2.addCity("Toronto");
-            instructorsRegistry.createInstructor(instructor2);
+            // // Test InstructorTDG and InstructorsRegistry
+            // Instructor instructor1 = new Instructor("John Doe", "1234567890", 30, "password123");
+            // instructor1.addCity("New York");
+            // instructor1.addCity("Los Angeles");
+            // instructorsRegistry.createInstructor(instructor1);
+            // instructor1.setName("John Smith");
+            // // Test InstructorTDG and InstructorsRegistry
+            // Instructor instructor2= new Instructor("Francois Leclerc", "1234567890", 30, "password123");
+            // instructor2.addCity("Montreal");
+            // instructor2.addCity("Toronto");
+            // instructorsRegistry.createInstructor(instructor2);
             
-            instructorsRegistry.updateInstructor(0, instructor1);
+            // instructorsRegistry.updateInstructor(0, instructor1);
             
 
             // // Test BookingTDG and BookingRegistry
