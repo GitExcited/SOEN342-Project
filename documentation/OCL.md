@@ -31,5 +31,5 @@ b<sub>1</sub>.offering.lesson.location = b<sub>2</sub>.offering.lesson.location 
 **implies**
 <br> 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
--> **not** b.offering.lesson.timeSlot.collides( b.offering.lesson.timeSlot )
+-> **not** b<sub>1</sub>.offering.lesson.timeSlot.collides( b<sub>2</sub>.offering.lesson.timeSlot )
 
