@@ -39,9 +39,9 @@ public class ClientTDG {
                          " PHONE_NUMBER TEXT NOT NULL, " + 
                          " AGE INT NOT NULL, " + 
                          " PASSWORD TEXT NOT NULL, " +
-                         " SALT TEXT NOT NULL)"+
-                         " GUARDIAN_ID TEXT"+
-                         " FOREIGN KEY (GUARDIAN_ID) REFERENCES CLIENT(ID) ON DELETE CASCADE";
+                         " SALT TEXT NOT NULL,"+
+                         " GUARDIAN_ID TEXT,"+
+                         " FOREIGN KEY (GUARDIAN_ID) REFERENCES CLIENT(ID) ON DELETE CASCADE)";
             stmt.executeUpdate(sql);
         } finally {
             closeResources(stmt);
