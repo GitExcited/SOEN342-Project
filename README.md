@@ -1,6 +1,6 @@
 # SOEN342-Project
 Building a system to allow organizations to offer group or private lessons to clients
-
+# DEMO VIDEO : https://youtu.be/4k_VtO10puw
 Yan Pilon:
   - ID: 40246124
   - Email: y.pilon9@gmail.com
